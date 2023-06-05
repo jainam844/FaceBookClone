@@ -1,0 +1,10 @@
+.App {
+  background-color: var(--app-background);
+  height: 100vh;
+  overflow: scroll;
+}
+
+.App .appBody {
+  display: flex;
+  flex-direction: row;
+}

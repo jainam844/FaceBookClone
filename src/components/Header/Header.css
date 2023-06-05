@@ -1,0 +1,204 @@
+.header {
+  background-color: var(--component-background);
+  padding: 0.2rem 0.5rem 0;
+  display: flex;
+  flex-direction: row;
+  flex: auto;
+  justify-content: space-between;
+  position: sticky;
+  z-index: 100;
+  top: 0;
+  box-shadow: 0px 5px 8px -9px var(--box-shadow);
+}
+
+.header for-small-screens {
+  padding: 0.4rem 0.5rem;
+}
+
+.header .headerLeft {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 0.3;
+}
+
+.header for-xl-devices .headerLeft {
+  flex: 0.2;
+}
+
+.header for-large-devices .headerLeft {
+  flex: 0.2;
+}
+
+.header .headerLeft .logo {
+  height: 40px;
+}
+
+.header for-small-screens .headerLeft .logo {
+  height: 35px;
+}
+
+.header .headerLeft .searchInput {
+  margin: 0 0.4rem;
+  display: flex;
+  background-color: var(--comment-background);
+  padding: 0.2rem;
+  border-radius: 3rem;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.header for-xl-devices .headerLeft .searchInput {
+  flex: 0.7;
+}
+
+.header for-large-devices .headerLeft .searchInput {
+  flex: 0.4;
+}
+
+.header for-small-screens .headerLeft .searchInput {
+  display: none;
+}
+
+.header .headerLeft .searchInput .searchIcon {
+  color: var(--comment-text);
+  margin-left: 0.5rem;
+}
+
+.header for-large-devices .headerLeft .searchInput .searchIcon {
+  display: none;
+}
+
+.header .headerLeft .searchInput .inputBar {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 0.4rem;
+  color: var(--comment-text);
+  text-align: center;
+}
+
+.header for-large-devices .headerLeft .searchInput .inputBar {
+  text-align: center;
+}
+
+.header .headerCenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  flex: 0.55;
+}
+
+.header for-xl-devices .headerCenter {
+  flex: 0.4;
+}
+
+.header for-large-devices .headerCenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex: 0.3;
+}
+
+.header for-small-screens .headerCenter {
+  display: none;
+}
+
+.header .headerCenter .option {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 3rem;
+  border-radius: 0.4rem;
+  transition: linear 200ms;
+}
+
+.header for-large-devices .headerCenter .option {
+  padding: 0.6rem;
+  margin-left: 0.2rem;
+}
+
+.header for-xl-devices .headerCenter .option {
+  padding: 0.6rem 1rem;
+}
+
+.header .headerCenter .option:hover {
+  cursor: pointer;
+  background-color: var(--button-hover);
+  transform: translateY(-1.5px);
+}
+
+.header .headerCenter .option:hover .icon {
+  color: var(--primary);
+}
+
+.header .headerCenter .option .icon {
+  color: var(--icon);
+}
+
+.header .headerCenter .activeOption {
+  display: flex;
+  align-items: center;
+  padding: 0.6rem 3rem;
+  cursor: pointer;
+  border-bottom: 4px solid var(--primary);
+}
+
+.header for-large-devices .headerCenter .activeOption {
+  padding: 0.5rem;
+}
+
+.header for-xl-devices .headerCenter .activeOption {
+  padding: 0.6rem 1rem;
+}
+
+.header .headerCenter .activeOption .icon {
+  color: var(--primary);
+}
+
+.header .headerRight {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 0.3;
+  justify-content: flex-end;
+}
+
+.header for-xl-devices .headerRight {
+  flex: 0.5;
+}
+
+.header .headerRight button {
+  background-color: var(--button-background);
+  color: var(--button-icon);
+  margin: 0 0.3rem;
+  transition: linear 200ms;
+}
+
+.header for-xl-devices .headerRight button {
+  padding: 0.6rem;
+}
+
+.header for-small-screens button {
+  padding: 0.5rem;
+}
+
+.header .headerRight button:hover {
+  background-color: var(--sec-button-hover);
+  transform: translateY(-2px);
+}
+
+.header .headerRight .info {
+  display: flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.header for-large-devices .headerRight .info {
+  display: none;
+}
+
+.header .headerRight .info h4 {
+  margin-left: 0.5rem;
+}
