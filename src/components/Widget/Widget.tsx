@@ -1,22 +1,26 @@
-import React from 'react';
-import { Box } from '@mui/system';
+import { Box, useMediaQuery } from '@mui/material'
+const Widget = (): JSX.Element => {
+  // Media Queries for Header start
+  const hideWidget = useMediaQuery('(max-width: 900px)')
 
-
-
-function Widget(): React.ReactElement {
   return (
-    <Box className='widget' sx={{ width: 340, height: '100%' }}>
-      <iframe
-        className='widgetIframe'
-        title='facebook-post'
-        width='100%'
-        height='100%'
-        style={{ border: 'none', overflow: 'hidden' }}
-
-        allowFullScreen={true}
-        allow='autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share'></iframe>widget
-    </Box>
-  );
+    <>
+      <Box
+        sx={{
+          width: '10%',
+          boxShadow: '0px 5px 10px -7px rgba(0, 0, 0, 0.75)',
+          height: '80vh',
+          display: hideWidget ? 'none' : 'flex',
+          justifyContent: 'flex-end', // Aligns the widget to the right
+          alignItems: 'center', // Centers the widget vertically
+          position: 'fixed',
+          top: '78px',
+          right: 0,
+          zIndex: 9999
+        }}
+      ></Box>
+    </>
+  )
 }
 
-export default Widget;
+export default Widget

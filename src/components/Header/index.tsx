@@ -28,8 +28,6 @@ import {
   PersonOutline as PersonOutlineIcon
 } from '@material-ui/icons'
 
-
-
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -196,7 +194,7 @@ export default function PrimarySearchAppBar () {
               noWrap
               component='div'
               // sx={{ display: { xs: 'none', sm: 'block' } }}
-              sx={{display:["none","block"]}}
+              sx={{ display: ['none', 'block'] }}
             >
               <Box sx={{ backgroundColor: 'white', borderRadius: '20px' }}>
                 <img src={fbImgLogo} height={40} alt='fb logo' />
