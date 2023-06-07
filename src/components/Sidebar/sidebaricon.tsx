@@ -37,7 +37,7 @@ const SidebarIcons = () => {
       >
         <ListItem sx={{ cursor: 'pointer' }}>
           <ListItemAvatar>
-            <Avatar src='https://pixabay.com/get/ge70ea8a57ff36376027b1a9194fcb30f2d8440d88b5de9a64c4a4db4295a56f5cfc3b9e45fcb6f052b589f64189afddd5ef0814fd435d7d7f1f8743da38c32ff274d04d54f8456d794fab329b63ac8a9_1280.jpg'></Avatar>
+            <Avatar src='https://cdn.pixabay.com/photo/2023/04/04/10/21/fashion-7898973__340.jpg'></Avatar>
           </ListItemAvatar>
           <ListItemText primary='Jainam shah' />
         </ListItem>

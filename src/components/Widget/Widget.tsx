@@ -7,16 +7,17 @@ const Widget = (): JSX.Element => {
     <>
       <Box
         sx={{
-          width: '10%',
+          width: '15%',
           boxShadow: '0px 5px 10px -7px rgba(0, 0, 0, 0.75)',
           height: '80vh',
-          display: hideWidget ? 'none' : 'flex',
-          justifyContent: 'flex-end', // Aligns the widget to the right
-          alignItems: 'center', // Centers the widget vertically
-          position: 'fixed',
-          top: '78px',
-          right: 0,
-          zIndex: 9999
+
+          // justifyContent: 'flex-end', // Aligns the widget to the right
+          // alignItems: 'center', // Centers the widget vertically
+          // position: 'fixed',
+          // top: '78px',
+          // right: 0,
+          // zIndex: 9999
+          display: ['none', 'none', 'none', 'flex']
         }}
       ></Box>
     </>

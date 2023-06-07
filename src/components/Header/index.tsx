@@ -15,18 +15,16 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
 import fbImgLogo from '../../assets/fbNameLogo.png'
 import SidebarIcons from '../Sidebar/sidebaricon'
-import {
-  Home as HomeIcon,
-  Add as AddIcon,
-  Notifications as NotificationsIcon,
-  ExitToApp as ExitToAppIcon,
-  Flag as FlagIcon,
-  Subscriptions as SubscriptionsIcon,
-  Storefront as StorefrontIcon,
-  SupervisedUserCircle as SupervisedUserCircleIcon,
-  Search as SearchIcon,
-  PersonOutline as PersonOutlineIcon
-} from '@material-ui/icons'
+import HomeIcon from  '@material-ui/icons/Home'
+import NotificationsIcon from '@material-ui/icons/Notifications'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import FlagIcon from '@material-ui/icons/Flag'
+import SubscriptionsIcon from '@material-ui/icons/Subscriptions'
+import StorefrontIcon from  '@material-ui/icons/Storefront'
+import SupervisedUserCircleIcon from  '@material-ui/icons/SupervisedUserCircle'
+import AddIcon from '@material-ui/icons/Add'
+import SearchIcon from  '@material-ui/icons/Search'
+import PersonOutlineIcon from  '@material-ui/icons/PersonOutline'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
