@@ -15,17 +15,17 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
 import fbImgLogo from '../../assets/fbNameLogo.png'
 import SidebarIcons from '../Sidebar/sidebaricon'
-import HomeIcon from  '@material-ui/icons/Home'
+import HomeIcon from '@material-ui/icons/Home'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import FlagIcon from '@material-ui/icons/Flag'
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions'
-import StorefrontIcon from  '@material-ui/icons/Storefront'
-import SupervisedUserCircleIcon from  '@material-ui/icons/SupervisedUserCircle'
+import StorefrontIcon from '@material-ui/icons/Storefront'
+import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle'
 import AddIcon from '@material-ui/icons/Add'
-import SearchIcon from  '@material-ui/icons/Search'
-import PersonOutlineIcon from  '@material-ui/icons/PersonOutline'
-
+import SearchIcon from '@material-ui/icons/Search'
+import PersonOutlineIcon from '@material-ui/icons/PersonOutline'
+import Avatar from '@mui/material/Avatar'
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -171,7 +171,30 @@ export default function PrimarySearchAppBar () {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          '& .MuiButtonBase-root': {
+            border: 'none',
+
+            '&:hover': {
+              backgroundColor: 'transparent',
+              outline: 'none',
+              border: 'none'
+            },
+            '& .MuiIconButton-label': {
+              borderRadius: '0'
+            },
+            '&:focus': {
+              outline: 'none',
+
+              backfaceVisibility: 'none',
+              background: 'none'
+            }
+          }
+        }}
+      >
         <AppBar
           position='fixed'
           sx={{ backgroundColor: 'white', color: 'black' }}
@@ -259,8 +282,8 @@ export default function PrimarySearchAppBar () {
                 color='inherit'
               >
                 {' '}
+                <Avatar src='https://source.unsplash.com/bh4LQHcOcxE/600x300'></Avatar>
                 <Box sx={{ fontSize: '16px' }}> Jainam Shah</Box>
-                <PersonOutlineIcon />
               </IconButton>
               <IconButton
                 size='large'
