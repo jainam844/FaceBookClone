@@ -3,9 +3,9 @@ import Header from './components/Header/index'
 import SideBar from './components/Sidebar/side'
 import Widget from './components/Widget/Widget'
 import Box from '@mui/material/Box'
-import Story from './Section/Story/story'
-import BasicCard from './Section/AddComment/comment'
-import Post from './Section/PostStory/PostStory'
+import Story from './components/Section/Story/story'
+import BasicCard from './components/Section/AddComment/comment'
+import Post from './components/Section/PostStory/PostStory'
 const App = () => {
   return (
     <div>
