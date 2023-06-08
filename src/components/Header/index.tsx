@@ -26,6 +26,7 @@ import AddIcon from '@material-ui/icons/Add'
 import SearchIcon from '@material-ui/icons/Search'
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline'
 import Avatar from '@mui/material/Avatar'
+import { Link } from 'react-router-dom'
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -236,6 +237,8 @@ export default function PrimarySearchAppBar () {
                 size='large'
                 aria-label='home'
                 color='inherit'
+                component={Link}
+                to='/'
                 sx={{ marginRight: '120px' }}
               >
                 <HomeIcon />
@@ -245,13 +248,18 @@ export default function PrimarySearchAppBar () {
                 aria-label='add'
                 color='inherit'
                 sx={{ marginRight: '120px' }}
+                component={Link}
+                to='/flag'
               >
+      
                 <FlagIcon />
               </IconButton>{' '}
               <IconButton
                 size='large'
                 aria-label='add'
                 color='inherit'
+                component={Link}
+                to='/subscription'
                 sx={{ marginRight: '120px' }}
               >
                 <SubscriptionsIcon />
@@ -260,6 +268,8 @@ export default function PrimarySearchAppBar () {
                 size='large'
                 aria-label='add'
                 color='inherit'
+                component={Link}
+                to='/marketplace'
                 sx={{ marginRight: '120px' }}
               >
                 <StorefrontIcon />
@@ -268,6 +278,8 @@ export default function PrimarySearchAppBar () {
                 size='large'
                 aria-label='add'
                 color='inherit'
+                component={Link}
+                to='/userfriend'
                 sx={{ marginRight: '120px' }}
               >
                 <SupervisedUserCircleIcon />

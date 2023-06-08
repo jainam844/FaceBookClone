@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
-import Box from '@mui/material/Box'
 import CardMedia from '@mui/material/CardMedia'
 import CardContent from '@mui/material/CardContent'
 import CardActions from '@mui/material/CardActions'
@@ -10,7 +9,6 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import CommentIcon from '@mui/icons-material/Comment'
-// import ShareIcon from '@mui/icons-material/Share'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Collapse from '@mui/material/Collapse'
@@ -41,7 +39,7 @@ const Post: React.FC = () => {
         .share({
           title: 'Shared Title',
           text: 'Shared Text',
-          url: 'https://example.com' 
+          url: 'https://example.com'
         })
         .then(() => console.log('Shared successfully'))
         .catch(error => console.log('Error sharing:', error))
@@ -89,27 +87,27 @@ const Post: React.FC = () => {
           </Typography>
         </CardContent>
         <CardActions
-    sx={{
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    '& .MuiButtonBase-root': {
-      border: 'none', // Remove border
-      '&:hover': {
-        backgroundColor: 'transparent' // Remove hover effect when not clicking
-      },
-      '&:active .MuiIconButton-label': {
-        backgroundColor: 'transparent' // Remove hover effect when clicking
-      },
-      '& .MuiIconButton-label': {
-        borderRadius: '0', // Remove border radius
-        color: liked ? 'blue' : 'inherit' // Set the color of the icon based on the like status
-      },
-      '&:focus': {
-        outline: 'none' // Remove focus outline
-      }
-    }
-  }}
->
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-evenly',
+            '& .MuiButtonBase-root': {
+              border: 'none',
+              '&:hover': {
+                backgroundColor: 'transparent'
+              },
+              '&:active .MuiIconButton-label': {
+                backgroundColor: 'transparent'
+              },
+              '& .MuiIconButton-label': {
+                borderRadius: '0',
+                color: liked ? 'blue' : 'inherit'
+              },
+              '&:focus': {
+                outline: 'none'
+              }
+            }
+          }}
+        >
           <IconButton sx={{ display: 'flex' }} onClick={handleLikeClick}>
             {liked ? <ThumbUpIcon color='primary' /> : <ThumbUpIcon />}
             <Typography

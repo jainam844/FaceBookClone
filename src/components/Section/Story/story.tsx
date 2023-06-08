@@ -1,73 +1,62 @@
-import * as React from 'react'
 import Grid from '@mui/material/Grid'
-import { Avatar, Box, Typography, useMediaQuery } from '@mui/material'
+import { Avatar, Box, Typography} from '@mui/material'
 import Paper from '@mui/material/Paper'
 import CreateStory from './CreateUser'
 
 const stories = [
   {
-    backgroundImage:
-      'https://source.unsplash.com/XVaXbzQul90',
+    backgroundImage: 'https://source.unsplash.com/XVaXbzQul90',
     avatar:
-      'https://pixabay.com/get/gcd65c035a35942a88ba68032ca1c39f1b724fb8f105d5fc1d68b0e11ea39b1df762bf58504dd84abedba37aabee1ef5d82ea5e9ca50d55f14b91a2f814f8194054daf5984d8be08d66d2fdac0f61e831_1280.jpg',
+    'https://source.unsplash.com/NYrVisodQ2M',
     username: 'Jainam Shah'
   },
   {
-    backgroundImage:
-    'https://source.unsplash.com/ohLyHvxGJYo',
+    backgroundImage: 'https://source.unsplash.com/ohLyHvxGJYo',
     avatar:
-      'https://pixabay.com/get/gcd65c035a35942a88ba68032ca1c39f1b724fb8f105d5fc1d68b0e11ea39b1df762bf58504dd84abedba37aabee1ef5d82ea5e9ca50d55f14b91a2f814f8194054daf5984d8be08d66d2fdac0f61e831_1280.jpg',
+    'https://source.unsplash.com/NYrVisodQ2M',
     username: 'Het Patel'
   },
   {
-    backgroundImage:
-    'https://source.unsplash.com/67sVPjK6Q7I',
+    backgroundImage: 'https://source.unsplash.com/67sVPjK6Q7I',
     avatar:
-      'https://pixabay.com/get/gcd65c035a35942a88ba68032ca1c39f1b724fb8f105d5fc1d68b0e11ea39b1df762bf58504dd84abedba37aabee1ef5d82ea5e9ca50d55f14b91a2f814f8194054daf5984d8be08d66d2fdac0f61e831_1280.jpg',
+    'https://source.unsplash.com/NYrVisodQ2M',
     username: 'Harsh Prajapati'
   },
   {
-    backgroundImage:
-    'https://source.unsplash.com/0vuW7F-47Oo',
+    backgroundImage: 'https://source.unsplash.com/0vuW7F-47Oo',
     avatar:
-      'https://pixabay.com/get/gcd65c035a35942a88ba68032ca1c39f1b724fb8f105d5fc1d68b0e11ea39b1df762bf58504dd84abedba37aabee1ef5d82ea5e9ca50d55f14b91a2f814f8194054daf5984d8be08d66d2fdac0f61e831_1280.jpg',
+    'https://source.unsplash.com/NYrVisodQ2M',
     username: 'Aayush Teli'
   },
   {
-    backgroundImage:
-    'https://source.unsplash.com/bY4cqxp7vos',
+    backgroundImage: 'https://source.unsplash.com/bY4cqxp7vos',
     avatar:
-      'https://pixabay.com/get/gcd65c035a35942a88ba68032ca1c39f1b724fb8f105d5fc1d68b0e11ea39b1df762bf58504dd84abedba37aabee1ef5d82ea5e9ca50d55f14b91a2f814f8194054daf5984d8be08d66d2fdac0f61e831_1280.jpg',
+    'https://source.unsplash.com/NYrVisodQ2M',
     username: 'Krish Doshi'
   },
   {
-    backgroundImage:
-    'https://source.unsplash.com/NYrVisodQ2M',
+    backgroundImage: 'https://source.unsplash.com/NYrVisodQ2M',
     avatar:
-      'https://pixabay.com/get/gcd65c035a35942a88ba68032ca1c39f1b724fb8f105d5fc1d68b0e11ea39b1df762bf58504dd84abedba37aabee1ef5d82ea5e9ca50d55f14b91a2f814f8194054daf5984d8be08d66d2fdac0f61e831_1280.jpg',
+    'https://source.unsplash.com/NYrVisodQ2M',
     username: 'Teerth Gandhi'
   },
   {
-    backgroundImage:
-    'https://source.unsplash.com/XVaXbzQul90',
+    backgroundImage: 'https://source.unsplash.com/XVaXbzQul90',
     avatar:
-      'https://pixabay.com/get/gcd65c035a35942a88ba68032ca1c39f1b724fb8f105d5fc1d68b0e11ea39b1df762bf58504dd84abedba37aabee1ef5d82ea5e9ca50d55f14b91a2f814f8194054daf5984d8be08d66d2fdac0f61e831_1280.jpg',
+    'https://source.unsplash.com/NYrVisodQ2M',
     username: 'Vrushbh Rami'
   },
   {
-    backgroundImage:
-    'https://source.unsplash.com/XVaXbzQul90',
+    backgroundImage: 'https://source.unsplash.com/XVaXbzQul90',
     avatar:
-      'https://pixabay.com/get/gcd65c035a35942a88ba68032ca1c39f1b724fb8f105d5fc1d68b0e11ea39b1df762bf58504dd84abedba37aabee1ef5d82ea5e9ca50d55f14b91a2f814f8194054daf5984d8be08d66d2fdac0f61e831_1280.jpg',
+    'https://source.unsplash.com/NYrVisodQ2M',
     username: 'Parth kaneriya'
-  },
- 
-
+  }
 ]
 
 const Story = (): JSX.Element => {
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{}}>
       <Grid justifyContent='start' container spacing={2}>
         <Grid item xs={12}>
           <Grid
