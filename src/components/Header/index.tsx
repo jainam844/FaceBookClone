@@ -197,7 +197,7 @@ export default function PrimarySearchAppBar () {
         }}
       >
         <AppBar
-          position='fixed'
+          position='static'
           sx={{ backgroundColor: 'white', color: 'black' }}
         >
           <Toolbar sx={{ marginTop: '4px' }}>

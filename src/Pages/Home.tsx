@@ -38,7 +38,7 @@ const HomeApp = () => {
           </Box>
         </div>
       </Box>
-        <Box sx={{ display: 'flex',height: "85vh"  }}>
+        <Box sx={{ display: 'flex',height: "90vh"  }}>
           <SideBar />
           <Box sx={{ width: '64%' }}>
             <Routes>
