@@ -15,18 +15,12 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
 import fbImgLogo from '../../assets/fbNameLogo.png'
 import SidebarIcons from '../Sidebar/sidebaricon'
-import HomeIcon from '@material-ui/icons/Home'
 import NotificationsIcon from '@material-ui/icons/Notifications'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import FlagIcon from '@material-ui/icons/Flag'
-import SubscriptionsIcon from '@material-ui/icons/Subscriptions'
-import StorefrontIcon from '@material-ui/icons/Storefront'
-import SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle'
 import AddIcon from '@material-ui/icons/Add'
 import SearchIcon from '@material-ui/icons/Search'
-import PersonOutlineIcon from '@material-ui/icons/PersonOutline'
 import Avatar from '@mui/material/Avatar'
-import { Link } from 'react-router-dom'
+
+import HeaderIcons from './HeaderIcons'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -216,141 +210,7 @@ export default function PrimarySearchAppBar () {
             </Search>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: ['none', 'none', 'flex'] }}>
-              <IconButton
-                size='large'
-                aria-label='home'
-                color={activeIcon === 'home' ? 'primary' : 'inherit'}
-                component={Link}
-                to='/'
-                sx={{
-                  marginRight: '120px',
-                  position: 'relative',
-                  '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    left: 0,
-                    bottom: '-2px',
-                    width: '100%',
-                    height: '2px',
-                    backgroundColor:
-                      activeIcon === 'home' ? 'blue' : 'transparent'
-                  },
-                  '&:hover': {
-                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)',
-                  },
-                }}
-                onClick={() => handleIconClick('home')}
-              >
-                <HomeIcon />
-              </IconButton>
-              <IconButton
-                size='large'
-                aria-label='add'
-                color={activeIcon === 'flag' ? 'primary' : 'inherit'}
-                sx={{
-                  marginRight: '120px',
-                  position: 'relative',
-                  '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    left: 0,
-                    bottom: '-2px',
-                    width: '100%',
-                    height: '2px',
-                    backgroundColor:
-                      activeIcon === 'flag' ? 'blue' : 'transparent'
-                  },
-                  '&:hover': {
-                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)',
-                  },
-                }}
-                component={Link}
-                to='/flag'
-                onClick={() => handleIconClick('flag')}
-              >
-                <FlagIcon />
-              </IconButton>
-              <IconButton
-                size='large'
-                aria-label='add'
-                color={activeIcon === 'subscription' ? 'primary' : 'inherit'}
-                component={Link}
-                to='/subscription'
-                sx={{
-                  marginRight: '120px',
-                  position: 'relative',
-                  '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    left: 0,
-                    bottom: '-2px',
-                    width: '100%',
-                    height: '2px',
-                    backgroundColor:
-                      activeIcon === 'subscription' ? 'blue' : 'transparent'
-                  },
-                  '&:hover': {
-                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)',
-                  },
-                }}
-                onClick={() => handleIconClick('subscription')}
-              >
-                <SubscriptionsIcon />
-              </IconButton>
-              <IconButton
-                size='large'
-                aria-label='add'
-                color={activeIcon === 'marketplace' ? 'primary' : 'inherit'}
-                component={Link}
-                to='/marketplace'
-                sx={{
-                  marginRight: '120px',
-                  position: 'relative',
-                  '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    left: 0,
-                    bottom: '-2px',
-                    width: '100%',
-                    height: '2px',
-                    backgroundColor:
-                      activeIcon === 'marketplace' ? 'blue' : 'transparent'
-                  },
-                  '&:hover': {
-                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)',
-                  },
-                }}
-                onClick={() => handleIconClick('marketplace')}
-              >
-                <StorefrontIcon />
-              </IconButton>
-              <IconButton
-                size='large'
-                aria-label='add'
-                color={activeIcon === 'userfriend' ? 'primary' : 'inherit'}
-                component={Link}
-                to='/userfriend'
-                sx={{
-                  marginRight: '120px',
-                  position: 'relative',
-                  '&::after': {
-                    content: '""',
-                    position: 'absolute',
-                    left: 0,
-                    bottom: '-2px',
-                    width: '100%',
-                    height: '2px',
-                    backgroundColor:
-                      activeIcon === 'userfriend' ? 'blue' : 'transparent'
-                  },
-                  '&:hover': {
-                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)',
-                  },
-                }}
-                onClick={() => handleIconClick('userfriend')}
-              >
-                <SupervisedUserCircleIcon />
-              </IconButton>
+              <HeaderIcons />
             </Box>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

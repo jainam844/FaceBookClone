@@ -1,4 +1,4 @@
-import Header from '../components/Header/index'
+import Header from '../components/Header/Header'
 import SideBar from '../components/Sidebar/side'
 import Widget from '../components/Widget/Widget'
 import Box from '@mui/material/Box'
@@ -8,6 +8,7 @@ import Section from '../components/Section/Section'
 import Subscription from '../components/Subscription/Subscription'
 import MarketPlace from '../components/MarketPlace/MarketPlace'
 import UserFriend from '../components/UserFriend/UserFriend'
+import HeaderIcons from '../components/Header/HeaderIcons'
 const HomeApp = () => {
   return (
     <Router>
@@ -34,7 +35,7 @@ const HomeApp = () => {
               zIndex: 100,
             }}
           >
-           
+           <HeaderIcons/>
           </Box>
         </div>
       </Box>
