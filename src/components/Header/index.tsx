@@ -27,6 +27,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline'
 import Avatar from '@mui/material/Avatar'
 import { Link } from 'react-router-dom'
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -77,6 +78,8 @@ export default function PrimarySearchAppBar () {
   const drawerContent = <SidebarIcons />
   const menuId = 'primary-search-account-menu'
   const mobileMenuId = 'primary-search-account-menu-mobile'
+  const [activeIcon, setActiveIcon] = useState('')
+
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen)
   }
@@ -96,6 +99,10 @@ export default function PrimarySearchAppBar () {
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget)
+  }
+
+  const handleIconClick = (iconName: string) => {
+    setActiveIcon(iconName)
   }
 
   const renderMenu = (
@@ -172,30 +179,7 @@ export default function PrimarySearchAppBar () {
 
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'space-evenly',
-          '& .MuiButtonBase-root': {
-            border: 'none',
-
-            '&:hover': {
-              backgroundColor: 'transparent',
-              outline: 'none',
-              border: 'none'
-            },
-            '& .MuiIconButton-label': {
-              borderRadius: '0'
-            },
-            '&:focus': {
-              outline: 'none',
-
-              backfaceVisibility: 'none',
-              background: 'none'
-            }
-          }
-        }}
-      >
+      <Box sx={{}}>
         <AppBar
           position='static'
           sx={{ backgroundColor: 'white', color: 'black' }}
@@ -205,7 +189,7 @@ export default function PrimarySearchAppBar () {
               edge='start'
               color='inherit'
               aria-label='open drawer'
-              onClick={handleDrawerToggle} // Add this line to handle the toggle button click
+              onClick={handleDrawerToggle}
               sx={{ mr: 2, display: ['flex', 'flex', 'none'] }}
             >
               <MenuIcon />
@@ -215,7 +199,6 @@ export default function PrimarySearchAppBar () {
               variant='h6'
               noWrap
               component='div'
-              // sx={{ display: { xs: 'none', sm: 'block' } }}
               sx={{ display: ['none', 'block'] }}
             >
               <Box sx={{ backgroundColor: 'white', borderRadius: '20px' }}>
@@ -236,54 +219,138 @@ export default function PrimarySearchAppBar () {
               <IconButton
                 size='large'
                 aria-label='home'
-                color='inherit'
+                color={activeIcon === 'home' ? 'primary' : 'inherit'}
                 component={Link}
                 to='/'
-                sx={{ marginRight: '120px' }}
+                sx={{
+                  marginRight: '120px',
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    left: 0,
+                    bottom: '-2px',
+                    width: '100%',
+                    height: '2px',
+                    backgroundColor:
+                      activeIcon === 'home' ? 'blue' : 'transparent'
+                  },
+                  '&:hover': {
+                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)',
+                  },
+                }}
+                onClick={() => handleIconClick('home')}
               >
                 <HomeIcon />
               </IconButton>
               <IconButton
                 size='large'
                 aria-label='add'
-                color='inherit'
-                sx={{ marginRight: '120px' }}
+                color={activeIcon === 'flag' ? 'primary' : 'inherit'}
+                sx={{
+                  marginRight: '120px',
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    left: 0,
+                    bottom: '-2px',
+                    width: '100%',
+                    height: '2px',
+                    backgroundColor:
+                      activeIcon === 'flag' ? 'blue' : 'transparent'
+                  },
+                  '&:hover': {
+                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)',
+                  },
+                }}
                 component={Link}
                 to='/flag'
+                onClick={() => handleIconClick('flag')}
               >
-      
                 <FlagIcon />
-              </IconButton>{' '}
+              </IconButton>
               <IconButton
                 size='large'
                 aria-label='add'
-                color='inherit'
+                color={activeIcon === 'subscription' ? 'primary' : 'inherit'}
                 component={Link}
                 to='/subscription'
-                sx={{ marginRight: '120px' }}
+                sx={{
+                  marginRight: '120px',
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    left: 0,
+                    bottom: '-2px',
+                    width: '100%',
+                    height: '2px',
+                    backgroundColor:
+                      activeIcon === 'subscription' ? 'blue' : 'transparent'
+                  },
+                  '&:hover': {
+                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)',
+                  },
+                }}
+                onClick={() => handleIconClick('subscription')}
               >
                 <SubscriptionsIcon />
-              </IconButton>{' '}
+              </IconButton>
               <IconButton
                 size='large'
                 aria-label='add'
-                color='inherit'
+                color={activeIcon === 'marketplace' ? 'primary' : 'inherit'}
                 component={Link}
                 to='/marketplace'
-                sx={{ marginRight: '120px' }}
+                sx={{
+                  marginRight: '120px',
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    left: 0,
+                    bottom: '-2px',
+                    width: '100%',
+                    height: '2px',
+                    backgroundColor:
+                      activeIcon === 'marketplace' ? 'blue' : 'transparent'
+                  },
+                  '&:hover': {
+                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)',
+                  },
+                }}
+                onClick={() => handleIconClick('marketplace')}
               >
                 <StorefrontIcon />
               </IconButton>
               <IconButton
                 size='large'
                 aria-label='add'
-                color='inherit'
+                color={activeIcon === 'userfriend' ? 'primary' : 'inherit'}
                 component={Link}
                 to='/userfriend'
-                sx={{ marginRight: '120px' }}
+                sx={{
+                  marginRight: '120px',
+                  position: 'relative',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    left: 0,
+                    bottom: '-2px',
+                    width: '100%',
+                    height: '2px',
+                    backgroundColor:
+                      activeIcon === 'userfriend' ? 'blue' : 'transparent'
+                  },
+                  '&:hover': {
+                    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.3)',
+                  },
+                }}
+                onClick={() => handleIconClick('userfriend')}
               >
                 <SupervisedUserCircleIcon />
-              </IconButton>{' '}
+              </IconButton>
             </Box>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
@@ -294,7 +361,7 @@ export default function PrimarySearchAppBar () {
                 color='inherit'
               >
                 {' '}
-                <Avatar src='https://source.unsplash.com/bh4LQHcOcxE/600x300'></Avatar>
+                <Avatar src='https://source.unsplash.com/bh4LQHcOcxE/600x300' />
                 <Box sx={{ fontSize: '16px' }}> Jainam Shah</Box>
               </IconButton>
               <IconButton
@@ -324,7 +391,7 @@ export default function PrimarySearchAppBar () {
                 onClick={handleProfileMenuOpen}
                 color='inherit'
               >
-                <ExitToAppIcon />
+                <AccountCircle />
               </IconButton>
             </Box>
             <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
@@ -336,22 +403,19 @@ export default function PrimarySearchAppBar () {
                 onClick={handleMobileMenuOpen}
                 color='inherit'
               >
-                <ExitToAppIcon />
+                <AccountCircle />
               </IconButton>
             </Box>
           </Toolbar>
         </AppBar>
-
         {renderMobileMenu}
         {renderMenu}
       </Box>
-      <Drawer
-        anchor='left'
-        open={drawerOpen}
-        onClose={() => setDrawerOpen(false)}
-      >
-        {drawerContent}
-      </Drawer>
+      <nav>
+        <Drawer anchor={'left'} open={drawerOpen} onClose={handleDrawerToggle}>
+          {drawerContent}
+        </Drawer>
+      </nav>
     </>
   )
 }

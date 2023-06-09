@@ -15,7 +15,7 @@ const MarketPlace = () => {
       price: '₹340,969',
       description:
         'Audi S5 Sunset',
-      location: 'Ahmedabad, GJ'
+      location: 'Berlin, Germany'
     },
    
    
@@ -23,37 +23,37 @@ const MarketPlace = () => {
       img: 'https://source.unsplash.com/ZwKCWVFdrcs',
       price: '₹1,35,000',
       description: 'iPhone 11 Pro Max in spacegray',
-      location: 'Ahmedabad, GJ'
+      location: 'Paris, France'
     },
     {
       img: 'https://source.unsplash.com/hGV2TfOh0ns',
       price: '₹40,000',
       description: 'Apple Laptop',
-      location: 'Ahmedabad, GJ'
+      location: 'Tokyo, Japan',
     },
     {
       img: 'https://source.unsplash.com/hbTKIbuMmBI',
       price: '₹8,399',
       description: 'Apple Watch Series 5',
-      location: 'Baroda, GJ'
+      location: 'Ottawa, Canada'
     },
     {
       img: 'https://source.unsplash.com/SxAXphIPWeg',
       price: '₹1,40,000',
       description: '“Leather on concrete”',
-      location: 'Ahmedabad, GJ'
+      location: 'Amman, Jordan'
     },
     {
       img: 'https://source.unsplash.com/_H0fjILH5Vw',
       price: '₹8,40,000',
       description: 'navy blue backpack',
-      location: 'Beijing, China'
+      location: 'Rome, Italy'
     },
     {
-      img: 'https://source.unsplash.com/eeTJKC_wz34',
+      img: 'https://source.unsplash.com/D4tnWO2-rto',
       price: '₹66,959',
-      description: 'Harley-Davidson',
-      location: 'Ahmedabad, GJ'
+      description: 'royal enfield',
+      location: '	Canberra, Australia'
     },
     {
       img: 'https://source.unsplash.com/IGfIGP5ONV0',
