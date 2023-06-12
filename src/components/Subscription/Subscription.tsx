@@ -25,7 +25,7 @@ interface CardData {
 export default function MediaControlCard () {
   const theme = useTheme()
   const [hoveredImage, setHoveredImage] = useState<number | null>(null) // Specify the type as 'number | null'
-
+  const [likedCards, setLikedCards] = useState<number[]>([])
   // Data for the cards
   const [cardData, setCardData] = useState<CardData[]>([
     {
@@ -80,7 +80,7 @@ export default function MediaControlCard () {
     }
     // Add more card data as needed
   ])
-  const [likedCards, setLikedCards] = useState<number[]>([])
+
   const handleLike = (cardId: number) => {
     setCardData(prevCardData => {
       const updatedCardData = prevCardData.map(card => {
@@ -117,8 +117,6 @@ export default function MediaControlCard () {
       {cardData.map(card => (
         <Card
           key={card.id}
-          onMouseEnter={() => setHoveredImage(card.id)}
-          onMouseLeave={() => setHoveredImage(null)}
           sx={{
             display: 'flex',
             margin: '2rem 2rem',
@@ -132,6 +130,8 @@ export default function MediaControlCard () {
             <CardMedia
               component='img'
               sx={{ width: '100%', height: 200, position: 'relative' }}
+              onMouseEnter={() => setHoveredImage(card.id)}
+              onMouseLeave={() => setHoveredImage(null)}
               image={card.image}
               alt='Live from space album cover'
             />

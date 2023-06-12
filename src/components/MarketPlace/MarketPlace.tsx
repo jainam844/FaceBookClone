@@ -74,7 +74,7 @@ const MarketPlace = () => {
           {' '}
           Today's picks
         </Typography>
-        {/* <Grid xs={12} sx={{ margin: '10px 0' }}> */}
+      
         <Grid container justifyContent='start' spacing={3}>
           {sellingItems.map((item, index) => (
             <SellingItem
@@ -86,7 +86,7 @@ const MarketPlace = () => {
             />
           ))}
         </Grid>
-        {/* </Grid> */}
+     
       </Box>
     </Box>
   )

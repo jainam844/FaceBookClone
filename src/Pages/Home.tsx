@@ -7,53 +7,53 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Section from '../components/Section/Section'
 import Subscription from '../components/Subscription/Subscription'
 import MarketPlace from '../components/MarketPlace/MarketPlace'
-import UserFriend from '../components/UserFriend/UserFriend'
+import UserFriend from '../components/Group/Groups'
 import HeaderIcons from '../components/Header/HeaderIcons'
+import Friend from '../components/Friend/Friends'
 const HomeApp = () => {
   return (
     <Router>
-    
       <Box
         sx={{
-          position: "sticky",
+          position: 'sticky',
           top: 0,
-          zIndex: 100,
+          zIndex: 100
         }}
       >
-        <div className="header">
+        <div className='header'>
           <Header />
           <Box
             sx={{
               // display: ["flex", "flex", "none"],
-              display: ["flex", "flex", "none"],
-              boxShadow: ["0px 5px 7px -7px rgba(0, 0, 0, 0.75)"],
-              justifyContent: "center",
-              margin: "0rem 1rem",
-              padding: " 0.3rem 0.5rem",
-              position: ["sticky","sticky","sticky"],
+              display: ['flex', 'flex', 'none'],
+              boxShadow: ['0px 5px 7px -7px rgba(0, 0, 0, 0.75)'],
+              justifyContent: 'center',
+              margin: '0rem 1rem',
+              padding: ' 0.3rem 0.5rem',
+              position: ['sticky', 'sticky', 'sticky'],
               top: 0,
-              zIndex: 100,
+              zIndex: 100
             }}
           >
-           <HeaderIcons/>
+            <HeaderIcons />
           </Box>
         </div>
       </Box>
-        <Box sx={{ display: 'flex',height: "90vh"  }}>
-          <SideBar />
-          <Box sx={{ width: '64%' }}>
-            <Routes>
-              <Route path='/' element={<Section />} /> 
-               <Route path='/flag' element={<Flag />} />
-               <Route path='/subscription' element={<Subscription />} />
-               <Route path='/marketplace' element={<MarketPlace />} />
-               <Route path='/userfriend' element={<UserFriend />} />
-            </Routes>
-          </Box>
-         
-          <Widget />
+      <Box sx={{ display: 'flex', height: '90vh' }}>
+        <SideBar />
+        <Box sx={{ width: '64%' }}>
+          <Routes>
+            <Route path='/' element={<Section />} />
+            <Route path='/flag' element={<Flag />} />
+            <Route path='/subscription' element={<Subscription />} />
+            <Route path='/marketplace' element={<MarketPlace />} />
+            <Route path='/userfriend' element={<UserFriend />} />
+            <Route path='/friend' element={<Friend />} />
+          </Routes>
         </Box>
 
+        <Widget />
+      </Box>
     </Router>
   )
 }

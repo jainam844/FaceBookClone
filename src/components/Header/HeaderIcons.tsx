@@ -251,7 +251,7 @@ const HeaderIcons: React.FC = (): JSX.Element => {
         component={Link}
         to='/marketplace'
       >
-        <StorefrontIcon sx={{fontSize: '1.8rem' }} />
+        <StorefrontIcon sx={{ fontSize: '1.8rem' }} />
       </Button>
 
       <Button

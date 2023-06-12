@@ -35,7 +35,7 @@ const data: SidebarItem[] = [
     route: '/'
   },
   { logo: <EmojiFlagsIcon />, title: 'Pages', route: '/flag' },
-  { logo: <PeopleIcon />, title: 'Friends', route: '/' },
+  { logo: <PeopleIcon />, title: 'Friends', route: '/friend' },
   { logo: <ChatIcon />, title: 'Messenger', route: '/' },
   { logo: <StorefrontIcon />, title: 'Market Place', route: '/marketplace' },
   { logo: <VideoLibraryIcon />, title: 'Videos', route: '/subscription' }
@@ -72,7 +72,12 @@ const SidebarIcons = () => {
         </ListItem>
 
         {data.map((item, index) => (
-          <ListItem key={index}     component={Link}   to={item.route} sx={{ ...sidebarIconStyle }}>
+          <ListItem
+            key={index}
+            component={Link}
+            to={item.route}
+            sx={{ ...sidebarIconStyle }}
+          >
             <ListItemAvatar>
               <Avatar sx={{ color: '#2e81f4', backgroundColor: '#e3dede' }}>
                 {item.logo}

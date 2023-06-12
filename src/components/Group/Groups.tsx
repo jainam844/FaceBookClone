@@ -49,8 +49,7 @@ const GroupData = [
     img: 'https://source.unsplash.com/IGfIGP5ONV0',
     title: 'Food Club',
     description: '434 members...'
-  },
-  
+  }
 ]
 
 const UserFriend = () => {
@@ -196,8 +195,8 @@ const UserFriend = () => {
                             }}
                           />
                           <Typography sx={{ fontSize: '15px', color: 'gray' }}>
-                            Jainam and 10 Friend 
-                            <br/>
+                            Jainam and 10 Friend
+                            <br />
                             are Members
                           </Typography>
                         </Box>
