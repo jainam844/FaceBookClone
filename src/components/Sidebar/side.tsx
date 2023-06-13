@@ -7,7 +7,7 @@ const Sidebar = (): JSX.Element => {
     <Box
       sx={{
   
-        height: '77vh',
+        // height: '77vh',
         boxShadow: "0px 5px 17px -7px rgba(0, 0, 0, 0.75)",
         width: ["35%", "35%", "18%"],
         display: ["none", "none", "block"],

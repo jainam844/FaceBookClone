@@ -86,7 +86,7 @@ const UserFriend = () => {
           sx={{
             padding: 3,
             fontSize: '2rem',
-            backgroundColor: 'rgb(247, 247, 247)'
+            bgcolor: '#f0f2f5'
           }}
         >
           Recent Activity

@@ -109,11 +109,7 @@ export default function MediaControlCard () {
   }
 
   return (
-    <Box
-      sx={{
-        maxHeight: '100vh'
-      }}
-    >
+    <Box sx={{}}>
       {cardData.map(card => (
         <Card
           key={card.id}

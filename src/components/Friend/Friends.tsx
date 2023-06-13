@@ -174,8 +174,10 @@ import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { Button } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import Grid from '@mui/material/Grid'
+import { IconButton } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
 const friendData = [
   {
     id: 1,
@@ -231,6 +233,12 @@ const friendData = [
 ]
 
 export default function Friend () {
+  const subGridStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottom: '1px solid lightgray'
+  }
   const [displayedFriends, setDisplayedFriends] = React.useState(4)
 
   const handleConfirm = (friendId: number) => {
@@ -248,6 +256,16 @@ export default function Friend () {
         maxHeight: '100vh'
       }}
     >
+      <Grid sx={subGridStyle}>
+        <Typography variant='h5' color='initial'>
+          Pages
+        </Typography>
+        <IconButton>
+          <Avatar>
+            <SearchIcon />
+          </Avatar>
+        </IconButton>
+      </Grid>
       <List
         sx={{
           width: '100%',
@@ -322,28 +340,27 @@ export default function Friend () {
           </React.Fragment>
         ))}
         {displayedFriends < friendData.length && (
-        <Button
-        variant="outlined"
-        sx={{
-          borderRadius: '9999px',
-          marginTop: '1rem',
-          textTransform: 'none',
-          color: 'gray',
-          borderColor: 'gray',
-          '&:hover': {
-            borderColor: 'gray',
-            backgroundColor: 'transparent',
-          },
-          '& .MuiButton-endIcon': {
-            marginLeft: '4px',
-          },
-        }}
-        endIcon={<ExpandMoreIcon />}
-        onClick={() => setDisplayedFriends(friendData.length)}
-      >
-        See All
-      </Button>
-      
+          <Button
+            variant='outlined'
+            sx={{
+              borderRadius: '9999px',
+              marginTop: '1rem',
+              textTransform: 'none',
+              color: 'gray',
+              borderColor: 'gray',
+              '&:hover': {
+                borderColor: 'gray',
+                backgroundColor: 'transparent'
+              },
+              '& .MuiButton-endIcon': {
+                marginLeft: '4px'
+              }
+            }}
+            endIcon={<ExpandMoreIcon />}
+            onClick={() => setDisplayedFriends(friendData.length)}
+          >
+            See All
+          </Button>
         )}
       </List>
     </Box>

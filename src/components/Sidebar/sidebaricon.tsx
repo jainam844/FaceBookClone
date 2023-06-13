@@ -79,9 +79,7 @@ const SidebarIcons = () => {
             sx={{ ...sidebarIconStyle }}
           >
             <ListItemAvatar>
-              <Avatar sx={{ color: '#2e81f4', backgroundColor: '#e3dede' }}>
-                {item.logo}
-              </Avatar>
+              <Avatar sx={{ color: '#2e81f4',background:'none'}}>{item.logo}</Avatar>
             </ListItemAvatar>
             <ListItemText primary={item.title} sx={{ fontWeight: '600' }} />
           </ListItem>
@@ -90,7 +88,7 @@ const SidebarIcons = () => {
         <ListItemButton sx={{ ...sidebarIconStyle }} onClick={handleClick}>
           <ListItemIcon>
             <ListItemAvatar>
-              <Avatar sx={{ color: '#2e81f4', backgroundColor: '#e3dede' }}>
+              <Avatar sx={{ color: '#2e81f4' ,background:'none'}}>
                 <ExpandMoreIcon />
               </Avatar>
             </ListItemAvatar>
@@ -104,7 +102,7 @@ const SidebarIcons = () => {
             <List>
               <ListItem sx={{ ...sidebarIconStyle }}>
                 <ListItemAvatar>
-                  <Avatar sx={{ color: '#2e81f4', backgroundColor: '#e3dede' }}>
+                  <Avatar sx={{ color: '#2e81f4',background:'none' }}>
                     <SaveIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -112,7 +110,7 @@ const SidebarIcons = () => {
               </ListItem>
               <ListItem sx={{ ...sidebarIconStyle }}>
                 <ListItemAvatar>
-                  <Avatar sx={{ color: '#2e81f4', backgroundColor: '#e3dede' }}>
+                  <Avatar sx={{ color: '#2e81f4', background:'none'}}>
                     <DeleteIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -126,7 +124,7 @@ const SidebarIcons = () => {
 
         <ListItem sx={{ ...sidebarIconStyle }}>
           <ListItemAvatar>
-            <Avatar sx={{ backgroundColor: '#e3dede' }}>
+            <Avatar sx={{ background:'none' }}>
               <LogoutIcon sx={{ color: '#2e81f4' }} />
             </Avatar>
           </ListItemAvatar>

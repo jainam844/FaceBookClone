@@ -39,9 +39,9 @@ const HomeApp = () => {
           </Box>
         </div>
       </Box>
-      <Box sx={{ display: 'flex', height: '90vh' }}>
+      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         <SideBar />
-        <Box sx={{ width: '64%' }}>
+        <Box sx={{ width: '64%', bgcolor: '#f0f2f5' }}>
           <Routes>
             <Route path='/' element={<Section />} />
             <Route path='/flag' element={<Flag />} />
