@@ -7,35 +7,39 @@ import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, Field, ErrorMessage, FormikValues } from 'formik'
 import * as Yup from 'yup'
-
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
 
-  const handleClickShowPassword = () => setShowPassword(show => !show)
+  const handleClickShowPassword = () => {
+    setShowPassword(show => !show)
+  }
 
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault()
   }
+  const handleLogin = async (values: FormikValues) => {
+    const { email, password } = values
+    const apiUrl = 'https://randomuser.me/api/'
+    const url = `${apiUrl}?email=${encodeURIComponent(
+      email
+    )}&password=${encodeURIComponent(password)}`
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-    setEmail(value)
-  }
+    try {
+      const response = await fetch(url)
 
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target
-    setPassword(value)
-  }
-
-  const handleLogin = () => {
-    console.log('Email:', email)
-    console.log('Password:', password)
+      if (response.ok) {
+        const data = await response.json()
+        console.log('Login successful:', data)
+      } else {
+        console.error('Login failed:', response.statusText)
+      }
+    } catch (error) {
+      console.error('Error during login:', error)
+    }
   }
 
   const handleCreateAccount = () => {
@@ -94,7 +98,7 @@ const Login = () => {
                   password: Yup.string().required('Required')
                 })}
                 onSubmit={(values, { setSubmitting }) => {
-                  handleLogin()
+                  handleLogin(values)
                   setSubmitting(false)
                 }}
               >
