@@ -210,7 +210,7 @@ export default function MediaControlCard () {
               <Typography>{card.likes}</Typography>
               <IconButton
                 onClick={() => handleDislike(card.id)}
-                sx={{ padding: '2px', marginLeft: '1em' }}
+                sx={{ padding: '2px', marginLeft: '0.3rem' }}
               >
                 <ThumbDownIcon sx={{ cursor: 'pointer' }} />
               </IconButton>

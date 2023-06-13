@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import TextField from '@mui/material/TextField'
-
+import SendIcon from "@mui/icons-material/Send";
 export default function BasicCard () {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -97,18 +97,14 @@ export default function BasicCard () {
             )}
           </Box>
           <Button
-            size='small'
-            onClick={handleSubmit}
-            sx={{
-              margin: '0 0.7rem 0.5rem 0',
-              marginTop: '2rem',
-              float: 'right'
-            }}
-            
-          >
-            Submit
-
-          </Button>
+          variant="contained"
+          endIcon={<SendIcon />}
+          sx={{  margin: '0 0.7rem 0.5rem 0',
+          marginTop: '2rem',  float: 'right' }}
+          onClick={handleSubmit}
+        >
+          Share Post
+        </Button>
         </CardContent>
       </Card>
     </Box>

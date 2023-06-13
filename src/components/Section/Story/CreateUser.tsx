@@ -9,7 +9,7 @@ const CreateStory = (): JSX.Element => {
       sx={{
         height: 180,
         width: 100,
-        margin: '30px',
+        margin: '10px',
         backgroundImage: `url(  'https://source.unsplash.com/RrUItyCYrVM')`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
@@ -24,7 +24,8 @@ const CreateStory = (): JSX.Element => {
           color: 'white',
           borderRadius: '50%',
           border: '2px solid white',
-          padding: '10px'
+          padding: '10px', 
+          
         }}
       />
 

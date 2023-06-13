@@ -4,10 +4,11 @@ import CardContent from '@mui/material/CardContent'
 import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-const CommentCollapase = () => {
+
+const CommentCollapse = () => {
   return (
     <React.Fragment>
-      <Card>
+      <Card >
         <CardContent>
           <Typography
             variant='h5'
@@ -19,21 +20,24 @@ const CommentCollapase = () => {
               alignItems: 'center'
             }}
           >
-            <Avatar src="https://source.unsplash.com/bh4LQHcOcxE/600x300"></Avatar>
+            <Avatar src='https://source.unsplash.com/bh4LQHcOcxE/600x300'></Avatar>
             <span>
               {' '}
-              <Box sx={{ marginLeft: '10px', color: 'black',fontSize:'1rem' }}>
+              <Box
+                sx={{ marginLeft: '10px', color: 'black', fontSize: '1rem' }}
+              >
                 Jainam Shah{' '}
               </Box>
             </span>
           </Typography>
 
           <Typography sx={{ fontSize: '0.8em' }}>
-          Nov 11, 2022 10:08:30 PM
+            Nov 11, 2022 10:08:30 PM
           </Typography>
         </CardContent>
       </Card>
     </React.Fragment>
   )
 }
-export default CommentCollapase
+
+export default CommentCollapse

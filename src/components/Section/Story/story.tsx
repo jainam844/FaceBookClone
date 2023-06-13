@@ -63,7 +63,7 @@ const Story = (): JSX.Element => {
                   sx={{
                     height: 180,
                     width: 100,
-                    margin: '30px',
+                    margin: '10px',
                     backgroundImage: `url('${story.backgroundImage}')`,
                     backgroundSize: 'cover',
                     backgroundRepeat: 'no-repeat',
