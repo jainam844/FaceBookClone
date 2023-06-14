@@ -21,7 +21,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
 import { Link } from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom';
 interface SidebarItem {
   logo: React.ReactElement
   title: string
@@ -48,7 +48,15 @@ const sidebarIconStyle = {
   }
 }
 
-const SidebarIcons = () => {
+const SidebarIcons = () => {const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    // Perform any necessary logout logic, such as clearing localStorage or making API calls
+    // ...
+    localStorage.removeItem('token');
+    // Redirect the user to the login page
+    navigate('/login');
+  };
   const [open, setOpen] = React.useState(false)
   const handleClick = () => {
     setOpen(!open)
@@ -122,7 +130,7 @@ const SidebarIcons = () => {
 
         <Divider />
 
-        <ListItem sx={{ ...sidebarIconStyle }}>
+        <ListItem sx={{ ...sidebarIconStyle }} >
           <ListItemAvatar>
             <Avatar sx={{ background:'none' }}>
               <LogoutIcon sx={{ color: '#2e81f4' }} />

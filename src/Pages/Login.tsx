@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
-import { Typography } from '@mui/material'
+import { Typography, Box, Button, TextField, Link } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import fbImgLogo from '../assets/fbNameLogo.png'
-import { Box, Button, TextField, Link } from '@mui/material'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { Formik, Form, Field, ErrorMessage, FormikValues } from 'formik'
 import * as Yup from 'yup'
-const Login = () => {
+import axios from 'axios'
+
+interface LoginPageProps {
+  onLoginSuccess: () => void
+}
+
+const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const [showPassword, setShowPassword] = useState(false)
 
   const handleClickShowPassword = () => {
@@ -21,19 +26,25 @@ const Login = () => {
   ) => {
     event.preventDefault()
   }
+
   const handleLogin = async (values: FormikValues) => {
     const { email, password } = values
-    const apiUrl = 'https://randomuser.me/api/'
-    const url = `${apiUrl}?email=${encodeURIComponent(
-      email
-    )}&password=${encodeURIComponent(password)}`
+    const apiUrl = 'https://bf8f-14-99-103-154.ngrok-free.app/Account/Login'
 
     try {
-      const response = await fetch(url)
+      const response = await axios.post(apiUrl, {
+        email,
+        password,
+        ProviderKey: 'your_provider_key_value',
+        LoginProvider: 'your_login_provider_value'
+      })
 
-      if (response.ok) {
-        const data = await response.json()
+      if (response.status === 200) {
+        const data = response.data
         console.log('Login successful:', data)
+        localStorage.setItem('email', email)
+        localStorage.setItem('token', response.data)
+        onLoginSuccess() // Call the callback function to indicate successful login
       } else {
         console.error('Login failed:', response.statusText)
       }
@@ -42,10 +53,7 @@ const Login = () => {
     }
   }
 
-  const handleCreateAccount = () => {
-    // Handle create account logic here
-  }
-
+  const handleCreateAccount = () => {}
   return (
     <React.Fragment>
       <Box sx={{ height: '100vh', bgcolor: '#f0f2f5' }}>
@@ -204,4 +212,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginPage

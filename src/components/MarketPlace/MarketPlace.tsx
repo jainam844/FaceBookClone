@@ -48,7 +48,55 @@ const MarketPlace = () => {
       location: '	Canberra, Australia'
     },
     {
+      img: 'https://source.unsplash.com/7sWm1yRJZhg',
+      price: '₹70,000',
+      description: 'Vegan salad bowl',
+      location: 'Beijing, China'
+    },
+    {
+      img: 'https://source.unsplash.com/cz4rC-IRfxw',
+      price: '₹70,000',
+      description: 'Vegan salad bowl',
+      location: 'Beijing, China'
+    },
+    {
+      img: 'https://source.unsplash.com/7ZC4qO3Gj6g',
+      price: '₹70,000',
+      description: 'Vegan salad bowl',
+      location: 'Beijing, China'
+    },
+    {
       img: 'https://source.unsplash.com/IGfIGP5ONV0',
+      price: '₹70,000',
+      description: 'Vegan salad bowl',
+      location: 'Beijing, China'
+    },
+    {
+      img: 'https://source.unsplash.com/ljRiZl00n18',
+      price: '₹70,000',
+      description: 'Vegan salad bowl',
+      location: 'Beijing, China'
+    },
+    {
+      img: 'https://source.unsplash.com/Nj1R4X4yl_g',
+      price: '₹70,000',
+      description: 'Vegan salad bowl',
+      location: 'Beijing, China'
+    },
+    {
+      img: 'https://source.unsplash.com/WfuIO53oaTA',
+      price: '₹70,000',
+      description: 'Vegan salad bowl',
+      location: 'Beijing, China'
+    },
+    {
+      img: 'https://source.unsplash.com/TJrkkhdB39E',
+      price: '₹70,000',
+      description: 'Vegan salad bowl',
+      location: 'Beijing, China'
+    },
+    {
+      img: 'https://source.unsplash.com/lIgFLLDdqMk',
       price: '₹70,000',
       description: 'Vegan salad bowl',
       location: 'Beijing, China'
@@ -57,36 +105,34 @@ const MarketPlace = () => {
   return (
     <Box
       sx={{
-        width: ['100%', '100%', '75%', '75%'],
-        maxHeight: '100vh'
+        // width: ['100%', '100%', '75%', '75%'],
+        // maxHeight: '100vh'
       }}
     >
-      <Box sx={{ padding: 3, height: '300px' }}>
+        <Box sx={{ padding: 3 }}>
         <Typography
           sx={{
-            margin: '1.5rem 1.5rem 0 1.3rem',
-            fontSize: '22px',
-            fontWeight: 600,
-            fontFamily: 'initial',
-            marginTop: '1rem'
+            margin: "1.5rem 1.5rem 0 1.3rem",
+            fontSize: "22px",
+            fontWeight: " bold",
           }}
         >
-          {' '}
           Today's picks
         </Typography>
-      
-        <Grid container justifyContent='start' spacing={3}>
-          {sellingItems.map((item, index) => (
-            <SellingItem
-              key={index}
-              img={item.img}
-              price={item.price}
-              description={item.description}
-              location={item.location}
-            />
-          ))}
+
+        <Grid xs={12} sx={{ margin: "10px 0" }}>
+          <Grid container justifyContent="start" spacing={2}>
+            {sellingItems.map((item, index) => (
+              <SellingItem
+                key={index}
+                img={item.img}
+                price={item.price}
+                description={item.description}
+                location={item.location}
+              />
+            ))}
+          </Grid>
         </Grid>
-     
       </Box>
     </Box>
   )
