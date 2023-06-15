@@ -102,7 +102,7 @@ export default function Friend () {
   return (
     <Box
       sx={{
-        maxHeight: '100vh'  ,
+        // maxHeight: '100vh'  ,
         paddingTop: [0, 2],
         margin: ["0", "0 30px"],
       }}

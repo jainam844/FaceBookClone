@@ -21,7 +21,7 @@ import ExpandLess from '@mui/icons-material/ExpandLess'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SaveIcon from '@mui/icons-material/Save'
 import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 interface SidebarItem {
   logo: React.ReactElement
   title: string
@@ -32,13 +32,17 @@ const data: SidebarItem[] = [
   {
     logo: <LocalHospitalIcon />,
     title: 'Covid-19 Information Center',
-    route: '/'
+    route: '/home'
   },
-  { logo: <EmojiFlagsIcon />, title: 'Pages', route: '/flag' },
-  { logo: <PeopleIcon />, title: 'Friends', route: '/friend' },
-  { logo: <ChatIcon />, title: 'Messenger', route: '/' },
-  { logo: <StorefrontIcon />, title: 'Market Place', route: '/marketplace' },
-  { logo: <VideoLibraryIcon />, title: 'Videos', route: '/subscription' }
+  { logo: <EmojiFlagsIcon />, title: 'Pages', route: '/home/flag' },
+  { logo: <PeopleIcon />, title: 'Friends', route: '/home/friend' },
+  { logo: <ChatIcon />, title: 'Messenger', route: '/home' },
+  {
+    logo: <StorefrontIcon />,
+    title: 'Market Place',
+    route: '/home/marketplace'
+  },
+  { logo: <VideoLibraryIcon />, title: 'Videos', route: '/home/subscription' }
 ]
 
 const sidebarIconStyle = {
@@ -48,15 +52,15 @@ const sidebarIconStyle = {
   }
 }
 
-const SidebarIcons = () => {const navigate = useNavigate();
-  
+const SidebarIcons = () => {
+  const navigate = useNavigate()
+
   const handleLogout = () => {
-    // Perform any necessary logout logic, such as clearing localStorage or making API calls
-    // ...
-    localStorage.removeItem('token');
-    // Redirect the user to the login page
-    navigate('/login');
-  };
+    localStorage.removeItem('email')
+    localStorage.removeItem('token')
+
+    navigate('/')
+  }
   const [open, setOpen] = React.useState(false)
   const handleClick = () => {
     setOpen(!open)
@@ -87,7 +91,9 @@ const SidebarIcons = () => {const navigate = useNavigate();
             sx={{ ...sidebarIconStyle }}
           >
             <ListItemAvatar>
-              <Avatar sx={{ color: '#2e81f4',background:'none'}}>{item.logo}</Avatar>
+              <Avatar sx={{ color: '#2e81f4', background: 'none' }}>
+                {item.logo}
+              </Avatar>
             </ListItemAvatar>
             <ListItemText primary={item.title} sx={{ fontWeight: '600' }} />
           </ListItem>
@@ -96,7 +102,7 @@ const SidebarIcons = () => {const navigate = useNavigate();
         <ListItemButton sx={{ ...sidebarIconStyle }} onClick={handleClick}>
           <ListItemIcon>
             <ListItemAvatar>
-              <Avatar sx={{ color: '#2e81f4' ,background:'none'}}>
+              <Avatar sx={{ color: '#2e81f4', background: 'none' }}>
                 <ExpandMoreIcon />
               </Avatar>
             </ListItemAvatar>
@@ -110,7 +116,7 @@ const SidebarIcons = () => {const navigate = useNavigate();
             <List>
               <ListItem sx={{ ...sidebarIconStyle }}>
                 <ListItemAvatar>
-                  <Avatar sx={{ color: '#2e81f4',background:'none' }}>
+                  <Avatar sx={{ color: '#2e81f4', background: 'none' }}>
                     <SaveIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -118,7 +124,7 @@ const SidebarIcons = () => {const navigate = useNavigate();
               </ListItem>
               <ListItem sx={{ ...sidebarIconStyle }}>
                 <ListItemAvatar>
-                  <Avatar sx={{ color: '#2e81f4', background:'none'}}>
+                  <Avatar sx={{ color: '#2e81f4', background: 'none' }}>
                     <DeleteIcon />
                   </Avatar>
                 </ListItemAvatar>
@@ -130,9 +136,9 @@ const SidebarIcons = () => {const navigate = useNavigate();
 
         <Divider />
 
-        <ListItem sx={{ ...sidebarIconStyle }} >
+        <ListItem sx={{ ...sidebarIconStyle }} onClick={handleLogout}>
           <ListItemAvatar>
-            <Avatar sx={{ background:'none' }}>
+            <Avatar sx={{ background: 'none' }}>
               <LogoutIcon sx={{ color: '#2e81f4' }} />
             </Avatar>
           </ListItemAvatar>

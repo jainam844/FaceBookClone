@@ -1,18 +1,19 @@
+import React from 'react'
 import Header from '../components/Header/Header'
 import SideBar from '../components/Sidebar/side'
 import Widget from '../components/Widget/Widget'
 import Box from '@mui/material/Box'
 import Flag from '../components/Flag/flag'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Section from '../components/Section/Section'
-import Subscription from '../components/Subscription/Subscription'
-import MarketPlace from '../components/MarketPlace/MarketPlace'
-import UserFriend from '../components/Group/Groups'
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Outlet
+} from 'react-router-dom'
 import HeaderIcons from '../components/Header/HeaderIcons'
-import Friend from '../components/Friend/Friends'
 const HomeApp = () => {
   return (
-    <Router>
+    <React.Fragment>
       <Box
         sx={{
           position: 'sticky',
@@ -42,19 +43,20 @@ const HomeApp = () => {
       <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         <SideBar />
         <Box sx={{ width: '64%', bgcolor: '#f0f2f5' }}>
-          <Routes>
+          {/* <Routes>
             <Route path='/' element={<Section />} />
             <Route path='/flag' element={<Flag />} />
             <Route path='/subscription' element={<Subscription />} />
             <Route path='/marketplace' element={<MarketPlace />} />
             <Route path='/userfriend' element={<UserFriend />} />
             <Route path='/friend' element={<Friend />} />
-          </Routes>
+          </Routes> */}
+          <Outlet />
         </Box>
 
         <Widget />
       </Box>
-    </Router>
+    </React.Fragment>
   )
 }
 

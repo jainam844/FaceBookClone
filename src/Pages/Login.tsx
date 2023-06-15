@@ -9,13 +9,11 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { Formik, Form, Field, ErrorMessage, FormikValues } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
-interface LoginPageProps {
-  onLoginSuccess: () => void
-}
-
-const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
+const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false)
+  const navigate = useNavigate()
 
   const handleClickShowPassword = () => {
     setShowPassword(show => !show)
@@ -44,7 +42,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         console.log('Login successful:', data)
         localStorage.setItem('email', email)
         localStorage.setItem('token', response.data)
-        onLoginSuccess() // Call the callback function to indicate successful login
+        // return response.data
+        navigate("/home"); // Call the callback function to indicate successful login
       } else {
         console.error('Login failed:', response.statusText)
       }
