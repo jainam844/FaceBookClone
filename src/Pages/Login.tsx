@@ -8,8 +8,8 @@ import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { Formik, Form, Field, ErrorMessage, FormikValues } from 'formik'
 import * as Yup from 'yup'
-import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import apiService from '../services/api'
 
 const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -27,28 +27,10 @@ const LoginPage: React.FC = () => {
 
   const handleLogin = async (values: FormikValues) => {
     const { email, password } = values
-    const apiUrl = 'https://bf8f-14-99-103-154.ngrok-free.app/Account/Login'
 
-    try {
-      const response = await axios.post(apiUrl, {
-        email,
-        password,
-        ProviderKey: 'your_provider_key_value',
-        LoginProvider: 'your_login_provider_value'
-      })
-
-      if (response.status === 200) {
-        const data = response.data
-        console.log('Login successful:', data)
-        localStorage.setItem('email', email)
-        localStorage.setItem('token', response.data)
-        // return response.data
-        navigate("/home"); // Call the callback function to indicate successful login
-      } else {
-        console.error('Login failed:', response.statusText)
-      }
-    } catch (error) {
-      console.error('Error during login:', error)
+    const loginSuccessful = await apiService.login(email, password)
+    if (loginSuccessful) {
+      navigate('/home')
     }
   }
 

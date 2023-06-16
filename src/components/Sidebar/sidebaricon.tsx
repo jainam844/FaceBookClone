@@ -1,73 +1,53 @@
+import React, { useState } from 'react'
 import ListItem from '@mui/material/ListItem'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
 import { Collapse } from '@mui/material'
 import { Slide } from '@mui/material'
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital'
-import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags'
-import PeopleIcon from '@mui/icons-material/People'
-import ChatIcon from '@mui/icons-material/Chat'
-import StorefrontIcon from '@mui/icons-material/Storefront'
-import VideoLibraryIcon from '@mui/icons-material/VideoLibrary'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { Divider } from '@mui/material'
-import * as React from 'react'
 import List from '@mui/material/List'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import ExpandLess from '@mui/icons-material/ExpandLess'
 import DeleteIcon from '@mui/icons-material/Delete'
-import SaveIcon from '@mui/icons-material/Save'
+import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
-interface SidebarItem {
-  logo: React.ReactElement
-  title: string
-  route: string
-}
+import data from './SidebarData'
 
-const data: SidebarItem[] = [
-  {
-    logo: <LocalHospitalIcon />,
-    title: 'Covid-19 Information Center',
-    route: '/home'
-  },
-  { logo: <EmojiFlagsIcon />, title: 'Pages', route: '/home/flag' },
-  { logo: <PeopleIcon />, title: 'Friends', route: '/home/friend' },
-  { logo: <ChatIcon />, title: 'Messenger', route: '/home' },
-  {
-    logo: <StorefrontIcon />,
-    title: 'Market Place',
-    route: '/home/marketplace'
-  },
-  { logo: <VideoLibraryIcon />, title: 'Videos', route: '/home/subscription' }
-]
-
-const sidebarIconStyle = {
-  cursor: 'pointer',
-  '&:hover': {
-    backgroundColor: '#f0f2f5'
-  }
-}
 
 const SidebarIcons = () => {
   const navigate = useNavigate()
-
-  const handleLogout = () => {
-    localStorage.removeItem('email')
-    localStorage.removeItem('token')
-
-    navigate('/')
-  }
   const [open, setOpen] = React.useState(false)
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
   const handleClick = () => {
     setOpen(!open)
   }
+  const handleLogout = () => {
+    localStorage.removeItem('email')
+    localStorage.removeItem('token')
+    navigate('/')
+  }
+
+  const handleListItemClick = (
+    event: React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>,
+    index: number
+  ) => {
+    setSelectedIndex(index)
+  }
+  const sidebarIconStyle = {
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: '#f0f2f5'
+    }
+  }
 
   return (
-    <div>
+    <React.Fragment>
       <List
         sx={{
           width: '100%',
@@ -89,13 +69,18 @@ const SidebarIcons = () => {
             component={Link}
             to={item.route}
             sx={{ ...sidebarIconStyle }}
+            selected={selectedIndex === index}
+            onClick={event => handleListItemClick(event, index)}
           >
             <ListItemAvatar>
               <Avatar sx={{ color: '#2e81f4', background: 'none' }}>
                 {item.logo}
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={item.title} sx={{ fontWeight: '600' }} />
+            <ListItemText
+              primary={item.title}
+              sx={{ fontWeight: '600', color: 'black' }}
+            />
           </ListItem>
         ))}
 
@@ -114,13 +99,22 @@ const SidebarIcons = () => {
         <Collapse in={open} timeout='auto' unmountOnExit>
           <Slide direction='up' in={open} mountOnEnter unmountOnExit>
             <List>
-              <ListItem sx={{ ...sidebarIconStyle }}>
+              <ListItem
+                sx={{ ...sidebarIconStyle }}
+                component={Link}
+                to='/home/userfriend'
+                selected={selectedIndex === data.length}
+                onClick={event => handleListItemClick(event, data.length)}
+              >
                 <ListItemAvatar>
                   <Avatar sx={{ color: '#2e81f4', background: 'none' }}>
-                    <SaveIcon />
+                    <GroupsRoundedIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText sx={{ fontWeight: '600' }} primary='Save' />
+                <ListItemText
+                  sx={{ fontWeight: '600', color: 'black' }}
+                  primary='Groups'
+                />
               </ListItem>
               <ListItem sx={{ ...sidebarIconStyle }}>
                 <ListItemAvatar>
@@ -128,7 +122,10 @@ const SidebarIcons = () => {
                     <DeleteIcon />
                   </Avatar>
                 </ListItemAvatar>
-                <ListItemText sx={{ fontWeight: '600' }} primary='Delete' />
+                <ListItemText
+                  sx={{ fontWeight: '600', color: 'black' }}
+                  primary='Delete'
+                />
               </ListItem>
             </List>
           </Slide>
@@ -142,10 +139,10 @@ const SidebarIcons = () => {
               <LogoutIcon sx={{ color: '#2e81f4' }} />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary='LogOut' />
+          <ListItemText primary='LogOut' sx={{ color: 'black' }} />
         </ListItem>
       </List>
-    </div>
+    </React.Fragment>
   )
 }
 
