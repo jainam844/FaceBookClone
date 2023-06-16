@@ -24,8 +24,7 @@ const CreateStory = (): JSX.Element => {
           color: 'white',
           borderRadius: '50%',
           border: '2px solid white',
-          padding: '10px', 
-          
+          padding: '5px'
         }}
       />
 

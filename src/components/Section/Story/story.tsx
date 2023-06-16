@@ -6,42 +6,42 @@ import CreateStory from './CreateUser'
 const stories = [
   {
     backgroundImage: 'https://source.unsplash.com/XVaXbzQul90',
-    avatar: 'https://source.unsplash.com/NYrVisodQ2M',
+    avatar: 'https://source.unsplash.com/v2aKnjMbP_k',
     username: 'Jainam Shah'
   },
   {
     backgroundImage: 'https://source.unsplash.com/ohLyHvxGJYo',
-    avatar: 'https://source.unsplash.com/NYrVisodQ2M',
+    avatar: 'https://source.unsplash.com/QXevDflbl8A',
     username: 'Het Patel'
   },
   {
     backgroundImage: 'https://source.unsplash.com/67sVPjK6Q7I',
-    avatar: 'https://source.unsplash.com/NYrVisodQ2M',
+    avatar: 'https://source.unsplash.com/hh3ViD0r0Rc',
     username: 'Harsh Prajapati'
   },
   {
     backgroundImage: 'https://source.unsplash.com/0vuW7F-47Oo',
-    avatar: 'https://source.unsplash.com/NYrVisodQ2M',
-    username: 'Aayush Teli'
+    avatar: 'https://source.unsplash.com/mEZ3PoFGs_k',
+    username: 'Aayush Joshi'
   },
   {
     backgroundImage: 'https://source.unsplash.com/bY4cqxp7vos',
-    avatar: 'https://source.unsplash.com/NYrVisodQ2M',
+    avatar: 'https://source.unsplash.com/4FDsNcCR8iQ',
     username: 'Krish Doshi'
   },
   {
     backgroundImage: 'https://source.unsplash.com/NYrVisodQ2M',
-    avatar: 'https://source.unsplash.com/NYrVisodQ2M',
+    avatar: 'https://source.unsplash.com/G9f4Enb8XVM',
     username: 'Teerth Gandhi'
   },
   {
     backgroundImage: 'https://source.unsplash.com/XVaXbzQul90',
-    avatar: 'https://source.unsplash.com/NYrVisodQ2M',
-    username: 'Vrushbh Rami'
+    avatar: 'https://source.unsplash.com/RDcEWH5hSDE',
+    username: 'Vrushbh Parmar'
   },
   {
     backgroundImage: 'https://source.unsplash.com/XVaXbzQul90',
-    avatar: 'https://source.unsplash.com/NYrVisodQ2M',
+    avatar: 'https://source.unsplash.com/2rIs8OH5ng0',
     username: 'Parth kaneriya'
   }
 ]
@@ -77,11 +77,11 @@ const Story = (): JSX.Element => {
                     sx={{
                       position: 'absolute',
                       top: 10,
-                      left: 0,
+                      left: 10,
                       width: 40,
                       height: 40,
                       borderRadius: '50%',
-                      border: '2px solid #fff'
+                      border: '3px solid royalblue'
                     }}
                   ></Avatar>
                   <Typography
