@@ -1,43 +1,30 @@
 import React, { useState } from 'react'
+import { Formik, Field, Form, ErrorMessage } from 'formik'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import TextField from '@mui/material/TextField'
-import SendIcon from "@mui/icons-material/Send";
+import SendIcon from '@mui/icons-material/Send'
+
+const validateDescription = (value: string) => {
+  let error
+  if (!value) {
+    error = 'Description is required'
+  }
+  return error
+}
+
 export default function BasicCard () {
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
-  const [error, setError] = useState('')
+  const [file, setFile] = useState<File | null>(null)
 
-  const handleSubmit = () => {
-    if (title.trim() === '') {
-      setError('Please enter a title')
-      return
-    }
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadedFile = event.target.files?.[0]
+    setFile(uploadedFile || null)
+  }
 
-    if (description.trim() === '') {
-      setError('Please enter a description')
-      return
-    }
-
-    console.log('Title:', title)
-    console.log('Description:', description)
-    setError('')
-  }
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value)
-    setError('') // Reset the error message when the user modifies the title field
-  }
-  const handleDescriptionChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setDescription(e.target.value)
-    setError('') // Reset the error message when the user modifies the description field
-  }
   return (
     <Box
       sx={{
@@ -53,11 +40,11 @@ export default function BasicCard () {
           sx={{
             color: 'primary.main',
             marginBottom: 2,
-            marginTop:'1rem',
+            marginTop: '1rem',
             display: 'flex',
             alignItems: 'center',
-            marginLeft:'1rem',
-            fontSize:'1rem',
+            marginLeft: '1rem',
+            fontSize: '1rem'
           }}
         >
           <Avatar src='https://source.unsplash.com/bh4LQHcOcxE/600x300'></Avatar>
@@ -67,45 +54,54 @@ export default function BasicCard () {
           </span>
         </Typography>
         <CardContent>
-          <Box>
-            <TextField
-              id='title-input'
-              label='Enter Title'
-              variant='standard'
-              sx={{ width: '100%' }}
-              value={title}
-              onChange={handleTitleChange}
-            />
-            {error && error.includes('title') && (
-              <Typography color='error' variant='caption'>
-                Please enter a title
-              </Typography>
+          <Formik
+            initialValues={{
+              description: ''
+            }}
+            onSubmit={(values, { resetForm }) => {
+              console.log('Description:', values.description)
+              console.log('File:', file)
+              resetForm() // Reset the form values
+            }}
+          >
+            {({ handleChange, errors }) => (
+              <Form>
+                <Box>
+                  <Field
+                    as={TextField}
+                    id='description-input'
+                    name='description'
+                    label='Enter Description Here'
+                    variant='standard'
+                    sx={{ width: '100%' }}
+                    validate={validateDescription}
+                  />
+                  {errors.description && (
+                    <div style={{ color: 'red' }}>{errors.description}</div>
+                  )}
+                </Box>
+                <Box sx={{ width: '100%', marginTop: '2rem' }}>
+                  <input
+                    type='file'
+                    id='file-input'
+                    onChange={handleFileChange}
+                  />
+                </Box>
+                <Button
+                  type='submit'
+                  variant='contained'
+                  endIcon={<SendIcon />}
+                  sx={{
+                    margin: '0 0.7rem 0.5rem 0',
+                    marginTop: '2rem',
+                    float: 'right'
+                  }}
+                >
+                  Share Post
+                </Button>
+              </Form>
             )}
-          </Box>
-          <Box>
-            <TextField
-              id='description-input'
-              label='Enter Description Here'
-              variant='standard'
-              sx={{ width: '100%' ,marginTop:'2rem'}}
-              value={description}
-              onChange={handleDescriptionChange}
-            />
-            {error && error.includes('description') && (
-              <Typography color='error' variant='caption'>
-                Please enter a description
-              </Typography>
-            )}
-          </Box>
-          <Button
-          variant="contained"
-          endIcon={<SendIcon />}
-          sx={{  margin: '0 0.7rem 0.5rem 0',
-          marginTop: '2rem',  float: 'right' }}
-          onClick={handleSubmit}
-        >
-          Share Post
-        </Button>
+          </Formik>
         </CardContent>
       </Card>
     </Box>

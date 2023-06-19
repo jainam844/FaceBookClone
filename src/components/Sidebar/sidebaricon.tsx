@@ -56,11 +56,12 @@ const SidebarIcons = () => {
           marginTop: '10px'
         }}
       >
-        <ListItem sx={sidebarIconStyle}>
+        <ListItem sx={sidebarIconStyle}   component={Link}
+            to={'./Profile'}>
           <ListItemAvatar>
             <Avatar src='https://source.unsplash.com/bh4LQHcOcxE/600x300' />
           </ListItemAvatar>
-          <ListItemText primary='Jainam shah' />
+          <ListItemText primary='Jainam shah'  />
         </ListItem>
 
         {data.map((item, index) => (

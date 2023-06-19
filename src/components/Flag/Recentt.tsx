@@ -53,24 +53,24 @@ const RecentPages: React.FC = () => {
 
           <Grid
             container
-            sx={{ margin: "20px 0", justifyContent: "space-between" }}
+            sx={{ margin: '20px 0', justifyContent: 'space-between' }}
           >
             <Grid item xs={7.6} sm={9.6}>
               <Button
                 sx={{
-                  width: "100%",
-                  background: "#e8f4ff",
-                  "&:hover": {
-                    background: "#e8f4ff",
+                  width: '100%',
+                  background: '#e8f4ff',
+                  '&:hover': {
+                    background: '#e8f4ff'
                   },
-                  height: 45,
+                  height: 45
                 }}
               >
                 <Typography
                   sx={{
-                    textTransform: "none",
-                    color: "#1877f2",
-                    fontWeight: 700,
+                    textTransform: 'none',
+                    color: '#1877f2',
+                    fontWeight: 700
                   }}
                 >
                   Call Now
@@ -80,15 +80,15 @@ const RecentPages: React.FC = () => {
             <Grid item xs={3} sm={2}>
               <Button
                 sx={{
-                  width: "100%",
-                  background: "#e5e5e5",
-                  "&:hover": {
-                    background: "#e5e5e5",
+                  width: '100%',
+                  background: '#e5e5e5',
+                  '&:hover': {
+                    background: '#e5e5e5'
                   },
-                  height: 45,
+                  height: 45
                 }}
               >
-                <Typography sx={{ textTransform: "none", color: "black" }}>
+                <Typography sx={{ textTransform: 'none', color: 'black' }}>
                   <ThumbUpOffAltIcon />
                 </Typography>
               </Button>

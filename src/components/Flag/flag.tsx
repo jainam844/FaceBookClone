@@ -9,9 +9,8 @@ import { IconButton } from '@mui/material'
 import SearchIcon from '@material-ui/icons/Search'
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded'
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined'
-
-import RecentPages from "./Recentt";
-// import SuggestedPages from "../Friends/SuggestedPages";
+import RecentPages from "./RecentPage";
+import SuggestPage from './SuggestedPage'
 const friendData = [
   {
     id: 1,
@@ -157,6 +156,10 @@ export default function Flag () {
             </Typography>
           </Grid>
           <RecentPages />
+        </Grid>
+        <Grid sx={mainGridStyle}>
+       
+          <SuggestPage />
         </Grid>
        
       </Box>

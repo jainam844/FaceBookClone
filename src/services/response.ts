@@ -1,4 +1,20 @@
-// apiConfig.js
-const apiUrl = "https://bf8f-14-99-103-154.ngrok-free.app/Account/Login";
+//Request.ts
+import request from './Request'
+export const ForUserLogin = async (data: { email: string; password: string }) => {
+  try {
+    const response = await request.post(
+      "/Account/Login",
+      JSON.stringify(data),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: false,
+      }
+    );
 
-export default apiUrl;
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

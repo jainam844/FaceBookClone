@@ -13,6 +13,8 @@ import UserFriend from './components/Group/Groups'
 import Friend from './components/Friend/Friends'
 import LoginPage from './Pages/Login'
 import HomeApp from './Pages/Home'
+import Profile from './Pages/Profile'
+
 
 const ProtectedRoute = ({
   element: Element
@@ -38,6 +40,7 @@ const App = () => {
             <Route path='/home/userfriend' element={<UserFriend />} />
             <Route path='/home/friend' element={<Friend />} />
           </Route>
+          <Route path='/home/profile' element={<Profile />} />
         </Routes>
       </Router>
     </React.Fragment>

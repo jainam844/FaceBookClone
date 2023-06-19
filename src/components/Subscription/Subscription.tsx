@@ -10,6 +10,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import PauseIcon from '@mui/icons-material/Pause'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import ThumbDownIcon from '@mui/icons-material/ThumbDown'
+import Button from '@mui/material/Button'
 
 interface CardData {
   id: number
@@ -24,10 +25,12 @@ interface CardData {
 
 export default function MediaControlCard () {
   const theme = useTheme()
-  const [hoveredImage, setHoveredImage] = useState<number | null>(null) // Specify the type as 'number | null'
+  const [hoveredImage, setHoveredImage] = useState<number | null>(null)
   const [likedCards, setLikedCards] = useState<number[]>([])
-  // Data for the cards
+  const [showAll, setShowAll] = useState(false)
+
   const [cardData, setCardData] = useState<CardData[]>([
+    
     {
       id: 1,
       image: 'https://source.unsplash.com/random/?song/',
@@ -78,7 +81,6 @@ export default function MediaControlCard () {
       likes: 0,
       dislikes: 0
     }
-    // Add more card data as needed
   ])
 
   const handleLike = (cardId: number) => {
@@ -108,113 +110,137 @@ export default function MediaControlCard () {
     })
   }
 
+  const displayedCards = 3 // Initial number of cards to display
+
   return (
-    <Box sx={{}}>
-      {cardData.map(card => (
-        <Card
-          key={card.id}
-          sx={{
-            display: 'flex',
-            margin: '2rem 2rem',
-            flexDirection: ['column', 'row', 'row'],
-            border: '1px solid #f1f1f1',
-            boxShadow: '3px 3px 3px 3px rgba(3, 3, 3, 0.137)',
-            borderRadius: '5px'
-          }}
-        >
-          <Box sx={{ position: 'relative' }}>
-            <CardMedia
-              component='img'
-              sx={{ width: '100%', height: 200, position: 'relative' }}
-              onMouseEnter={() => setHoveredImage(card.id)}
-              onMouseLeave={() => setHoveredImage(null)}
-              image={card.image}
-              alt='Live from space album cover'
-            />
-            {hoveredImage === card.id && (
-              <Box
+    <Box>
+      {cardData
+        .slice(0, showAll ? cardData.length : displayedCards)
+        .map(card => (
+          <Card
+            key={card.id}
+            sx={{
+              display: 'flex',
+              margin: '2rem 2rem',
+              flexDirection: ['column', 'row', 'row'],
+              boxShadow: '3px 3px 3px 3px rgba(3, 3, 3, 0.137)',
+              borderRadius: '5px'
+            }}
+          >
+            <Box sx={{ position: 'relative' }}>
+              <CardMedia
+                component='img'
+                sx={{ width: '100%', height: 200, position: 'relative' }}
+                onMouseEnter={() => setHoveredImage(card.id)}
+                onMouseLeave={() => setHoveredImage(null)}
+                image={card.image}
+                alt='Live from space album cover'
+              />
+              {hoveredImage === card.id && (
+                <Box
+                  sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)'
+                  }}
+                >
+                  <PauseIcon sx={{ fontSize: 48, color: 'white' }} />
+                </Box>
+              )}
+              <Typography
+                color='initial'
+                variant='body2'
                 sx={{
                   position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)'
+                  bottom: 2,
+                  right: 10,
+                  backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                  color: 'white',
+                  padding: '2px 5px',
+                  borderRadius: '4px',
+                  fontSize: '14px'
                 }}
               >
-                <PauseIcon sx={{ fontSize: 48, color: 'white' }} />
-              </Box>
-            )}
-            <Typography
-              color='initial'
-              variant='body2'
+                05:30
+              </Typography>
+            </Box>
+            <Box
               sx={{
-                position: 'absolute',
-                bottom: 2,
-                right: 10,
-                backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                color: 'white',
-                padding: '2px 5px',
-                borderRadius: '4px',
-                fontSize: '14px'
+                display: 'flex',
+                flexDirection: 'column',
+                flex: '1',
+                backgroundColor: '#F8F8F8'
               }}
             >
-              05:30
-            </Typography>
-          </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
-            <CardContent sx={{ flex: '1 0 auto', position: 'relative' }}>
-              <Typography component='div' variant='h5'>
-                {card.title}
-              </Typography>
-              <Typography
-                variant='subtitle1'
-                color='text.secondary'
-                component='div'
+              <CardContent sx={{ flex: '1 0 auto', position: 'relative' }}>
+                <Typography component='div' variant='h5'>
+                  {card.title}
+                </Typography>
+                <Typography
+                  variant='subtitle1'
+                  color='text.secondary'
+                  component='div'
+                >
+                  Out Now
+                </Typography>
+                <Box display='flex'>
+                  <Typography marginTop={'0.2rem'}>{card.artist}</Typography>
+                </Box>
+                <Typography sx={{ color: 'gray' }}>
+                  Published At-{card.date}
+                </Typography>{' '}
+                <Typography sx={{ color: 'gray' }}>{card.views}</Typography>
+                <IconButton
+                  sx={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    padding: '2px'
+                  }}
+                >
+                  <MoreHorizIcon sx={{ cursor: 'pointer' }} />
+                </IconButton>
+              </CardContent>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginLeft: '1em'
+                }}
               >
-                Out Now
-              </Typography>
-              <Box display='flex'>
-                <Typography>{card.artist}</Typography>
+                <IconButton
+                  onClick={() => handleLike(card.id)}
+                  sx={{
+                    padding: '2px',
+                    color: likedCards.includes(card.id)
+                      ? theme.palette.primary.main
+                      : ''
+                  }}
+                >
+                  <ThumbUpIcon sx={{ cursor: 'pointer' }} />
+                </IconButton>
+                <Typography>{card.likes}</Typography>
+                <IconButton
+                  onClick={() => handleDislike(card.id)}
+                  sx={{ padding: '2px', marginLeft: '0.3rem' }}
+                >
+                  <ThumbDownIcon sx={{ cursor: 'pointer' }} />
+                </IconButton>
+                <Typography>{card.dislikes}</Typography>
               </Box>
-              <Typography sx={{ color: 'gray' }}>
-                {card.date} | {card.views}
-              </Typography>
-              <IconButton
-                sx={{
-                  position: 'absolute',
-                  top: '10px',
-                  right: '10px',
-                  padding: '2px'
-                }}
-              >
-                <MoreHorizIcon sx={{ cursor: 'pointer' }} />
-              </IconButton>
-            </CardContent>
-            <Box
-              sx={{ display: 'flex', alignItems: 'center', marginLeft: '1em' }}
-            >
-              <IconButton
-                onClick={() => handleLike(card.id)}
-                sx={{
-                  padding: '2px',
-                  color: likedCards.includes(card.id)
-                    ? theme.palette.primary.main
-                    : ''
-                }}
-              >
-                <ThumbUpIcon sx={{ cursor: 'pointer' }} />
-              </IconButton>
-              <Typography>{card.likes}</Typography>
-              <IconButton
-                onClick={() => handleDislike(card.id)}
-                sx={{ padding: '2px', marginLeft: '0.3rem' }}
-              >
-                <ThumbDownIcon sx={{ cursor: 'pointer' }} />
-              </IconButton>
-              <Typography>{card.dislikes}</Typography>
             </Box>
-          </Box>
-        </Card>
-      ))}
+          </Card>
+        ))}
+      {cardData.length > displayedCards && (
+        <Button
+          onClick={() => setShowAll(!showAll)}
+          variant='outlined'
+          sx={{ marginLeft: '25rem', alignSelf: 'center' }}
+        >
+          {showAll ? 'Hide' : 'See All'}
+        </Button>
+      )}
     </Box>
   )
 }

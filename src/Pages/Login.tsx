@@ -9,7 +9,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { Formik, Form, Field, ErrorMessage, FormikValues } from 'formik'
 import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'
-import apiService from '../services/api'
+import { ForUserLogin } from '../services/Response'
 
 const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false)
@@ -28,12 +28,18 @@ const LoginPage: React.FC = () => {
   const handleLogin = async (values: FormikValues) => {
     const { email, password } = values
 
-    const loginSuccessful = await apiService.login(email, password)
-    if (loginSuccessful) {
-      navigate('/home')
+    try {
+      const loginSuccessful = await ForUserLogin({ email, password })
+      if (loginSuccessful) {
+        console.log('Login successful:', loginSuccessful)
+        localStorage.setItem('token', loginSuccessful)
+
+        navigate('/home')
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
-
   const handleCreateAccount = () => {}
   return (
     <React.Fragment>
