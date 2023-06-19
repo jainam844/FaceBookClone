@@ -14,6 +14,7 @@ const validateDescription = (value: string) => {
   if (!value) {
     error = 'Description is required'
   }
+  console.log('https://c457-14-99-103-154.ngrok-free.app/User/UserbyId?id=1')
   return error
 }
 
@@ -110,11 +111,18 @@ export default function BasicCard () {
                     />
                     <Button variant='outlined' component='span'>
                       Upload Image
+
+
                     </Button>
                     {file && (
                       <span style={{ marginLeft: '0.5rem' }}>{file.name}</span>
                     )}
+
+                
+                    
                   </label>
+
+
                 </Box>
 
                 <Button
