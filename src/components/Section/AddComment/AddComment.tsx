@@ -53,6 +53,16 @@ export default function BasicCard () {
             <Box sx={{ marginLeft: '10px', color: 'black' }}>Jainam Shah </Box>
           </span>
         </Typography>
+        <Typography
+          sx={{
+            padding: '0.5rem 0.2rem',
+            marginLeft: '3.5rem',
+            marginTop: '-2rem',
+            display: ['none', 'flex', 'flex']
+          }}
+        >
+          (What's on your mind?)
+        </Typography>
         <CardContent>
           <Formik
             initialValues={{
@@ -80,13 +90,33 @@ export default function BasicCard () {
                     <div style={{ color: 'red' }}>{errors.description}</div>
                   )}
                 </Box>
-                <Box sx={{ width: '100%', marginTop: '2rem' }}>
-                  <input
-                    type='file'
-                    id='file-input'
-                    onChange={handleFileChange}
-                  />
+                <Box
+                  sx={{
+                    // width: '100%',
+                    marginTop: '1.3rem',
+                    // border: '1px solid #ccc',
+                    borderRadius: '4px',
+                    padding: '0.5rem',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                >
+                  <label htmlFor='file-input' style={{ flexGrow: 1 }}>
+                    <input
+                      type='file'
+                      id='file-input'
+                      onChange={handleFileChange}
+                      style={{ display: 'none' }}
+                    />
+                    <Button variant='outlined' component='span'>
+                      Upload Image
+                    </Button>
+                    {file && (
+                      <span style={{ marginLeft: '0.5rem' }}>{file.name}</span>
+                    )}
+                  </label>
                 </Box>
+
                 <Button
                   type='submit'
                   variant='contained'
