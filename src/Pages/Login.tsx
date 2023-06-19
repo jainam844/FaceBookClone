@@ -10,7 +10,7 @@ import { Formik, Form, Field, ErrorMessage, FormikValues } from 'formik'
 import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'
 import { ForUserLogin } from '../services/Response'
-
+import jwtDecode from 'jwt-decode'
 const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
@@ -24,22 +24,36 @@ const LoginPage: React.FC = () => {
   ) => {
     event.preventDefault()
   }
-
   const handleLogin = async (values: FormikValues) => {
     const { email, password } = values
-
+  
     try {
       const loginSuccessful = await ForUserLogin({ email, password })
+  
+      console.log('Login response:', loginSuccessful)
+  
       if (loginSuccessful) {
-        console.log('Login successful:', loginSuccessful)
-        localStorage.setItem('token', loginSuccessful)
-
+        const decodedToken: { UserId: string } = jwtDecode(loginSuccessful)
+        console.log('Decoded Token:', decodedToken)
+  
+        const userId = decodedToken.UserId
+        console.log('User ID:', userId)
+  
+        const userInfo = {
+          email: email,
+          token: loginSuccessful,
+          userId: userId
+        }
+  
+        localStorage.setItem('userInfo', JSON.stringify(userInfo))
         navigate('/home')
       }
     } catch (error) {
       console.log(error)
     }
   }
+  
+
   const handleCreateAccount = () => {}
   return (
     <React.Fragment>

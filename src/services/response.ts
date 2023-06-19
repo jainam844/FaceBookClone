@@ -1,6 +1,9 @@
 //Request.ts
-import request from './Request'
-export const ForUserLogin = async (data: { email: string; password: string }) => {
+import request from "./Request";
+export const ForUserLogin = async (data: {
+  email: string;
+  password: string;
+}) => {
   try {
     const response = await request.post(
       "/Account/Login",

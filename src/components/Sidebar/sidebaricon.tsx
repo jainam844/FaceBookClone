@@ -18,7 +18,6 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import data from './SidebarData'
 
-
 const SidebarIcons = () => {
   const navigate = useNavigate()
   const [open, setOpen] = React.useState(false)
@@ -28,8 +27,8 @@ const SidebarIcons = () => {
     setOpen(!open)
   }
   const handleLogout = () => {
-    localStorage.removeItem('email')
-    localStorage.removeItem('token')
+    localStorage.removeItem('userInfo')
+
     navigate('/')
   }
 
@@ -56,12 +55,11 @@ const SidebarIcons = () => {
           marginTop: '10px'
         }}
       >
-        <ListItem sx={sidebarIconStyle}   component={Link}
-            to={'./Profile'}>
+        <ListItem sx={sidebarIconStyle} component={Link} to={'./Profile'}>
           <ListItemAvatar>
             <Avatar src='https://source.unsplash.com/bh4LQHcOcxE/600x300' />
           </ListItemAvatar>
-          <ListItemText primary='Jainam shah'  />
+          <ListItemText primary='Jainam shah' />
         </ListItem>
 
         {data.map((item, index) => (

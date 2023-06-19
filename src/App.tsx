@@ -15,13 +15,12 @@ import LoginPage from './Pages/Login'
 import HomeApp from './Pages/Home'
 import Profile from './Pages/Profile'
 
-
 const ProtectedRoute = ({
   element: Element
 }: {
   element: React.ElementType
 }) => {
-  const isAuthenticated = localStorage.getItem('token') !== null
+  const isAuthenticated = localStorage.getItem('userInfo') !== null
   return isAuthenticated ? <Element /> : <Navigate to='/' />
 }
 
