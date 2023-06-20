@@ -62,7 +62,12 @@ const Profile = () => {
               </Typography>
             </Button>
           </Box>
-          
+          <Grid xs={12} sm={12} md={3} item sx={{ margin: 'auto' }}>
+            <Avatar
+              src='https://source.unsplash.com/bh4LQHcOcxE/600x300'
+              sx={{ height: [100, 100, 200, 200] }}
+            />
+          </Grid>
         </Grid>
       </Grid>
     </React.Fragment>

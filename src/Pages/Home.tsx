@@ -7,29 +7,6 @@ import { BrowserRouter as Router, Outlet } from 'react-router-dom'
 import HeaderIcons from '../components/Header/HeaderIcons'
 import { getUserData } from '../services/Response'
 const HomeApp = () => {
-  const [userData, setUserData] = useState(null)
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userData = JSON.parse(localStorage.getItem('userInfo') ?? '')
-        console.log(userData)
-        // const storedTokenData = localStorage.getItem(accessToken);
-        const userId = userData.userId
-        const token = userData.token
-        console.log(userId)
-        console.log(token)
-        const data = await getUserData(parseInt(userId), token)
-        console.log(data)
-        setUserData(data)
-        // console.log(userData);
-      } catch (error) {
-        console.log('Error fetching user data:', error)
-      }
-    }
-    fetchUserData()
-  }, [])
-  
   return (
     <React.Fragment>
       <Box

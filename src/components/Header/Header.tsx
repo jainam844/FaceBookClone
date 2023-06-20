@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Drawer } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { styled, alpha } from '@mui/material/styles'
@@ -19,7 +19,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications'
 import AddIcon from '@material-ui/icons/Add'
 import SearchIcon from '@material-ui/icons/Search'
 import Avatar from '@mui/material/Avatar'
-
+import UserContext from '../Context/UserContext'
 import HeaderIcons from './HeaderIcons'
 
 const Search = styled('div')(({ theme }) => ({
@@ -73,6 +73,7 @@ export default function PrimarySearchAppBar () {
   const menuId = 'primary-search-account-menu'
   const mobileMenuId = 'primary-search-account-menu-mobile'
   const [activeIcon, setActiveIcon] = useState('')
+  const userData = useContext(UserContext)
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen)
@@ -222,7 +223,10 @@ export default function PrimarySearchAppBar () {
               >
                 {' '}
                 <Avatar src='https://source.unsplash.com/bh4LQHcOcxE/600x300' />
-                <Box sx={{ fontSize: '16px' }}> Jainam Shah</Box>
+                <Box sx={{ fontSize: '16px' }}>
+                  {' '}
+                  {userData.firstName + ' ' + userData.lastName}
+                </Box>
               </IconButton>
               <IconButton
                 size='large'

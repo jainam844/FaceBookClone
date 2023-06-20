@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import ListItem from '@mui/material/ListItem'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Avatar from '@mui/material/Avatar'
@@ -17,18 +17,19 @@ import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import data from './SidebarData'
+import UserContext from '../Context/UserContext'
 
 const SidebarIcons = () => {
   const navigate = useNavigate()
   const [open, setOpen] = React.useState(false)
   const [selectedIndex, setSelectedIndex] = useState(0)
-
+  const userData = useContext(UserContext)
+  console.log(typeof userData)
   const handleClick = () => {
     setOpen(!open)
   }
   const handleLogout = () => {
     localStorage.removeItem('userInfo')
-
     navigate('/')
   }
 
@@ -59,7 +60,9 @@ const SidebarIcons = () => {
           <ListItemAvatar>
             <Avatar src='https://source.unsplash.com/bh4LQHcOcxE/600x300' />
           </ListItemAvatar>
-          <ListItemText primary='Jainam shah' />
+          <ListItemText
+            primary={userData.firstName + ' ' + userData.lastName}
+          />
         </ListItem>
 
         {data.map((item, index) => (

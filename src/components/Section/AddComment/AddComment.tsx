@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
 import TextField from '@mui/material/TextField'
 import SendIcon from '@mui/icons-material/Send'
-
+import UserContext from '../../Context/UserContext'
 const validateDescription = (value: string) => {
   let error
   if (!value) {
@@ -20,7 +20,7 @@ const validateDescription = (value: string) => {
 
 export default function BasicCard () {
   const [file, setFile] = useState<File | null>(null)
-
+  const userData = useContext(UserContext)
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0]
     setFile(uploadedFile || null)
@@ -51,20 +51,20 @@ export default function BasicCard () {
           <Avatar src='https://source.unsplash.com/bh4LQHcOcxE/600x300'></Avatar>
           <span>
             {' '}
-            <Box sx={{ marginLeft: '10px', color: 'black' }}>Jainam Shah </Box>
+            <Box sx={{ marginLeft: '10px', color: 'black' }}>{userData.firstName + ' ' + userData.lastName} </Box>
             <Typography
-          sx={{
-            padding: '0.5rem 0.2rem',
-            marginLeft: '7rem',
-            marginTop: '-2rem',
-            display: ['none', 'flex', 'flex']
-          }}
-        >
-          (What's on your mind?)
-        </Typography>
+              sx={{
+                padding: '0.5rem 0.2rem',
+                marginLeft: '5rem',
+                marginTop: '-2rem',
+                display: ['none', 'flex', 'flex']
+              }}
+            >
+              (What's on your mind?)
+            </Typography>
           </span>
         </Typography>
-      
+
         <CardContent>
           <Formik
             initialValues={{

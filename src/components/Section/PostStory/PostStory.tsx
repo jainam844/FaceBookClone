@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import CardMedia from '@mui/material/CardMedia'
@@ -15,11 +15,12 @@ import Collapse from '@mui/material/Collapse'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import CommentCollapse from './CommentCollapse'
 import ShareIcon from '@mui/icons-material/Share'
+import UserContext from '../../Context/UserContext'
 const Post: React.FC = () => {
   const [expanded, setExpanded] = useState(false)
   const [liked, setLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(0)
-
+  const userData = useContext(UserContext)
   const handleExpandClick = () => {
     setExpanded(!expanded)
   }
@@ -60,7 +61,7 @@ const Post: React.FC = () => {
               <MoreVertIcon />
             </IconButton>
           }
-          title='Jainam Shah'
+          title={userData.firstName + ' ' + userData.lastName}
           subheader='Nov 11, 2022'
         />
         <CardMedia
@@ -137,7 +138,8 @@ const Post: React.FC = () => {
         <Collapse in={expanded}>
           <CommentCollapse />
         </Collapse>
-      </Card>   <Card sx={{ width: '60%', margin: '3rem auto' }}>
+      </Card>{' '}
+      <Card sx={{ width: '60%', margin: '3rem auto' }}>
         <CardHeader
           avatar={
             <Avatar src='https://source.unsplash.com/bh4LQHcOcxE/600x300'></Avatar>
@@ -147,7 +149,7 @@ const Post: React.FC = () => {
               <MoreVertIcon />
             </IconButton>
           }
-          title='Jainam Shah'
+          title={userData.firstName + ' ' + userData.lastName}
           subheader='Nov 11, 2022'
         />
         <CardMedia
