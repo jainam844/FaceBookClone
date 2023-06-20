@@ -62,14 +62,30 @@ const Profile = () => {
               </Typography>
             </Button>
           </Box>
-          <Grid xs={12} sm={12} md={3} item sx={{ margin: 'auto' }}>
-            <Avatar
-              src='https://source.unsplash.com/bh4LQHcOcxE/600x300'
-              sx={{ height: [100, 100, 200, 200] }}
-            />
+          {/* <Grid
+            container
+            justifyContent='center'
+            sx={{
+              display: 'flex',
+              flexDirection: ['column', 'column', 'row'],
+              margin: '1rem auto',
+              width: '95%'
+            }}
+          > */}
+            <Grid xs={12} sm={12} md={3} lg={3}>
+              <Avatar
+                src='https://source.unsplash.com/bh4LQHcOcxE/600x300'
+                sx={{
+                  height: [100, 100, 200, 200],
+                  width: [100, 100, 200, 200],
+                  border: '2px solid white',
+                  margin: ['-2rem auto 0 auto', '-2rem auto 0 auto']
+                }}
+              />             
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      {/* </Grid> */}
     </React.Fragment>
   )
 }

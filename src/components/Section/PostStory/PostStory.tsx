@@ -16,6 +16,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import CommentCollapse from './CommentCollapse'
 import ShareIcon from '@mui/icons-material/Share'
 import UserContext from '../../Context/UserContext'
+
 const Post: React.FC = () => {
   const [expanded, setExpanded] = useState(false)
   const [liked, setLiked] = useState(false)

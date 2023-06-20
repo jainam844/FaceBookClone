@@ -1,7 +1,7 @@
 // request.ts
 import axios, { AxiosRequestConfig } from 'axios'
 
-const API_BASE_URL = 'https://56c8-14-99-103-154.ngrok-free.app'
+const API_BASE_URL = 'https://4286-14-99-103-154.ngrok-free.app'
 
 const axiosConfig: AxiosRequestConfig = {
   baseURL: API_BASE_URL,

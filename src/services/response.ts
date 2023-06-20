@@ -27,13 +27,37 @@ export const getUserData = async (id: number, token: string) => {
       headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "69420",
-
         Authorization: `Bearer ${token}`,
       },
       withCredentials: false,
     });
 
-    return response.data;
+    const userData = response.data;
+
+    // Call getAvatarImage
+    const avatarImage = userData.avatarImage;
+
+    if (avatarImage) {
+      await getAvatarImage(avatarImage);
+    }
+
+    return userData;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getAvatarImage = async (imageName: string) => {
+  try {
+    const response = await request.get(`/Account/GetAvatarImage/${imageName}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "69420",
+      },
+      withCredentials: false,
+    });
+
+    return response;
   } catch (err) {
     throw err;
   }

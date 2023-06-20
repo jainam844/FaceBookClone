@@ -19,13 +19,14 @@ const validateDescription = (value: string) => {
 }
 
 export default function BasicCard () {
+
   const [file, setFile] = useState<File | null>(null)
   const userData = useContext(UserContext)
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0]
     setFile(uploadedFile || null)
   }
-
+ 
   return (
     <Box
       sx={{
@@ -48,15 +49,19 @@ export default function BasicCard () {
             fontSize: '1rem'
           }}
         >
-          <Avatar src='https://source.unsplash.com/bh4LQHcOcxE/600x300'></Avatar>
+          <Avatar src={userData.avatarImage}></Avatar>
+
           <span>
             {' '}
-            <Box sx={{ marginLeft: '10px', color: 'black' }}>{userData.firstName + ' ' + userData.lastName} </Box>
+            <Box sx={{ marginLeft: '10px', color: 'black' }}>
+              {userData.firstName + ' ' + userData.lastName}{' '}
+            </Box>
             <Typography
               sx={{
-                padding: '0.5rem 0.2rem',
-                marginLeft: '5rem',
+                padding: '0.5rem 0.3rem',
+                marginLeft: '6rem',
                 marginTop: '-2rem',
+                color:'black',
                 display: ['none', 'flex', 'flex']
               }}
             >

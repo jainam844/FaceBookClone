@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Header from '../components/Header/Header'
 import SideBar from '../components/Sidebar/side'
 import Widget from '../components/Widget/Widget'
 import Box from '@mui/material/Box'
 import { BrowserRouter as Router, Outlet } from 'react-router-dom'
 import HeaderIcons from '../components/Header/HeaderIcons'
-import { getUserData } from '../services/Response'
 const HomeApp = () => {
   return (
     <React.Fragment>
@@ -20,7 +19,6 @@ const HomeApp = () => {
           <Header />
           <Box
             sx={{
-              // display: ["flex", "flex", "none"],
               display: ['flex', 'flex', 'none'],
               boxShadow: ['0px 5px 7px -7px rgba(0, 0, 0, 0.75)'],
               justifyContent: 'center',

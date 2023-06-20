@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import {
   BrowserRouter as Router,
   Routes,
@@ -26,24 +26,23 @@ const ProtectedRoute = ({
   return isAuthenticated ? <Element /> : <Navigate to='/' />
 }
 
-
 const App = () => {
   const [userData, setUserData] = useState('')
-useEffect(() => {
-  const fetchUserData = async () => {
-    try {
-      const userData = JSON.parse(localStorage.getItem('userInfo') ?? '')
-      const userId = userData.userId
-      const token = userData.token
-      const data = await getUserData(parseInt(userId), token)
-      console.log(data)
-      setUserData(data)
-    } catch (error) {
-      console.log('Error fetching user data:', error)
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userData = JSON.parse(localStorage.getItem('userInfo') ?? '')
+        const userId = userData.userId
+        const token = userData.token
+        const data = await getUserData(parseInt(userId), token)
+        console.log(data)
+        setUserData(data)
+      } catch (error) {
+        console.log('Error fetching user data:', error)
+      }
     }
-  }
-  fetchUserData()
-}, [])
+    fetchUserData()
+  }, [])
 
   return (
     <React.Fragment>
