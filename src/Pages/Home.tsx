@@ -1,17 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header/Header'
 import SideBar from '../components/Sidebar/side'
 import Widget from '../components/Widget/Widget'
 import Box from '@mui/material/Box'
-import Flag from '../components/Flag/flag'
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Outlet
-} from 'react-router-dom'
+import { BrowserRouter as Router, Outlet } from 'react-router-dom'
 import HeaderIcons from '../components/Header/HeaderIcons'
+import { getUserData } from '../services/Response'
 const HomeApp = () => {
+  const [userData, setUserData] = useState(null)
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userData = JSON.parse(localStorage.getItem('userInfo') ?? '')
+        console.log(userData)
+        // const storedTokenData = localStorage.getItem(accessToken);
+        const userId = userData.userId
+        const token = userData.token
+        console.log(userId)
+        console.log(token)
+        const data = await getUserData(parseInt(userId), token)
+        console.log(data)
+        setUserData(data)
+        // console.log(userData);
+      } catch (error) {
+        console.log('Error fetching user data:', error)
+      }
+    }
+    fetchUserData()
+  }, [])
+  
   return (
     <React.Fragment>
       <Box
@@ -43,17 +61,8 @@ const HomeApp = () => {
       <Box sx={{ display: 'flex', minHeight: '100vh' }}>
         <SideBar />
         <Box sx={{ width: '64%', bgcolor: '#f0f2f5' }}>
-          {/* <Routes>
-            <Route path='/' element={<Section />} />
-            <Route path='/flag' element={<Flag />} />
-            <Route path='/subscription' element={<Subscription />} />
-            <Route path='/marketplace' element={<MarketPlace />} />
-            <Route path='/userfriend' element={<UserFriend />} />
-            <Route path='/friend' element={<Friend />} />
-          </Routes> */}
           <Outlet />
         </Box>
-
         <Widget />
       </Box>
     </React.Fragment>

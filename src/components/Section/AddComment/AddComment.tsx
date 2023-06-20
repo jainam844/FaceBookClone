@@ -52,18 +52,19 @@ export default function BasicCard () {
           <span>
             {' '}
             <Box sx={{ marginLeft: '10px', color: 'black' }}>Jainam Shah </Box>
-          </span>
-        </Typography>
-        <Typography
+            <Typography
           sx={{
             padding: '0.5rem 0.2rem',
-            marginLeft: '3.5rem',
+            marginLeft: '7rem',
             marginTop: '-2rem',
             display: ['none', 'flex', 'flex']
           }}
         >
           (What's on your mind?)
         </Typography>
+          </span>
+        </Typography>
+      
         <CardContent>
           <Formik
             initialValues={{
@@ -111,18 +112,11 @@ export default function BasicCard () {
                     />
                     <Button variant='outlined' component='span'>
                       Upload Image
-
-
                     </Button>
                     {file && (
                       <span style={{ marginLeft: '0.5rem' }}>{file.name}</span>
                     )}
-
-                
-                    
                   </label>
-
-
                 </Box>
 
                 <Button

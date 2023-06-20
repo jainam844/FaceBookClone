@@ -21,3 +21,20 @@ export const ForUserLogin = async (data: {
     throw err;
   }
 };
+export const getUserData = async (id: number, token: string) => {
+  try {
+    const response = await request.get(`/User/UserbyId?id=${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "69420",
+
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: false,
+    });
+
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

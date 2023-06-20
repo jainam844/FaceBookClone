@@ -12,55 +12,59 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 const Profile = () => {
   return (
     <React.Fragment>
-      <Box
+      <Grid
+        container
         sx={{
           maxHeight: '100vh'
         }}
       >
-        <Box
-          sx={{
-            height: '500px',
-            width: '100%',
-            backgroundColor: 'red',
-            display: 'flex',
-            borderRadius: '10px',
-            backgroundImage: `url('https://source.unsplash.com/gVBIohdCRUQ')`,
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            objectFit: 'contain',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            alignItems: 'flex-end'
-          }}
-        >
-          <Button
+        <Grid xs={12} sm={12} md={9} item sx={{ margin: 'auto' }}>
+          <Box
             sx={{
-              width: '200px',
-              backgroundColor: '#0006',
-              color: 'white',
-              margin: '0 2rem 1rem 0'
+              height: ['250px', '350px', '400px'],
+              // width: '100%',
+              backgroundColor: 'white',
+              display: 'flex',
+              borderRadius: '10px',
+              backgroundImage: `url('https://source.unsplash.com/gVBIohdCRUQ')`,
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: 'cover',
+              objectFit: 'contain',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              alignItems: 'flex-end'
             }}
           >
-            <FaceIcon />{' '}
-            <Typography sx={{ margin: '0 0.5rem', fontSize: '13px' }}>
-              Create With Avatar
-            </Typography>
-          </Button>{' '}
-          <Button
-            sx={{
-              width: '200px',
-              backgroundColor: '#0006',
-              color: 'white',
-              margin: '0 2rem 1rem 0'
-            }}
-          >
-            <CameraAltIcon />{' '}
-            <Typography sx={{ margin: '0 0.5rem', fontSize: '13px' }}>
-              Add Cover Photo
-            </Typography>
-          </Button>
-        </Box>
-      </Box>
+            <Button
+              sx={{
+                width: '200px',
+                backgroundColor: '#0006',
+                color: 'white',
+                margin: '0 2rem 1rem 0'
+              }}
+            >
+              <FaceIcon />{' '}
+              <Typography sx={{ margin: '0 0.5rem', fontSize: '13px' }}>
+                Create With Avatar
+              </Typography>
+            </Button>{' '}
+            <Button
+              sx={{
+                width: '200px',
+                backgroundColor: '#0006',
+                color: 'white',
+                margin: '0 2rem 1rem 0'
+              }}
+            >
+              <CameraAltIcon />{' '}
+              <Typography sx={{ margin: '0 0.5rem', fontSize: '13px' }}>
+                Add Cover Photo
+              </Typography>
+            </Button>
+          </Box>
+          
+        </Grid>
+      </Grid>
     </React.Fragment>
   )
 }

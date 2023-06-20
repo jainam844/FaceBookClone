@@ -26,33 +26,33 @@ const LoginPage: React.FC = () => {
   }
   const handleLogin = async (values: FormikValues) => {
     const { email, password } = values
-  
+
     try {
       const loginSuccessful = await ForUserLogin({ email, password })
-  
+
       console.log('Login response:', loginSuccessful)
-  
+
       if (loginSuccessful) {
         const decodedToken: { UserId: string } = jwtDecode(loginSuccessful)
         console.log('Decoded Token:', decodedToken)
-  
+
         const userId = decodedToken.UserId
         console.log('User ID:', userId)
-  
+
         const userInfo = {
           email: email,
           token: loginSuccessful,
           userId: userId
         }
-  
+
         localStorage.setItem('userInfo', JSON.stringify(userInfo))
+
         navigate('/home')
       }
     } catch (error) {
       console.log(error)
     }
   }
-  
 
   const handleCreateAccount = () => {}
   return (

@@ -1,16 +1,16 @@
 // request.ts
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { AxiosRequestConfig } from 'axios'
 
-const API_BASE_URL = "https://c457-14-99-103-154.ngrok-free.app";
+const API_BASE_URL = 'https://3795-14-99-103-154.ngrok-free.app'
 
 const axiosConfig: AxiosRequestConfig = {
   baseURL: API_BASE_URL,
   timeout: 3600000,
   headers: {
-    Accept: "application/json",
-  },
-};
+    Accept: 'application/json'
+  }
+}
 
-const request = axios.create(axiosConfig);
+const request = axios.create(axiosConfig)
 
-export default request;
+export default request
