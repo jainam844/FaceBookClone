@@ -23,7 +23,7 @@ const SidebarIcons = () => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const userData = useContext(UserContext);
+  const {userData} = useContext(UserContext);
   console.log(typeof userData);
   const handleClick = () => {
     setOpen(!open);

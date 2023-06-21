@@ -1,22 +1,26 @@
-import React, { useState, useContext } from 'react';
-import { Formik, Field, Form } from 'formik';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
-import TextField from '@mui/material/TextField';
-import SendIcon from '@mui/icons-material/Send';
-import UserContext from '../../Context/UserContext';
-import { addPost } from '../../../services/Response';
+import React, { useState, useContext } from "react";
+import { Formik, Field, Form } from "formik";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
+import TextField from "@mui/material/TextField";
+import SendIcon from "@mui/icons-material/Send";
+import UserContext from "../../Context/UserContext";
+import { addPost } from "../../../services/Response";
+
+interface FormValues {
+  description: string;
+}
 
 const validateDescription = (value: string) => {
   let error: string | undefined;
   if (!value) {
-    error = 'Description is required';
+    error = "Description is required";
   }
-  console.log('https://c457-14-99-103-154.ngrok-free.app/User/UserbyId?id=1');
+  // console.log("https://c457-14-99-103-154.ngrok-free.app/User/UserbyId?id=1");
   return error;
 };
 
@@ -29,26 +33,30 @@ export default function BasicCard() {
     setFile(uploadedFile || null);
   };
 
-  const handleSubmit = async (values: { description: string }, { resetForm }: { resetForm: () => void }) => {
+  const handleSubmit = async (values: FormValues) => {
+    const { description } = values;
+
     try {
-      console.log('Description:', values.description);
-      console.log('File:', file);
+      const formData = new FormData();
+      formData.append("UserId", userData.userId);
+      formData.append("Description", description);
+      if (file) {
+        formData.append("Images", file);
+      }
 
-      const response = await addPost(values.description, file);
-     
-
-      resetForm(); 
+      await addPost(formData);
+      console.log("Post added successfully!");
     } catch (error) {
-   
+      console.error("Failed to add post:", error);
     }
   };
 
   return (
     <Box
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
       <Card sx={{ width: 800, minHeight: 300 }}>
@@ -56,29 +64,29 @@ export default function BasicCard() {
           variant="h5"
           component="div"
           sx={{
-            color: 'primary.main',
+            color: "primary.main",
             marginBottom: 2,
-            marginTop: '1rem',
-            display: 'flex',
-            alignItems: 'center',
-            marginLeft: '1rem',
-            fontSize: '1rem'
+            marginTop: "1rem",
+            display: "flex",
+            alignItems: "center",
+            marginLeft: "1rem",
+            fontSize: "1rem",
           }}
         >
           <Avatar src={userData.avatar}></Avatar>
 
           <span>
-            {' '}
-            <Box sx={{ marginLeft: '10px', color: 'black' }}>
-              {userData.firstName + ' ' + userData.lastName}{' '}
+            {" "}
+            <Box sx={{ marginLeft: "10px", color: "black" }}>
+              {userData.firstName + " " + userData.lastName}{" "}
             </Box>
             <Typography
               sx={{
-                padding: '0.5rem 0.3rem',
-                marginLeft: '6rem',
-                marginTop: '-2rem',
-                color: 'black',
-                display: ['none', 'flex', 'flex']
+                padding: "0.5rem 0.3rem",
+                marginLeft: "6rem",
+                marginTop: "-2rem",
+                color: "black",
+                display: ["none", "flex", "flex"],
               }}
             >
               (What's on your mind?)
@@ -89,7 +97,8 @@ export default function BasicCard() {
         <CardContent>
           <Formik
             initialValues={{
-              description: ''
+              description: "",
+              // image: "", // Add the image field to the initial values
             }}
             onSubmit={handleSubmit}
           >
@@ -102,20 +111,20 @@ export default function BasicCard() {
                     name="description"
                     label="Enter Description Here"
                     variant="standard"
-                    sx={{ width: '100%' }}
+                    sx={{ width: "100%" }}
                     validate={validateDescription}
                   />
                   {errors.description && (
-                    <div style={{ color: 'red' }}>{errors.description}</div>
+                    <div style={{ color: "red" }}>{errors.description}</div>
                   )}
                 </Box>
                 <Box
                   sx={{
-                    marginTop: '1.3rem',
-                    borderRadius: '4px',
-                    padding: '0.5rem',
-                    display: 'flex',
-                    alignItems: 'center'
+                    marginTop: "1.3rem",
+                    borderRadius: "4px",
+                    padding: "0.5rem",
+                    display: "flex",
+                    alignItems: "center",
                   }}
                 >
                   <label htmlFor="file-input" style={{ flexGrow: 1 }}>
@@ -123,13 +132,13 @@ export default function BasicCard() {
                       type="file"
                       id="file-input"
                       onChange={handleFileChange}
-                      style={{ display: 'none' }}
+                      style={{ display: "none" }}
                     />
                     <Button variant="outlined" component="span">
                       Upload Image
                     </Button>
                     {file && (
-                      <span style={{ marginLeft: '0.5rem' }}>{file.name}</span>
+                      <span style={{ marginLeft: "0.5rem" }}>{file.name}</span>
                     )}
                   </label>
                 </Box>
@@ -139,9 +148,9 @@ export default function BasicCard() {
                   variant="contained"
                   endIcon={<SendIcon />}
                   sx={{
-                    margin: '0 0.7rem 0.5rem 0',
-                    marginTop: '2rem',
-                    float: 'right'
+                    margin: "0 0.7rem 0.5rem 0",
+                    marginTop: "2rem",
+                    float: "right",
                   }}
                 >
                   Share Post

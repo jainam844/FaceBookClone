@@ -52,40 +52,51 @@ export const getUserData = async (id: number, token: string) => {
 export const getAvatarImage = async (imageName: string) => {
   try {
     const response = await request.get(`/Account/GetAvatarImage/${imageName}`, {
-      headers: {
-        "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "69420",
-      },
+      headers: {},
       withCredentials: false,
+      responseType: "blob",
     });
-
-    return response;
+    return response.data;
   } catch (err) {
     throw err;
   }
 };
 
-export const addPost = async (description: string, file: File | null) => {
-  const userData = useContext(UserContext);
+// export const addPost = async (description: string, file: File | null) => {
+//   const userData = useContext(UserContext);
+//   try {
+//     const formData = new FormData();
+
+//     formData.append("UserId", userData.userId);
+//     formData.append("Description", description);
+//     if (file) {
+//       formData.append("Images", file);
+//     }
+
+//     const response = await request.post("/SocialActivity/AddPost", formData, {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//         "ngrok-skip-browser-warning": "69420",
+//       },
+//       withCredentials: false,
+//     });
+
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
+export const addPost = async (formData: FormData) => {
   try {
-    const formData = new FormData();
-
-    formData.append("UserId", userData.userId);
-    formData.append("Description", description);
-    if (file) {
-      formData.append("Images", file);
-    }
-
     const response = await request.post("/SocialActivity/AddPost", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        "ngrok-skip-browser-warning": "69420",
       },
-      withCredentials: false,
     });
-
+    console.log(response);
     return response.data;
-  } catch (error) {
-    throw error;
+  } catch (err) {
+    throw err;
   }
 };

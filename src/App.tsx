@@ -16,7 +16,6 @@ import HomeApp from "./Pages/Home";
 import Profile from "./Pages/Profile";
 import HomeLayout from "./Pages/Layout";
 
-
 interface ProtectedRouteProps {
   render: () => JSX.Element;
 }
