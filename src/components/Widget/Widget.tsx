@@ -7,7 +7,7 @@ const Widget = (): JSX.Element => {
           width: '18%',
           boxShadow: '0px 5px 10px -7px rgba(0, 0, 0, 0.75)',
           // height: '80vh',
-          display: ['none', 'none', 'none', 'flex']
+          display: ['none', 'none', 'none', 'block']
         }}
       >
         hi

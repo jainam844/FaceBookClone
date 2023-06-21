@@ -1,11 +1,6 @@
 import React from "react";
 import { Button } from "@mui/material";
-import {
-  BrowserRouter as Router,
-
-  Link,
-  useLocation,
-} from "react-router-dom";
+import { BrowserRouter as Router, Link, useLocation } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import FlagIcon from "@mui/icons-material/Flag";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";

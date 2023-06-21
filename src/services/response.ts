@@ -1,5 +1,7 @@
 //Request.ts
 import request from "./Request";
+import React, { useState, useContext } from "react";
+import UserContext from "../components/Context/UserContext";
 export const ForUserLogin = async (data: {
   email: string;
   password: string;
@@ -35,7 +37,7 @@ export const getUserData = async (id: number, token: string) => {
     const userData = response.data;
 
     // Call getAvatarImage
-    const avatarImage = userData.avatarImage;
+    const avatarImage = userData.avatar;
 
     if (avatarImage) {
       await getAvatarImage(avatarImage);
@@ -60,5 +62,30 @@ export const getAvatarImage = async (imageName: string) => {
     return response;
   } catch (err) {
     throw err;
+  }
+};
+
+export const addPost = async (description: string, file: File | null) => {
+  const userData = useContext(UserContext);
+  try {
+    const formData = new FormData();
+
+    formData.append("UserId", userData.userId);
+    formData.append("Description", description);
+    if (file) {
+      formData.append("Images", file);
+    }
+
+    const response = await request.post("/SocialActivity/AddPost", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "ngrok-skip-browser-warning": "69420",
+      },
+      withCredentials: false,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
   }
 };

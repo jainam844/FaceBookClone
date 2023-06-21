@@ -1,32 +1,48 @@
-import React, { useState, useContext } from 'react'
-import { Formik, Field, Form, } from 'formik'
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardContent from '@mui/material/CardContent'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
-import Avatar from '@mui/material/Avatar'
-import TextField from '@mui/material/TextField'
-import SendIcon from '@mui/icons-material/Send'
-import UserContext from '../../Context/UserContext'
+import React, { useState, useContext } from 'react';
+import { Formik, Field, Form } from 'formik';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Avatar from '@mui/material/Avatar';
+import TextField from '@mui/material/TextField';
+import SendIcon from '@mui/icons-material/Send';
+import UserContext from '../../Context/UserContext';
+import { addPost } from '../../../services/Response';
+
 const validateDescription = (value: string) => {
-  let error
+  let error: string | undefined;
   if (!value) {
-    error = 'Description is required'
+    error = 'Description is required';
   }
-  console.log('https://c457-14-99-103-154.ngrok-free.app/User/UserbyId?id=1')
-  return error
-}
+  console.log('https://c457-14-99-103-154.ngrok-free.app/User/UserbyId?id=1');
+  return error;
+};
 
-export default function BasicCard () {
+export default function BasicCard() {
+  const [file, setFile] = useState<File | null>(null);
+  const userData = useContext(UserContext);
 
-  const [file, setFile] = useState<File | null>(null)
-  const userData = useContext(UserContext)
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const uploadedFile = event.target.files?.[0]
-    setFile(uploadedFile || null)
-  }
- 
+    const uploadedFile = event.target.files?.[0];
+    setFile(uploadedFile || null);
+  };
+
+  const handleSubmit = async (values: { description: string }, { resetForm }: { resetForm: () => void }) => {
+    try {
+      console.log('Description:', values.description);
+      console.log('File:', file);
+
+      const response = await addPost(values.description, file);
+     
+
+      resetForm(); 
+    } catch (error) {
+   
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -37,8 +53,8 @@ export default function BasicCard () {
     >
       <Card sx={{ width: 800, minHeight: 300 }}>
         <Typography
-          variant='h5'
-          component='div'
+          variant="h5"
+          component="div"
           sx={{
             color: 'primary.main',
             marginBottom: 2,
@@ -61,7 +77,7 @@ export default function BasicCard () {
                 padding: '0.5rem 0.3rem',
                 marginLeft: '6rem',
                 marginTop: '-2rem',
-                color:'black',
+                color: 'black',
                 display: ['none', 'flex', 'flex']
               }}
             >
@@ -75,21 +91,17 @@ export default function BasicCard () {
             initialValues={{
               description: ''
             }}
-            onSubmit={(values, { resetForm }) => {
-              console.log('Description:', values.description)
-              console.log('File:', file)
-              resetForm() // Reset the form values
-            }}
+            onSubmit={handleSubmit}
           >
             {({ handleChange, errors }) => (
               <Form>
                 <Box>
                   <Field
                     as={TextField}
-                    id='description-input'
-                    name='description'
-                    label='Enter Description Here'
-                    variant='standard'
+                    id="description-input"
+                    name="description"
+                    label="Enter Description Here"
+                    variant="standard"
                     sx={{ width: '100%' }}
                     validate={validateDescription}
                   />
@@ -99,23 +111,21 @@ export default function BasicCard () {
                 </Box>
                 <Box
                   sx={{
-                    // width: '100%',
                     marginTop: '1.3rem',
-                    // border: '1px solid #ccc',
                     borderRadius: '4px',
                     padding: '0.5rem',
                     display: 'flex',
                     alignItems: 'center'
                   }}
                 >
-                  <label htmlFor='file-input' style={{ flexGrow: 1 }}>
+                  <label htmlFor="file-input" style={{ flexGrow: 1 }}>
                     <input
-                      type='file'
-                      id='file-input'
+                      type="file"
+                      id="file-input"
                       onChange={handleFileChange}
                       style={{ display: 'none' }}
                     />
-                    <Button variant='outlined' component='span'>
+                    <Button variant="outlined" component="span">
                       Upload Image
                     </Button>
                     {file && (
@@ -125,8 +135,8 @@ export default function BasicCard () {
                 </Box>
 
                 <Button
-                  type='submit'
-                  variant='contained'
+                  type="submit"
+                  variant="contained"
                   endIcon={<SendIcon />}
                   sx={{
                     margin: '0 0.7rem 0.5rem 0',
@@ -142,5 +152,5 @@ export default function BasicCard () {
         </CardContent>
       </Card>
     </Box>
-  )
+  );
 }
