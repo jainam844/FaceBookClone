@@ -47,7 +47,7 @@ const LoginPage: React.FC = () => {
 
         localStorage.setItem('userInfo', JSON.stringify(userInfo))
 
-        navigate('/home')
+        navigate('/layout/home')
       }
     } catch (error) {
       console.log(error)

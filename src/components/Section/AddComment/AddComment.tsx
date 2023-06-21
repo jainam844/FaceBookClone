@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Formik, Field, Form, ErrorMessage } from 'formik'
+import { Formik, Field, Form, } from 'formik'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -49,7 +49,7 @@ export default function BasicCard () {
             fontSize: '1rem'
           }}
         >
-          <Avatar src={userData.avatarImage}></Avatar>
+          <Avatar src={userData.avatar}></Avatar>
 
           <span>
             {' '}

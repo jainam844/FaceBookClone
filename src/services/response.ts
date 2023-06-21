@@ -40,7 +40,7 @@ export const getUserData = async (id: number, token: string) => {
     if (avatarImage) {
       await getAvatarImage(avatarImage);
     }
-
+    console.log(typeof avatarImage);
     return userData;
   } catch (err) {
     throw err;
