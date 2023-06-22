@@ -5,10 +5,6 @@ import Button from "@mui/material/Button";
 import FaceIcon from "@mui/icons-material/Face";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { Typography, Avatar } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { getAvatarImage } from "../services/Response";
 import UserContext from "../components/Context/UserContext";
 const Profile = () => {
   const { userData, userimageUrl } = useContext(UserContext);

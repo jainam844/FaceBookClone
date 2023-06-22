@@ -5,7 +5,7 @@ import { getUserData, getAvatarImage } from "../services/Response";
 import UserContext from "../components/Context/UserContext";
 
 const HomeLayout = () => {
-  const [userData, setUserData] = useState("");
+  const [userData, setUserData] = useState<any>("");
   const [userimageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
@@ -25,38 +25,46 @@ const HomeLayout = () => {
   }, []);
 
   useEffect(() => {
-    const fetchProfileImage = async () => {
-      const {userData} = useContext(UserContext);
-      try {
-        const blobData = await getAvatarImage(
-          userData.avatar
-        );
+    if (userData) {
+      const fetchProfileImage = async () => {
+        try {
+          const imgUrl = await getAvatarImage(userData.avatar);
+          setImageUrl(imgUrl);
+        } catch (error) {
+          console.error("Error fetching avatar image:", error);
+        }
+      };
 
-        const fileReader = new FileReader();
+      fetchProfileImage();
+    }
+  }, [userData]);
 
-        const base64Promise = new Promise<string>((resolve, reject) => {
-          fileReader.onloadend = () => {
-            const base64Data = fileReader.result as string;
-            const base64String = base64Data.split(",")[1]; // Extract base64 data
-            resolve(base64String);
-          };
+  // useEffect(() => {
+  //   if (userData) {
+  //     const promiseData = getAvatarImage(userData.avatar);
+  //     console.log(userData.avatar);
+  //     promiseData
+  //       .then((blob) => {
+  //         const fileReader = new FileReader();
 
-          fileReader.onerror = reject;
-        });
-
-        fileReader.readAsDataURL(blobData);
-
-        const profileImage = await base64Promise;
-        const imgUrl = `data:image/png;base64, ${profileImage}`;
-        setImageUrl(imgUrl);
-      } catch (error) {
-        console.error("Error fetching avatar image:", error);
-      }
-    };
-
-    fetchProfileImage();
-  }, []);
-
+  //         const base64Promise = new Promise<string>((resolve, reject) => {
+  //           fileReader.onloadend = () => {
+  //             const base64Data = fileReader.result as string;
+  //             const base64String = base64Data.split(",")[1]; // Extract base64 data
+  //             resolve(base64String);
+  //           };
+  //           fileReader.onerror = reject;
+  //         });
+  //         fileReader.readAsDataURL(blob);
+  //         return base64Promise;
+  //       })
+  //       .then((imagedata) => {
+  //         const imageURL = `data:image/png;base64, ${imagedata}`;
+  //         setImageUrl(imageURL);
+  //         console.log(imageURL)
+  //       });
+  //   }
+  // }, [userData]);
   return (
     <React.Fragment>
       <UserContext.Provider value={{ userData, userimageUrl }}>
