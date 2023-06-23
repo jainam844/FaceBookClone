@@ -105,7 +105,6 @@ export const getPostImage = async (imageName: string) => {
   }
 };
 
-
 export const addPost = async (formData: FormData) => {
   try {
     const response = await request.post("/SocialActivity/AddPost", formData, {
@@ -137,4 +136,23 @@ export const getPostByUserId = async (userId: number) => {
   }
 };
 
-getPostByUserId(1);
+export const getCommentByPostId = async (postId: number) => {
+  console.log(postId);
+  try {
+    const response = await request.get(
+      `/SocialActivity/GetCommentsByPostId?postId=${postId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: false,
+      }
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+

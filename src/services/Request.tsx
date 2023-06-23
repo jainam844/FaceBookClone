@@ -1,7 +1,7 @@
 // request.ts
 import axios, { AxiosRequestConfig } from "axios";
 
-const API_BASE_URL = "https://4286-14-99-103-154.ngrok-free.app";
+const API_BASE_URL = "https://d1a7-14-99-103-154.ngrok-free.app";
 
 const token = JSON.parse(localStorage.getItem("userInfo") ?? "[]");
 const accessToken = token ? token.token : "";

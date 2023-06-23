@@ -1,22 +1,17 @@
+import React, { useState, useEffect, useContext } from "react";
+import { getAvatarImage, getPostByUserId } from "../../services/Response";
 import Box from "@mui/material/Box";
 import Story from "./Story/story";
 import BasicCard from "./AddComment/AddComment";
 import Post from "./PostStory/PostStory";
-import {
-  getAvatarImage,
-  getPostByUserId,
-  getPostImage,
-} from "../../services/Response";
-import React, { useState, useEffect, useContext } from "react";
 
 interface PostData {
-  userName: string;
-  text: string;
-  createdAt: string;
-  imageName: string;
+  userName?: string;
+  text?: string;
+  path?: string[];
   avatar: string;
+  createdAt: string;
   avatarUrl: string;
-  imageUrl: string; // Add a new field to store the post image URL
 }
 
 const Section = (): JSX.Element => {
@@ -25,12 +20,12 @@ const Section = (): JSX.Element => {
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const data: PostData[] = await getPostByUserId(1); // Pass the desired userId as an argument
+        const data: PostData[] = await getPostByUserId(1);
         const updatedData = await Promise.all(
           data.map(async (post) => {
             const avatarUrl = await getAvatarImage(post.avatar);
-            const imageUrl = await getPostImage(post.imageName); // Fetch the post image
-            return { ...post, avatarUrl, imageUrl };
+
+            return { ...post, avatarUrl };
           })
         );
         setPostData(updatedData);
@@ -47,7 +42,9 @@ const Section = (): JSX.Element => {
       <Story />
       <BasicCard />
       <div>
-        <Post postData={postData} />
+        {postData.map((post, index) => (
+          <Post key={index} post={post} /> // Add the post prop
+        ))}
       </div>
     </Box>
   );
