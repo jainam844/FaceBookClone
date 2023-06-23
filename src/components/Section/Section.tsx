@@ -2,11 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import { getAvatarImage, getPostByUserId } from "../../services/Response";
 import Box from "@mui/material/Box";
 import Story from "./Story/story";
-import BasicCard from "./AddComment/AddComment";
-import Post from "./PostStory/PostStory";
+import BasicCard from "./AddDescription/AddDescription";
+import Post from "./DisplayPost/DisplayPost";
 
 interface PostData {
   userName?: string;
+  postId: number;
   text?: string;
   path?: string[];
   avatar: string;

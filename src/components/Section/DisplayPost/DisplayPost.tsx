@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, ChangeEvent, useEffect, useContext } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -16,6 +16,8 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ShareIcon from "@mui/icons-material/Share";
 import Skeleton from "@mui/material/Skeleton";
 import UserContext from "../../Context/UserContext";
+import TextField from "@mui/material/TextField";
+import SendIcon from "@mui/icons-material/Send";
 import {
   getAvatarImage,
   getPostByUserId,
@@ -24,9 +26,11 @@ import {
 import CommentCollapse from "./CommentCollapse";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
+import { getCommentByPostId } from "../../../services/Response";
 
 interface PostData {
   userName?: string;
+  postId: number;
   text?: string;
   path?: string[];
   avatar: string;
@@ -39,6 +43,7 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {
+  const [newComment, setNewComment] = useState("");
   const [expanded, setExpanded] = useState(false);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -46,6 +51,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const [postImage, setPostImage] = useState<string[]>([]);
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
   const [openImageIndex, setOpenImageIndex] = useState<number | null>(null); // State to track the index of the opened image
+  const [comments, setComments] = useState<any[]>([]); // State to store comments
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -97,6 +103,21 @@ const Post: React.FC<PostProps> = ({ post }) => {
     fetchPostImages();
   }, [post.path]);
 
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const commentsData = await getCommentByPostId(post.postId);
+
+        console.log(commentsData);
+        setComments(commentsData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchComments();
+  }, [post.postId]);
+
   const handleImageLoad = (index: number) => {
     const updatedLoadedImages = [...loadedImages];
     updatedLoadedImages[index] = 1;
@@ -111,6 +132,15 @@ const Post: React.FC<PostProps> = ({ post }) => {
     setOpenImageIndex(null);
   };
 
+  const handlePost = () => {
+    if (newComment.trim() !== "") {
+      console.log("Posted:", newComment);
+      setNewComment("");
+    }
+  };
+  const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setNewComment(event.target.value);
+  };
   return (
     <React.Fragment>
       <Card sx={{ width: "60%", margin: "3rem auto" }}>
@@ -132,7 +162,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         {loadedImages[0] ? (
           <CardMedia
             component="img"
-            height="270"
+            height="300"
             image={postImage[0]}
             alt="Post Image"
             onClick={() => handleImageClick(0)} // Add click event listener to open the image
@@ -210,9 +240,24 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </CardActions>
         <Collapse in={expanded}>
           <CardContent>
-            <Typography variant="body2" color="text.secondary">
-              <CommentCollapse />
-            </Typography>
+            {comments.map((comment, index) => (
+              <CommentCollapse
+                key={index}
+                comment={comment.text}
+                userName={comment.userName}
+                avatarUrl={comment.avatar}
+                createdAt={comment.createdAt}
+              />
+            ))}{" "}
+            <TextField
+              id="standard-basic"
+              label="Write a comment..."
+              variant="standard"
+              value={newComment}
+              onChange={handleCommentChange}
+              style={{ width: "90%", marginTop: "10px" }}
+            />
+            <SendIcon sx={{ marginTop: "2rem" }} onClick={handlePost} />
           </CardContent>
         </Collapse>
       </Card>
