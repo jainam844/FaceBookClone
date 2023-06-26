@@ -23,7 +23,7 @@ const SidebarIcons = () => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const { userData } = useContext(UserContext);
+  const { userData, userimageUrl } = useContext(UserContext);
   // console.log(typeof userData);
   const handleClick = () => {
     setOpen(!open);
@@ -58,7 +58,7 @@ const SidebarIcons = () => {
       >
         <ListItem sx={sidebarIconStyle} component={Link} to={"/layout/Profile"}>
           <ListItemAvatar>
-            <Avatar src="https://source.unsplash.com/bh4LQHcOcxE/600x300" />
+            <Avatar src={userimageUrl} />
           </ListItemAvatar>
           <ListItemText
             sx={{ fontWeight: "600", color: "black" }}

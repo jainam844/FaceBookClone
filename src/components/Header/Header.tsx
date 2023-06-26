@@ -73,7 +73,7 @@ export default function PrimarySearchAppBar() {
   const menuId = "primary-search-account-menu";
   const mobileMenuId = "primary-search-account-menu-mobile";
   const [activeIcon, setActiveIcon] = useState("");
-  const { userData } = useContext(UserContext);
+  const { userData, userimageUrl } = useContext(UserContext);
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
@@ -222,8 +222,8 @@ export default function PrimarySearchAppBar() {
                 color="inherit"
               >
                 {" "}
-                <Avatar src="https://source.unsplash.com/bh4LQHcOcxE/600x300" />
-                <Box sx={{ fontSize: "16px" }}>
+                <Avatar src={userimageUrl} />
+                <Box sx={{ fontSize: "16px",marginLeft:'0.5rem' }}>
                   {" "}
                   {userData.firstName + " " + userData.lastName}
                 </Box>

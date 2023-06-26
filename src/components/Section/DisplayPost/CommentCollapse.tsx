@@ -47,7 +47,7 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
 
   const commentStyle: React.CSSProperties = {
     display: "flex",
-    background: "#e3e3e3",
+    background: "#e4e4e4",
     padding: "0.5rem",
     borderRadius: 3,
   };
@@ -64,22 +64,34 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
   };
 
   return (
-    <Card>
+    <Card
+      sx={{
+        backgroundColor: "#FFFFFF",
+        marginBottom: "10px",
+        boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",
+      }}
+    >
       <CardContent>
         <Typography
           variant="h5"
           component="div"
           sx={{
             color: "primary.main",
-
             marginBottom: 2,
             display: "flex",
             alignItems: "center",
           }}
         >
-          <Avatar src={avatarImageUrl} />
+          <Avatar src={avatarImageUrl} sx={{ marginBottom: "2.3rem" }} />
           <span>
-            <Box sx={{ marginLeft: "10px", color: "black", fontSize: "1rem" }}>
+            <Box
+              sx={{
+                marginLeft: "10px",
+                // marginTop: "35px",
+                color: "black",
+                fontSize: "1rem",
+              }}
+            >
               {userName}
               <Typography sx={{ fontSize: "0.8em", marginTop: "0.3rem" }}>
                 {new Date(createdAt).toLocaleString()}

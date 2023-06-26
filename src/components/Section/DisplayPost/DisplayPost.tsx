@@ -92,26 +92,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchPostImages = async () => {
-      if (post.path) {
-        const postImagePromises = post.path.map(async (imageName) => {
-          const image = await getPostImage(imageName);
-          return image;
-        });
 
-        try {
-          const imageData = await Promise.all(postImagePromises);
-          setPostImage(imageData);
-          setLoadedImages(Array(imageData.length).fill(1));
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    };
-
-    fetchPostImages();
-  }, [post.path]);
   useEffect(() => {
     const fetchLikes = async () => {
       try {

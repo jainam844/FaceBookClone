@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Formik, Field, Form } from "formik";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -9,10 +9,26 @@ import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import UserContext from "../../Context/UserContext";
-import { addPost } from "../../../services/Response";
+import {
+  addPost,
+  getAvatarImage,
+  getPostByUserId,
+} from "../../../services/Response";
+import Story from "../Story/story";
+import Post from "../DisplayPost/DisplayPost";
 
 interface FormValues {
   description: string;
+}
+
+interface PostData {
+  userName?: string;
+  postId: number;
+  text?: string;
+  path?: string[];
+  avatar: string;
+  createdAt: string;
+  avatarUrl: string;
 }
 
 const validateDescription = (value: string) => {
@@ -20,13 +36,16 @@ const validateDescription = (value: string) => {
   if (!value) {
     error = "Description is required";
   }
-  // console.log("https://c457-14-99-103-154.ngrok-free.app/User/UserbyId?id=1");
   return error;
 };
 
-export default function BasicCard() {
+const BasicCard = ({
+  setNewPost,
+}: {
+  setNewPost: React.Dispatch<React.SetStateAction<PostData | null>>;
+}) => {
   const [file, setFile] = useState<File | null>(null);
-  const { userData } = useContext(UserContext);
+  const { userData, userimageUrl } = useContext(UserContext);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0];
@@ -45,6 +64,19 @@ export default function BasicCard() {
       }
 
       await addPost(formData);
+
+      const newPostData: PostData = {
+        userName: userData.firstName + " " + userData.lastName,
+        postId: -1, // Replace with the actual post ID returned from the API
+        text: description,
+        path: [], // Add the path if applicable
+        avatar: userData.avatar,
+        createdAt: new Date().toISOString(),
+        avatarUrl: userData.avatarUrl,
+      };
+
+      setNewPost(newPostData);
+
       console.log("Post added successfully!");
     } catch (error) {
       console.error("Failed to add post:", error);
@@ -73,7 +105,7 @@ export default function BasicCard() {
             fontSize: "1rem",
           }}
         >
-          <Avatar src={userData.avatar}></Avatar>
+          <Avatar src={userimageUrl} />
 
           <span>
             {" "}
@@ -162,4 +194,5 @@ export default function BasicCard() {
       </Card>
     </Box>
   );
-}
+};
+export default BasicCard;
