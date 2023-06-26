@@ -65,12 +65,13 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
 
   return (
     <Card>
-      <CardContent>
+      <CardContent >
         <Typography
           variant="h5"
           component="div"
           sx={{
             color: "primary.main",
+         
             marginBottom: 2,
             display: "flex",
             alignItems: "center",

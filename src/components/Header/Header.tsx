@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
-import fbImgLogo from "../../assets/fbNameLogo.png";
+import fbImgLogo from "../../assets/BharatBook.png";
 import SidebarIcons from "../Sidebar/sidebaricon";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import AddIcon from "@material-ui/icons/Add";

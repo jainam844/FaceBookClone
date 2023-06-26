@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import { Collapse } from "@mui/material";
+import { Collapse, Typography } from "@mui/material";
 import { Slide } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -18,12 +18,12 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import data from "./SidebarData";
 import UserContext from "../Context/UserContext";
-
+import fbImgLogo from "../../assets/BharatBook1.png";
 const SidebarIcons = () => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const {userData} = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   // console.log(typeof userData);
   const handleClick = () => {
     setOpen(!open);
@@ -145,6 +145,9 @@ const SidebarIcons = () => {
           <ListItemText primary="LogOut" sx={{ color: "black" }} />
         </ListItem>
       </List>
+      <Typography sx={{ marginTop: "3rem", marginLeft: "1rem" }}>
+        <img src={fbImgLogo} height={40} alt="fb logo" />
+      </Typography>
     </React.Fragment>
   );
 };
