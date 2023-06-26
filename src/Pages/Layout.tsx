@@ -39,32 +39,6 @@ const HomeLayout = () => {
     }
   }, [userData]);
 
-  // useEffect(() => {
-  //   if (userData) {
-  //     const promiseData = getAvatarImage(userData.avatar);
-  //     console.log(userData.avatar);
-  //     promiseData
-  //       .then((blob) => {
-  //         const fileReader = new FileReader();
-
-  //         const base64Promise = new Promise<string>((resolve, reject) => {
-  //           fileReader.onloadend = () => {
-  //             const base64Data = fileReader.result as string;
-  //             const base64String = base64Data.split(",")[1]; // Extract base64 data
-  //             resolve(base64String);
-  //           };
-  //           fileReader.onerror = reject;
-  //         });
-  //         fileReader.readAsDataURL(blob);
-  //         return base64Promise;
-  //       })
-  //       .then((imagedata) => {
-  //         const imageURL = `data:image/png;base64, ${imagedata}`;
-  //         setImageUrl(imageURL);
-  //         console.log(imageURL)
-  //       });
-  //   }
-  // }, [userData]);
   return (
     <React.Fragment>
       <UserContext.Provider value={{ userData, userimageUrl }}>

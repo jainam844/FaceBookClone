@@ -28,7 +28,6 @@ const HomeApp = () => {
               position: ["sticky", "sticky", "sticky"],
               top: 0,
               zIndex: 100,
-              
             }}
           >
             <HeaderIcons />

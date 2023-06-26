@@ -70,9 +70,16 @@ const LoginPage: React.FC = () => {
                 marginLeft: [0, 0, 30], // Responsive marginLeft
               }}
             >
-              <img src={fbImgLogo} alt="" width={400} />
-              <Typography sx={{ fontWeight: "bold" }}>
-                Connect with Friends and the world <br /> around you on Facebook
+              <img
+                src={fbImgLogo}
+                alt=""
+                width={400}
+                style={{ mixBlendMode: "multiply" }}
+              />
+
+              <Typography sx={{ fontWeight: "bold", marginTop: "1rem" }}>
+                Connect with Friends and the world <br /> around you on
+                BharatBook
               </Typography>
             </Box>
           </Grid>

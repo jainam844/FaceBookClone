@@ -1,5 +1,6 @@
 //Request.ts
 import request from "./Request";
+import axios from "axios";
 export const ForUserLogin = async (data: {
   email: string;
   password: string;
@@ -34,7 +35,6 @@ export const getUserData = async (id: number, token: string) => {
 
     const userData = response.data;
 
-    // Call getAvatarImage
     const avatarImage = userData.avatar;
 
     if (avatarImage) {
@@ -136,8 +136,37 @@ export const getPostByUserId = async (userId: number) => {
   }
 };
 
+export const addComment = async (
+  UserId: number,
+  PostId: number,
+  comment: string
+) => {
+  try {
+    const postdata = {
+      userId: UserId,
+      postId: PostId,
+      text: comment,
+    };
+    const response = await request.post(
+      `/SocialActivity/AddComments`,
+      postdata,
+
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+
+        withCredentials: false,
+      }
+    );
+
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const getCommentByPostId = async (postId: number) => {
-  console.log(postId);
   try {
     const response = await request.get(
       `/SocialActivity/GetCommentsByPostId?postId=${postId}`,
@@ -148,11 +177,28 @@ export const getCommentByPostId = async (postId: number) => {
         withCredentials: false,
       }
     );
-    console.log(response.data);
+
     return response.data;
   } catch (err) {
     throw err;
   }
 };
 
+export const getLikesByPost = async (postId: number) => {
+  try {
+    const response = await request.get(
+      `/SocialActivity/GetLikesByPost?postId=${postId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: false,
+      }
+    );
 
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+getLikesByPost(1);

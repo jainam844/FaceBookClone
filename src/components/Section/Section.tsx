@@ -41,6 +41,7 @@ const Section = (): JSX.Element => {
   return (
     <Box sx={{ flex: "1" }}>
       <Story />
+
       <BasicCard />
       <div>
         {postData.map((post, index) => (

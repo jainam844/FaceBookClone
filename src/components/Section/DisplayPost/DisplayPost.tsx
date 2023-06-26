@@ -18,6 +18,10 @@ import Skeleton from "@mui/material/Skeleton";
 import UserContext from "../../Context/UserContext";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
+import { getLikesByPost } from "../../../services/Response";
+import RecommendIcon from "@mui/icons-material/Recommend";
+import { addComment } from "../../../services/Response"; // Replace <path_to_api_file> with the correct path
+
 import {
   getAvatarImage,
   getPostByUserId,
@@ -27,7 +31,12 @@ import CommentCollapse from "./CommentCollapse";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import { getCommentByPostId } from "../../../services/Response";
-
+interface CommentData {
+  text: string;
+  userName: string;
+  avatar: string;
+  createdAt: string;
+}
 interface PostData {
   userName?: string;
   postId: number;
@@ -39,7 +48,7 @@ interface PostData {
 }
 
 interface PostProps {
-  post: PostData; // Specify the type of the `post` prop
+  post: PostData;
 }
 
 const Post: React.FC<PostProps> = ({ post }) => {
@@ -47,11 +56,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const [expanded, setExpanded] = useState(false);
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
+
   const { userData } = useContext(UserContext);
   const [postImage, setPostImage] = useState<string[]>([]);
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
-  const [openImageIndex, setOpenImageIndex] = useState<number | null>(null); // State to track the index of the opened image
-  const [comments, setComments] = useState<any[]>([]); // State to store comments
+  const [openImageIndex, setOpenImageIndex] = useState<number | null>(null);
+  const [comments, setComments] = useState<CommentData[]>([]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -102,13 +112,24 @@ const Post: React.FC<PostProps> = ({ post }) => {
 
     fetchPostImages();
   }, [post.path]);
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const likesData = await getLikesByPost(post.postId);
+
+        setLikeCount(likesData.length); // Update likeCount based on the fetched data
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchLikes();
+  }, [post.postId]);
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const commentsData = await getCommentByPostId(post.postId);
-
-        console.log(commentsData);
         setComments(commentsData);
       } catch (error) {
         console.log(error);
@@ -132,12 +153,18 @@ const Post: React.FC<PostProps> = ({ post }) => {
     setOpenImageIndex(null);
   };
 
-  const handlePost = () => {
+  const handlePost = async () => {
     if (newComment.trim() !== "") {
-      console.log("Posted:", newComment);
-      setNewComment("");
+      try {
+        await addComment(userData.userId, post.postId, newComment);
+        console.log(userData.userId, post.postId, newComment);
+        setNewComment("");
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
+
   const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewComment(event.target.value);
   };
@@ -158,7 +185,6 @@ const Post: React.FC<PostProps> = ({ post }) => {
             day: "numeric",
           })}
         />
-
         {loadedImages[0] ? (
           <CardMedia
             component="img"
@@ -168,15 +194,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
             onClick={() => handleImageClick(0)} // Add click event listener to open the image
             onLoad={() => handleImageLoad(0)}
           />
-        ) : (
-          <Skeleton
-            variant="rectangular"
-            height={270}
-            animation="wave"
-            sx={{ display: "block" }}
-          />
-        )}
-
+        ) : null}
         <CardContent>
           <Typography
             variant="body2"
@@ -188,6 +206,22 @@ const Post: React.FC<PostProps> = ({ post }) => {
             }}
           >
             {post.text}
+          </Typography>
+        </CardContent>{" "}
+        <CardContent>
+          <Typography
+            color="initial"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <RecommendIcon sx={{ marginRight: 0.5, color: "#1877f2" }} />
+              <Typography color="initial"> {likeCount} Likes </Typography>
+            </div>
+            <Typography color="initial">{comments.length} comments</Typography>
           </Typography>
         </CardContent>
         <CardActions
@@ -212,14 +246,15 @@ const Post: React.FC<PostProps> = ({ post }) => {
             },
           }}
         >
-          <IconButton sx={{ display: "flex" }} onClick={handleLikeClick}>
+          <IconButton sx={{ display: "flex" }}>
             {liked ? <ThumbUpIcon color="primary" /> : <ThumbUpIcon />}
             <Typography
               sx={{ margin: "0 0.3rem", display: ["none", "flex", "flex"] }}
             >
-              Like
+              Likes
             </Typography>
           </IconButton>
+
           <IconButton onClick={handleExpandClick}>
             <CommentIcon />
             <Typography
@@ -262,7 +297,6 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </Collapse>
       </Card>
 
-      {/* Full Image Dialog */}
       {openImageIndex !== null && (
         <Dialog open={openImageIndex !== null} onClose={handleCloseImage}>
           <DialogContent>

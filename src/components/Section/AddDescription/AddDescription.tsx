@@ -26,7 +26,7 @@ const validateDescription = (value: string) => {
 
 export default function BasicCard() {
   const [file, setFile] = useState<File | null>(null);
-  const {userData} = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files?.[0];
