@@ -69,13 +69,15 @@ const Post: React.FC<PostProps> = ({ post }) => {
       const isLike = false;
       const response = await PostLike(userData.userId, post.postId, isLike);
       setIsLiked(response);
-      const loginUserLiked = response.some(
-        (like: { userId: number }) => like.userId === userData.userId
-      );
-      setIsLiked(loginUserLiked);
+      console.log("unliked");
+      // const loginUserLiked = response.some(
+      //   (like: { userId: number }) => like.userId === userData.userId
+      // );
+      // setIsLiked(loginUserLiked);
     } else {
       const isLike = true;
       const response = await PostLike(userData.userId, post.postId, isLike);
+      console.log("successfully liked");
       setIsLiked(response);
     }
   };
@@ -128,8 +130,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
     const fetchLikes = async () => {
       try {
         const likesData = await getLikesByPost(post.postId);
-
-        setLikeCount(likesData.length); // Update likeCount based on the fetched data
+        setLikeCount(likesData.length);
       } catch (error) {
         console.log(error);
       }

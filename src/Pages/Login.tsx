@@ -11,6 +11,9 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { ForUserLogin } from "../services/Response";
 import jwtDecode from "jwt-decode";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -46,8 +49,10 @@ const LoginPage: React.FC = () => {
         };
 
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
-
+     
         navigate("/layout/home");
+      } else {
+        toast.error("Login failed. Please try again."); // Show error toaster
       }
     } catch (error) {
       console.log(error);
@@ -55,6 +60,7 @@ const LoginPage: React.FC = () => {
   };
 
   const handleCreateAccount = () => {};
+
   return (
     <React.Fragment>
       <Box sx={{ height: "100vh", bgcolor: "#f0f2f5" }}>
@@ -216,6 +222,7 @@ const LoginPage: React.FC = () => {
           </Grid>
         </Grid>
       </Box>
+      <ToastContainer />;
     </React.Fragment>
   );
 };

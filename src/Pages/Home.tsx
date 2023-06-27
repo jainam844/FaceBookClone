@@ -5,6 +5,8 @@ import Widget from "../components/Widget/Widget";
 import Box from "@mui/material/Box";
 import { BrowserRouter as Router, Outlet } from "react-router-dom";
 import HeaderIcons from "../components/Header/HeaderIcons";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const HomeApp = () => {
   return (
     <React.Fragment>
@@ -34,13 +36,14 @@ const HomeApp = () => {
           </Box>
         </div>
       </Box>
-      <Box sx={{ display: "flex", minHeight: "100vh" }}>
+      <Box sx={{ display: "flex", minHeight: "100vh" ,marginTop:'1rem'}}>
         <SideBar />
         <Box sx={{ width: "100%", bgcolor: "#f0f2f5" }}>
           <Outlet />
         </Box>
         {/* <Widget /> */}
       </Box>
+      <ToastContainer />;
     </React.Fragment>
   );
 };

@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState,  } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
-import Profile from "../Pages/Profile";
 import { getUserData, getAvatarImage } from "../services/Response";
 import UserContext from "../components/Context/UserContext";
 
