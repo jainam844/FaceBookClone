@@ -4,8 +4,6 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import React, { useState, ChangeEvent, useEffect } from "react";
-import TextField from "@mui/material/TextField";
-import SendIcon from "@mui/icons-material/Send";
 import Grid from "@mui/material/Grid";
 import { getAvatarImage } from "../../../services/Response";
 
@@ -24,27 +22,6 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
 }) => {
   const [newComment, setNewComment] = useState("");
   const [avatarImageUrl, setAvatarImageUrl] = useState("");
-
-  useEffect(() => {
-    const fetchAvatarImage = async () => {
-      try {
-        const imgUrl = await getAvatarImage(avatarUrl); // Assuming avatarUrl is the imageName parameter for getAvatarImage function
-        setAvatarImageUrl(imgUrl);
-      } catch (error) {
-        console.error("Failed to fetch avatar image:", error);
-      }
-    };
-
-    fetchAvatarImage();
-  }, [avatarUrl]);
-
-  const handlePost = () => {
-    if (newComment.trim() !== "") {
-      console.log("Posted:", newComment);
-      setNewComment("");
-    }
-  };
-
   const commentStyle: React.CSSProperties = {
     display: "flex",
     background: "#e4e4e4",
@@ -59,9 +36,18 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
     margin: "0 10px",
   };
 
-  const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setNewComment(event.target.value);
-  };
+  useEffect(() => {
+    const fetchAvatarImage = async () => {
+      try {
+        const imgUrl = await getAvatarImage(avatarUrl);
+        setAvatarImageUrl(imgUrl);
+      } catch (error) {
+        console.error("Failed to fetch avatar image:", error);
+      }
+    };
+
+    fetchAvatarImage();
+  }, [avatarUrl]);
 
   return (
     <Card
@@ -87,7 +73,6 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
             <Box
               sx={{
                 marginLeft: "10px",
-                // marginTop: "35px",
                 color: "black",
                 fontSize: "1rem",
               }}

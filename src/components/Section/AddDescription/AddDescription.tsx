@@ -11,11 +11,7 @@ import SendIcon from "@mui/icons-material/Send";
 import UserContext from "../../Context/UserContext";
 import {
   addPost,
-  getAvatarImage,
-  getPostByUserId,
 } from "../../../services/Response";
-import Story from "../Story/story";
-import Post from "../DisplayPost/DisplayPost";
 
 interface FormValues {
   description: string;
@@ -67,9 +63,9 @@ const BasicCard = ({
 
       const newPostData: PostData = {
         userName: userData.firstName + " " + userData.lastName,
-        postId: -1, // Replace with the actual post ID returned from the API
+        postId: -1, 
         text: description,
-        path: [], // Add the path if applicable
+        path: [], 
         avatar: userData.avatar,
         createdAt: new Date().toISOString(),
         avatarUrl: userData.avatarUrl,
@@ -130,7 +126,7 @@ const BasicCard = ({
           <Formik
             initialValues={{
               description: "",
-              // image: "", // Add the image field to the initial values
+         
             }}
             onSubmit={handleSubmit}
           >

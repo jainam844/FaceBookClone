@@ -69,7 +69,7 @@ const Story = (): JSX.Element => {
                     backgroundRepeat: "no-repeat",
                     padding: "15px 15px",
                     borderRadius: "20px",
-                    position: "relative", // Added position relative
+                    position: "relative",
                   }}
                 >
                   <Avatar
@@ -91,7 +91,7 @@ const Story = (): JSX.Element => {
                       bottom: 10,
                       left: 10,
                       fontWeight: "600",
-                      color: "#fff", // Added color for username
+                      color: "#fff",
                     }}
                   >
                     {story.username}

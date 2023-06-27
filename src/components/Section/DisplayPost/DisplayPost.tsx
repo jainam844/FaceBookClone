@@ -18,10 +18,9 @@ import Skeleton from "@mui/material/Skeleton";
 import UserContext from "../../Context/UserContext";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
-import { getLikesByPost } from "../../../services/Response";
+import { PostLike, getLikesByPost } from "../../../services/Response";
 import RecommendIcon from "@mui/icons-material/Recommend";
-import { addComment } from "../../../services/Response"; // Replace <path_to_api_file> with the correct path
-
+import { addComment } from "../../../services/Response";
 import {
   getAvatarImage,
   getPostByUserId,
@@ -54,26 +53,30 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post }) => {
   const [newComment, setNewComment] = useState("");
   const [expanded, setExpanded] = useState(false);
-  const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-
   const { userData } = useContext(UserContext);
   const [postImage, setPostImage] = useState<string[]>([]);
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
   const [openImageIndex, setOpenImageIndex] = useState<number | null>(null);
   const [comments, setComments] = useState<CommentData[]>([]);
+  const [isLiked, setIsLiked] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-  const handleLikeClick = () => {
-    if (liked) {
-      setLiked(false);
-      setLikeCount(likeCount - 1);
+  const handleLikeClick = async () => {
+    if (isLiked) {
+      const isLike = false;
+      const response = await PostLike(userData.userId, post.postId, isLike);
+      setIsLiked(response);
+      const loginUserLiked = response.some(
+        (like: { userId: number }) => like.userId === userData.userId
+      );
+      setIsLiked(loginUserLiked);
     } else {
-      setLiked(true);
-      setLikeCount(likeCount + 1);
+      const isLike = true;
+      const response = await PostLike(userData.userId, post.postId, isLike);
+      setIsLiked(response);
     }
   };
 
@@ -91,35 +94,6 @@ const Post: React.FC<PostProps> = ({ post }) => {
       console.log("Sharing not supported");
     }
   };
-
-
-  useEffect(() => {
-    const fetchLikes = async () => {
-      try {
-        const likesData = await getLikesByPost(post.postId);
-
-        setLikeCount(likesData.length); // Update likeCount based on the fetched data
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchLikes();
-  }, [post.postId]);
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const commentsData = await getCommentByPostId(post.postId);
-        setComments(commentsData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchComments();
-  }, [post.postId]);
-
   const handleImageLoad = (index: number) => {
     const updatedLoadedImages = [...loadedImages];
     updatedLoadedImages[index] = 1;
@@ -149,6 +123,56 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewComment(event.target.value);
   };
+
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const likesData = await getLikesByPost(post.postId);
+
+        setLikeCount(likesData.length); // Update likeCount based on the fetched data
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchLikes();
+  }, [post.postId]);
+
+  useEffect(() => {
+    const fetchPostImages = async () => {
+      if (post.path) {
+        const postImagePromises = post.path.map(async (imageName) => {
+          const image = await getPostImage(imageName);
+          return image;
+        });
+
+        try {
+          const imageData = await Promise.all(postImagePromises);
+          setPostImage(imageData);
+          setLoadedImages(Array(imageData.length).fill(1));
+          console.log(imageData);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    fetchPostImages();
+  }, [post.path]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const commentsData = await getCommentByPostId(post.postId);
+        setComments(commentsData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchComments();
+  }, [post.postId]);
+
   return (
     <React.Fragment>
       <Card sx={{ width: "60%", margin: "3rem auto" }}>
@@ -172,7 +196,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
             height="300"
             image={postImage[0]}
             alt="Post Image"
-            onClick={() => handleImageClick(0)} // Add click event listener to open the image
+            onClick={() => handleImageClick(0)}
             onLoad={() => handleImageLoad(0)}
           />
         ) : null}
@@ -219,7 +243,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
               },
               "& .MuiIconButton-label": {
                 borderRadius: "0",
-                color: liked ? "blue" : "inherit",
+                color: isLiked ? "blue" : "inherit",
               },
               "&:focus": {
                 outline: "none",
@@ -227,8 +251,8 @@ const Post: React.FC<PostProps> = ({ post }) => {
             },
           }}
         >
-          <IconButton sx={{ display: "flex" }}>
-            {liked ? <ThumbUpIcon color="primary" /> : <ThumbUpIcon />}
+          <IconButton sx={{ display: "flex" }} onClick={handleLikeClick}>
+            {isLiked ? <ThumbUpIcon color="primary" /> : <ThumbUpIcon />}
             <Typography
               sx={{ margin: "0 0.3rem", display: ["none", "flex", "flex"] }}
             >

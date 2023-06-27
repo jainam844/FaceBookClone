@@ -1,6 +1,6 @@
 //Request.ts
 import request from "./Request";
-import axios from "axios";
+
 export const ForUserLogin = async (data: {
   email: string;
   password: string;
@@ -201,4 +201,24 @@ export const getLikesByPost = async (postId: number) => {
     throw err;
   }
 };
-getLikesByPost(1);
+
+export const PostLike = async (
+  UserId: number,
+  PostId: number,
+  Islike: boolean
+) => {
+  try {
+    const postLikeData = {
+      userId: UserId,
+      postId: PostId,
+      isLike: Islike,
+    };
+    const response = await request.post(
+      `/SocialActivity/PostLike`,
+      postLikeData
+    );
+    return response.data;
+  } catch (e) {
+    console.log(e);
+  }
+};

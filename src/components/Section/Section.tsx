@@ -19,7 +19,7 @@ const Section = (): JSX.Element => {
   const [postData, setPostData] = useState<PostData[]>([]);
   const [newPost, setNewPost] = useState<PostData | null>(null);
   const { userData } = useContext(UserContext);
-  console.log(userData);
+
   useEffect(() => {
     const fetchPostData = async () => {
       try {
@@ -44,11 +44,8 @@ const Section = (): JSX.Element => {
   return (
     <Box sx={{ flex: "1" }}>
       <Story />
-
       <BasicCard setNewPost={setNewPost} />
-
       {newPost && <Post key={newPost.postId} post={newPost} />}
-
       <div>
         {postData.map((post, index) => (
           <Post key={index} post={post} />
