@@ -222,3 +222,22 @@ export const PostLike = async (
     console.log(e);
   }
 };
+
+export const getUserNotification = async (userId: number) => {
+  try {
+    const response = await request.get(
+      `/Notification/GetUserNotifications?userId=${userId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: false,
+      }
+    );
+
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+getUserNotification(6);

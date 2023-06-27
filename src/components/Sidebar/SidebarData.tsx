@@ -5,7 +5,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import ChatIcon from "@mui/icons-material/Chat";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
-
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 const data: SidebarItem[] = [
   {
     logo: <LocalHospitalIcon />,
@@ -14,7 +14,11 @@ const data: SidebarItem[] = [
   },
   { logo: <EmojiFlagsIcon />, title: "Pages", route: "/layout/home/flag" },
   { logo: <PeopleIcon />, title: "Friends", route: "/layout/home/friend" },
-  { logo: <ChatIcon />, title: "Messenger", route: "/layout/home" },
+  {
+    logo: <NotificationsActiveIcon />,
+    title: "Notification",
+    route: "/layout/home/Notification",
+  },
   {
     logo: <StorefrontIcon />,
     title: "Market Place",

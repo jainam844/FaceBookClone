@@ -15,6 +15,7 @@ import LoginPage from "./Pages/Login";
 import HomeApp from "./Pages/Home";
 import Profile from "./Pages/Profile";
 import HomeLayout from "./Pages/Layout";
+import Notification from "./components/Notification/Notification";
 
 interface ProtectedRouteProps {
   render: () => JSX.Element;
@@ -51,6 +52,10 @@ const App: React.FC = () => {
                 element={<MarketPlace />}
               />
               <Route path="/layout/home/userfriend" element={<UserFriend />} />
+              <Route
+                path="/layout/home/Notification"
+                element={<Notification />}
+              />
               <Route path="/layout/home/friend" element={<Friend />} />
             </Route>
 
