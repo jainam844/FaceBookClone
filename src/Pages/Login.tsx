@@ -49,7 +49,7 @@ const LoginPage: React.FC = () => {
         };
 
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
-     
+
         navigate("/layout/home");
       } else {
         toast.error("Login failed. Please try again."); // Show error toaster

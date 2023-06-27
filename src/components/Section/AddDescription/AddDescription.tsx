@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { Formik, Field, Form } from "formik";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -9,9 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import UserContext from "../../Context/UserContext";
-import {
-  addPost,
-} from "../../../services/Response";
+import { addPost } from "../../../services/Response";
 
 interface FormValues {
   description: string;
@@ -41,11 +39,64 @@ const BasicCard = ({
   setNewPost: React.Dispatch<React.SetStateAction<PostData | null>>;
 }) => {
   const [file, setFile] = useState<File | null>(null);
+  const [imageSizeError, setImageSizeError] = useState(false);
   const { userData, userimageUrl } = useContext(UserContext);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const uploadedFile = event.target.files?.[0];
-    setFile(uploadedFile || null);
+
+    if (uploadedFile && uploadedFile.size <= 2 * 1024 * 1024) {
+      const compressedImage = await compressImage(uploadedFile);
+      setFile(compressedImage);
+      setImageSizeError(false); // Reset the error state
+    } else {
+      setFile(null); // Clear the selected file
+      setImageSizeError(true); // Set the error state to true
+    }
+  };
+
+  const compressImage = (file: File) => {
+    return new Promise<File>((resolve) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          const maxWidth = 800;
+          const maxHeight = 800;
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height && width > maxWidth) {
+            height *= maxWidth / width;
+            width = maxWidth;
+          } else if (height > maxHeight) {
+            width *= maxHeight / height;
+            height = maxHeight;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          ctx?.drawImage(img, 0, 0, width, height);
+          canvas.toBlob(
+            (blob) => {
+              const compressedFile = new File([blob as Blob], file.name, {
+                type: file.type,
+                lastModified: Date.now(),
+              });
+              resolve(compressedFile);
+            },
+            file.type,
+            0.7 // Compression quality (adjust as needed)
+          );
+        };
+      };
+    });
   };
 
   const handleSubmit = async (values: FormValues) => {
@@ -63,9 +114,9 @@ const BasicCard = ({
 
       const newPostData: PostData = {
         userName: userData.firstName + " " + userData.lastName,
-        postId: -1, 
+        postId: -1,
         text: description,
-        path: [], 
+        path: [],
         avatar: userData.avatar,
         createdAt: new Date().toISOString(),
         avatarUrl: userData.avatarUrl,
@@ -126,7 +177,6 @@ const BasicCard = ({
           <Formik
             initialValues={{
               description: "",
-         
             }}
             onSubmit={handleSubmit}
           >
@@ -170,7 +220,11 @@ const BasicCard = ({
                     )}
                   </label>
                 </Box>
-
+                {imageSizeError && (
+                  <div style={{ color: "red" }}>
+                    Image size limit exceeded (max: 2MB)
+                  </div>
+                )}
                 <Button
                   type="submit"
                   variant="contained"
@@ -191,4 +245,5 @@ const BasicCard = ({
     </Box>
   );
 };
+
 export default BasicCard;

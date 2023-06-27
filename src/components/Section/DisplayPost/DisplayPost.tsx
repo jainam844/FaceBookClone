@@ -53,7 +53,7 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post }) => {
   const [newComment, setNewComment] = useState("");
   const [expanded, setExpanded] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+  const [likeCount, setLikeCount] = useState("");
   const { userData } = useContext(UserContext);
   const [postImage, setPostImage] = useState<string[]>([]);
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
@@ -70,10 +70,6 @@ const Post: React.FC<PostProps> = ({ post }) => {
       const response = await PostLike(userData.userId, post.postId, isLike);
       setIsLiked(response);
       console.log("unliked");
-      // const loginUserLiked = response.some(
-      //   (like: { userId: number }) => like.userId === userData.userId
-      // );
-      // setIsLiked(loginUserLiked);
     } else {
       const isLike = true;
       const response = await PostLike(userData.userId, post.postId, isLike);
@@ -81,6 +77,23 @@ const Post: React.FC<PostProps> = ({ post }) => {
       setIsLiked(response);
     }
   };
+
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const likesData = await getLikesByPost(post.postId);
+        setLikeCount(likesData);
+        const loginUserLiked = likesData.some(
+          (like: { userId: number }) => like.userId === userData.userId
+        );
+        setIsLiked(loginUserLiked);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchLikes();
+  }, [post.postId, isLiked]);
 
   const handleShareClick = () => {
     if (navigator.share) {
@@ -125,19 +138,6 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewComment(event.target.value);
   };
-
-  useEffect(() => {
-    const fetchLikes = async () => {
-      try {
-        const likesData = await getLikesByPost(post.postId);
-        setLikeCount(likesData.length);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchLikes();
-  }, [post.postId]);
 
   useEffect(() => {
     const fetchPostImages = async () => {
@@ -225,7 +225,10 @@ const Post: React.FC<PostProps> = ({ post }) => {
           >
             <div style={{ display: "flex", alignItems: "center" }}>
               <RecommendIcon sx={{ marginRight: 0.5, color: "#1877f2" }} />
-              <Typography color="initial"> {likeCount} Likes </Typography>
+              <Typography color="initial">
+                {" "}
+                {likeCount.length} Likes{" "}
+              </Typography>
             </div>
             <Typography color="initial">{comments.length} comments</Typography>
           </Typography>
