@@ -86,7 +86,6 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
     getUserdata();
   }, [notification.activityType, notification.activityId]);
 
-
   if (notification.activityTypeName === NotificationType.Comment) {
     return (
       <Box sx={{ display: "flex", alignItems: "center", padding: "10px" }}>

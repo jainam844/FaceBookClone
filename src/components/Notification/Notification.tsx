@@ -51,20 +51,18 @@ const Notification = () => {
             key={notification.notificationId}
             sx={{
               border: "1px solid #e0e0e0",
-              justifyContent: "center",
               borderRadius: "8px",
               padding: "10px",
               marginBottom: "16px",
               backgroundColor: "#ffffff",
               boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
               display: "flex",
-              alignItems: "center",
               gap: "12px",
               transition: "background-color 0.3s",
               "&:hover": {
-                backgroundColor: "#ebebeb",
+                backgroundColor: "#F0F8FF",
               },
-              width: "600px", // Adjust the width value as per your requirement
+              width: "600px",
             }}
           >
             <NotificationItem notification={notification} />

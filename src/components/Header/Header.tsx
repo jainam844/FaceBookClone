@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Drawer } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { styled, alpha } from "@mui/material/styles";
@@ -21,6 +21,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import Avatar from "@mui/material/Avatar";
 import UserContext from "../Context/UserContext";
 import HeaderIcons from "./HeaderIcons";
+import { getUserNotification } from "../../services/Response";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -74,6 +75,23 @@ export default function PrimarySearchAppBar() {
   const mobileMenuId = "primary-search-account-menu-mobile";
   const [activeIcon, setActiveIcon] = useState("");
   const { userData, userimageUrl } = useContext(UserContext);
+  const [notificationsCount, setNotificationsCount] = useState(0);
+
+  useEffect(() => {
+    const getAllNotification = async () => {
+      try {
+        const notificationData = await getUserNotification(userData.userId);
+        console.log(notificationData.length);
+        setNotificationsCount(notificationData.length); // Update the notifications count
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    if (userData.userId) {
+      getAllNotification();
+    }
+  }, [userData.userId]);
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
@@ -138,23 +156,16 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
+          <Badge badgeContent={notificationsCount} color="error">
             <NotificationsIcon />
           </Badge>
         </IconButton>
+
         <p>Notifications</p>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
@@ -223,7 +234,7 @@ export default function PrimarySearchAppBar() {
               >
                 {" "}
                 <Avatar src={userimageUrl} />
-                <Box sx={{ fontSize: "16px",marginLeft:'0.5rem' }}>
+                <Box sx={{ fontSize: "16px", marginLeft: "0.5rem" }}>
                   {" "}
                   {userData.firstName + " " + userData.lastName}
                 </Box>
@@ -242,7 +253,7 @@ export default function PrimarySearchAppBar() {
                 aria-label="show 17 new notifications"
                 color="inherit"
               >
-                <Badge badgeContent={17} color="error">
+                <Badge badgeContent={notificationsCount} color="error">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
