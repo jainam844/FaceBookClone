@@ -262,7 +262,25 @@ export const getCommentNotification = async (commentId: number) => {
 export const getLikeNotification = async (postLikeId: number) => {
   try {
     const response = await request.get(
-      `/SocialActivity/GetPostLikesById?postLikeId==${postLikeId}`,
+      `/SocialActivity/GetPostLikesById?postLikeId=${postLikeId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: false,
+      }
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getNewPostNotification = async (postId: number) => {
+  try {
+    const response = await request.get(
+      `/SocialActivity/GetPostById?postId=${postId}`,
       {
         headers: {
           "Content-Type": "application/json",
