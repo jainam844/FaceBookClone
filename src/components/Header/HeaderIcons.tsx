@@ -6,7 +6,7 @@ import FlagIcon from "@mui/icons-material/Flag";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
-
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 const commonButtonStyles = {
   color: "gray",
   margin: { xs: "0rem 0.3rem", sm: "0rem 0.3rem", xl: "0.5rem 1rem" },
@@ -37,7 +37,7 @@ const HeaderIcons: React.FC = (): JSX.Element => {
       >
         <HomeIcon sx={{ fontSize: "1.8rem" }} />
       </Button>
-
+{/* 
       <Button
         sx={{
           ...commonButtonStyles,
@@ -88,6 +88,18 @@ const HeaderIcons: React.FC = (): JSX.Element => {
         to="/layout/home/userfriend"
       >
         <GroupsRoundedIcon sx={{ fontSize: "1.8rem" }} />
+      </Button> */}
+       <Button
+        sx={{
+          ...commonButtonStyles,
+          ...(location.pathname === "/layout/home/Notification"
+            ? activeButtonStyles
+            : {}),
+        }}
+        component={Link}
+        to="/layout/home/Notification"
+      >
+        <NotificationsActiveIcon sx={{ fontSize: "1.8rem" }} />
       </Button>
     </React.Fragment>
   );

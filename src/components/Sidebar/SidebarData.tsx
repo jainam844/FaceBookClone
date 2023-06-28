@@ -6,10 +6,11 @@ import ChatIcon from "@mui/icons-material/Chat";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import HomeIcon from "@mui/icons-material/Home";
 const data: SidebarItem[] = [
   {
-    logo: <LocalHospitalIcon />,
-    title: "Covid-19 Information Center",
+    logo: <HomeIcon />,
+    title: "Home",
     route: "/layout/home",
   },
   { logo: <EmojiFlagsIcon />, title: "Pages", route: "/layout/home/flag" },

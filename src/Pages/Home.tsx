@@ -36,7 +36,7 @@ const HomeApp = () => {
           </Box>
         </div>
       </Box>
-      <Box sx={{ display: "flex", minHeight: "100vh" ,marginTop:'1rem'}}>
+      <Box sx={{ display: "flex", minHeight: "100vh" ,marginTop:'0.3rem'}}>
         <SideBar />
         <Box sx={{ width: "100%", bgcolor: "#f0f2f5" }}>
           <Outlet />

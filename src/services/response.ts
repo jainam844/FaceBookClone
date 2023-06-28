@@ -240,4 +240,39 @@ export const getUserNotification = async (userId: number) => {
     throw err;
   }
 };
-getUserNotification(6);
+
+export const getCommentNotification = async (commentId: number) => {
+  try {
+    const response = await request.get(
+      `/SocialActivity/GetCommentById?commentId=${commentId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: false,
+      }
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getLikeNotification = async (postLikeId: number) => {
+  try {
+    const response = await request.get(
+      `/SocialActivity/GetPostLikesById?postLikeId==${postLikeId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: false,
+      }
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
