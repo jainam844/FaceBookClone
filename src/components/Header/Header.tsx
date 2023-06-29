@@ -20,7 +20,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import Avatar from "@mui/material/Avatar";
 import UserContext from "../Context/UserContext";
 import HeaderIcons from "./HeaderIcons";
-import { getUserNotification } from "../../services/Response";
+// import { getUserNotification } from "../../services/Response";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -76,21 +76,21 @@ export default function PrimarySearchAppBar() {
   const { userData, userimageUrl } = useContext(UserContext);
   const [notificationsCount, setNotificationsCount] = useState(0);
 
-  useEffect(() => {
-    const getAllNotification = async () => {
-      try {
-        const notificationData = await getUserNotification(userData.userId);
-        console.log(notificationData.length);
-        setNotificationsCount(notificationData.length); // Update the notifications count
-      } catch (e) {
-        console.log(e);
-      }
-    };
+  // useEffect(() => {
+  //   const getAllNotification = async () => {
+  //     try {
+  //       const notificationData = await getUserNotification(userData.userId);
+  //       console.log(notificationData.length);
+  //       setNotificationsCount(notificationData.length); // Update the notifications count
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
 
-    if (userData.userId) {
-      getAllNotification();
-    }
-  }, [userData.userId]);
+  //   if (userData.userId) {
+  //     getAllNotification();
+  //   }
+  // }, [userData.userId]);
 
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);

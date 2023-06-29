@@ -119,20 +119,28 @@ export const addPost = async (formData: FormData) => {
     throw err;
   }
 };
-export const getPostByUserId = async (userId: number) => {
+export const getPostByUserId = async (
+  pageNumber: number,
+  pageSize: number,
+  isUser: boolean
+) => {
   try {
-    const response = await request.get(`/SocialActivity/ByUserId/${userId}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: false,
-    });
+    const requestData = {
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+      isUser: isUser,
+    };
 
+    const response = await request.post(
+      `/SocialActivity/PostByUserId`,
+      requestData
+    );
     return response.data;
   } catch (err) {
     throw err;
   }
 };
+// getPostByUserId(1, 2, false);
 
 export const addComment = async (
   UserId: number,
@@ -164,21 +172,29 @@ export const addComment = async (
   }
 };
 
-export const getCommentByPostId = async (postId: number) => {
+export const getCommentByPostId = async (
+  pageNumber: number,
+  pageSize: number,
+  postId: number
+) => {
   try {
-    const response = await request.get(`/SocialActivity/ByPostId/${postId}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: false,
-    });
+    const requestData = {
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+      postId: postId,
+    };
 
+    const response = await request.post(
+      `/SocialActivity/CommentByPostId`,
+      requestData
+    );
+    console.log(response.data);
     return response.data;
   } catch (err) {
     throw err;
   }
 };
-getCommentByPostId(59);
+getCommentByPostId(1, 5, 1);
 
 export const getLikesByPost = async (postId: number) => {
   try {
@@ -219,23 +235,23 @@ export const PostLike = async (
   }
 };
 
-export const getUserNotification = async (userId: number) => {
-  try {
-    const response = await request.get(
-      `/Notification/GetUserNotifications?userId=${userId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: false,
-      }
-    );
+// export const getUserNotification = async (userId: number) => {
+//   try {
+//     const response = await request.get(
+//       `/Notification/GetUserNotifications?userId=${userId}`,
+//       {
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         withCredentials: false,
+//       }
+//     );
 
-    return response.data;
-  } catch (err) {
-    throw err;
-  }
-};
+//     return response.data;
+//   } catch (err) {
+//     throw err;
+//   }
+// };
 
 export const getCommentNotification = async (commentId: number) => {
   try {

@@ -5,42 +5,50 @@ import CreateStory from "./CreateUser";
 
 const stories = [
   {
-    backgroundImage: "https://source.unsplash.com/XVaXbzQul90",
+    backgroundImage:
+      "https://cdn.pixabay.com/photo/2017/09/16/19/21/salad-2756467_1280.jpg",
     avatar: "https://source.unsplash.com/v2aKnjMbP_k",
     username: "Jainam Shah",
   },
   {
-    backgroundImage: "https://source.unsplash.com/ohLyHvxGJYo",
+    backgroundImage:
+      "https://cdn.pixabay.com/photo/2014/01/30/18/26/skyline-255116_1280.jpg",
     avatar: "https://source.unsplash.com/QXevDflbl8A",
     username: "Het Patel",
   },
   {
-    backgroundImage: "https://source.unsplash.com/67sVPjK6Q7I",
+    backgroundImage:
+      "https://cdn.pixabay.com/photo/2016/10/18/21/22/beach-1751455_1280.jpg",
     avatar: "https://source.unsplash.com/hh3ViD0r0Rc",
     username: "Harsh Prajapati",
   },
   {
-    backgroundImage: "https://source.unsplash.com/0vuW7F-47Oo",
+    backgroundImage:
+      "https://cdn.pixabay.com/photo/2023/06/14/09/18/trees-8062668_1280.jpg",
     avatar: "https://source.unsplash.com/mEZ3PoFGs_k",
     username: "Aayush Joshi",
   },
   {
-    backgroundImage: "https://source.unsplash.com/bY4cqxp7vos",
+    backgroundImage:
+      "https://cdn.pixabay.com/photo/2016/08/11/23/48/mountains-1587287_1280.jpg",
     avatar: "https://source.unsplash.com/4FDsNcCR8iQ",
     username: "Krish Doshi",
   },
   {
-    backgroundImage: "https://source.unsplash.com/NYrVisodQ2M",
+    backgroundImage:
+      "https://cdn.pixabay.com/photo/2023/06/14/09/18/trees-8062668_1280.jpg",
     avatar: "https://source.unsplash.com/G9f4Enb8XVM",
     username: "Teerth Gandhi",
   },
   {
-    backgroundImage: "https://source.unsplash.com/XVaXbzQul90",
+    backgroundImage:
+      "https://cdn.pixabay.com/photo/2016/10/25/12/28/iceland-1768744_1280.jpg",
     avatar: "https://source.unsplash.com/RDcEWH5hSDE",
     username: "Vrushbh Parmar",
   },
   {
-    backgroundImage: "https://source.unsplash.com/XVaXbzQul90",
+    backgroundImage:
+      "https://cdn.pixabay.com/photo/2013/10/09/02/26/lake-192979_1280.jpg",
     avatar: "https://source.unsplash.com/2rIs8OH5ng0",
     username: "Parth kaneriya",
   },

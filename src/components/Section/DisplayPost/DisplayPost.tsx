@@ -14,7 +14,6 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ShareIcon from "@mui/icons-material/Share";
-import Skeleton from "@mui/material/Skeleton";
 import UserContext from "../../Context/UserContext";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
@@ -163,7 +162,8 @@ const Post: React.FC<PostProps> = ({ post }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const commentsData = await getCommentByPostId(post.postId);
+        const commentsData = await getCommentByPostId(1, 10, 53);
+        console.log(commentsData);
         setComments(commentsData);
       } catch (error) {
         console.log(error);

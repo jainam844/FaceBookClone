@@ -20,7 +20,6 @@ import data from "./SidebarData";
 import UserContext from "../Context/UserContext";
 import fbImgLogo from "../../assets/BharatBook1.png";
 
-
 const SidebarIcons = () => {
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
@@ -52,9 +51,8 @@ const SidebarIcons = () => {
     <React.Fragment>
       <List
         sx={{
-          width: "100%",
-          maxWidth: 360,
-          bgcolor: "background.paper",
+          // maxWidth: 360,
+          // bgcolor: "background.paper",
           marginTop: "10px",
         }}
       >

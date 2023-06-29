@@ -1,12 +1,13 @@
 import React from "react";
 import Header from "../components/Header/Header";
-import SideBar from "../components/Sidebar/side";
 import Widget from "../components/Widget/Widget";
 import Box from "@mui/material/Box";
 import { BrowserRouter as Router, Outlet } from "react-router-dom";
 import HeaderIcons from "../components/Header/HeaderIcons";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Sidebar from "../components/Sidebar/side";
+
 const HomeApp = () => {
   return (
     <React.Fragment>
@@ -36,14 +37,34 @@ const HomeApp = () => {
           </Box>
         </div>
       </Box>
-      <Box sx={{ display: "flex", minHeight: "100vh" ,marginTop:'0.3rem'}}>
-        <SideBar />
-        <Box sx={{ width: "100%", bgcolor: "#f0f2f5" }}>
-          <Outlet />
+      <Box sx={{ display: "flex", minHeight: "100vh" }}>
+        <Box
+          sx={{
+            position: "fixed",
+            width: "100%", // Adjust the width of the sidebar here
+            maxWidth: "300px", // Add a maximum width for the sidebar
+            display: ["none", "none", "block"],
+marginTop:'-1rem',
+            zIndex: 1,
+          }}
+        >
+          <Sidebar />
         </Box>
-        {/* <Widget /> */}
+        <Box
+          sx={{
+            marginLeft: ["0%", "0%", "300px"],
+            width: ["100%", "100%", "calc(100% - 300px)"],
+            backgroundColor: "#f0f2f5",
+            zIndex: 0,
+          }}
+        >
+          <Box sx={{ width: "100%" }}>
+            <Outlet />
+          </Box>
+          {/* <Widget /> */}
+        </Box>
       </Box>
-      <ToastContainer />;
+      <ToastContainer />
     </React.Fragment>
   );
 };

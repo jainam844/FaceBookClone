@@ -15,6 +15,7 @@ interface PostData {
   createdAt: string;
   avatarUrl: string;
 }
+
 const Section = (): JSX.Element => {
   const [postData, setPostData] = useState<PostData[]>([]);
   const [newPost, setNewPost] = useState<PostData | null>(null);
@@ -23,15 +24,20 @@ const Section = (): JSX.Element => {
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const data: PostData[] = await getPostByUserId(userData.userId);
-        const updatedData = await Promise.all(
-          data.map(async (post) => {
-            const avatarUrl = await getAvatarImage(post.avatar);
+        const response = await getPostByUserId(1, 7, true);
+        if (Array.isArray(response.records)) {
+          const data: PostData[] = response.records;
+          const updatedData = await Promise.all(
+            data.map(async (post) => {
+              const avatarUrl = await getAvatarImage(post.avatar);
+              return { ...post, avatarUrl };
+            })
+          );
 
-            return { ...post, avatarUrl };
-          })
-        );
-        setPostData(updatedData);
+          setPostData(updatedData);
+        } else {
+          console.error("Invalid response format:", response);
+        }
       } catch (err) {
         console.error("Error fetching post data:", err);
       }
@@ -42,7 +48,7 @@ const Section = (): JSX.Element => {
   }, [userData]);
 
   return (
-    <Box sx={{ flex: "1" }}>
+    <Box sx={{ flex: "1", width: "100%" }}>
       <Story />
       <BasicCard setNewPost={setNewPost} />
       {newPost && <Post key={newPost.postId} post={newPost} />}
