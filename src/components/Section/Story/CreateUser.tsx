@@ -9,7 +9,7 @@ const CreateStory = (): JSX.Element => {
         height: 180,
         width: 100,
         margin: "10px",
-        backgroundImage: `url(  'https://source.unsplash.com/RrUItyCYrVM')`,
+        backgroundImage: `url(  "https://cdn.pixabay.com/photo/2023/06/14/09/18/trees-8062668_1280.jpg")`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         padding: "15px 15px",

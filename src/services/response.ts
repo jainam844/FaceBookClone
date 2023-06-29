@@ -235,23 +235,23 @@ export const PostLike = async (
   }
 };
 
-// export const getUserNotification = async (userId: number) => {
-//   try {
-//     const response = await request.get(
-//       `/Notification/GetUserNotifications?userId=${userId}`,
-//       {
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         withCredentials: false,
-//       }
-//     );
+export const getUserNotification = async (userId: number) => {
+  try {
+    const response = await request.get(
+      `/Notification/GetUserNotifications?userId=${userId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: false,
+      }
+    );
 
-//     return response.data;
-//   } catch (err) {
-//     throw err;
-//   }
-// };
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
 
 export const getCommentNotification = async (commentId: number) => {
   try {

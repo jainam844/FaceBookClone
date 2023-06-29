@@ -44,7 +44,7 @@ const HomeApp = () => {
             width: "100%", // Adjust the width of the sidebar here
             maxWidth: "300px", // Add a maximum width for the sidebar
             display: ["none", "none", "block"],
-marginTop:'-1rem',
+            marginTop: "-1rem",
             zIndex: 1,
           }}
         >

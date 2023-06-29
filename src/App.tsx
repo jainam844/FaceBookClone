@@ -52,10 +52,10 @@ const App: React.FC = () => {
                 element={<MarketPlace />}
               />
               <Route path="/layout/home/userfriend" element={<UserFriend />} />
-              {/* <Route
+              <Route
                 path="/layout/home/Notification"
                 element={<Notification />}
-              /> */}
+              />
               <Route path="/layout/home/friend" element={<Friend />} />
             </Route>
 
