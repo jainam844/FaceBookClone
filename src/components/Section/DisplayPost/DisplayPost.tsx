@@ -151,7 +151,6 @@ const Post: React.FC<PostProps> = ({ post }) => {
           const imageData = await Promise.all(postImagePromises);
           setPostImage(imageData);
           setLoadedImages(Array(imageData.length).fill(1));
-          console.log(imageData);
         } catch (error) {
           console.log(error);
         }

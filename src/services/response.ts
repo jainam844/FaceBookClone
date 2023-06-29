@@ -24,7 +24,7 @@ export const ForUserLogin = async (data: {
 };
 export const getUserData = async (id: number, token: string) => {
   try {
-    const response = await request.get(`/User/UserbyId?id=${id}`, {
+    const response = await request.get(`/User/ById/${id}`, {
       headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "69420",
@@ -46,6 +46,7 @@ export const getUserData = async (id: number, token: string) => {
     throw err;
   }
 };
+
 const getBlobData = async (url: string) => {
   try {
     const response = await request.get(url, {
@@ -62,7 +63,7 @@ const getBlobData = async (url: string) => {
 
 export const getAvatarImage = async (imageName: string) => {
   try {
-    const blobData = await getBlobData(`/Account/GetAvatarImage/${imageName}`);
+    const blobData = await getBlobData(`/Account/Avatar/${imageName}`);
     const fileReader = new FileReader();
 
     const base64Promise = new Promise<string>((resolve, reject) => {
@@ -83,7 +84,7 @@ export const getAvatarImage = async (imageName: string) => {
 };
 export const getPostImage = async (imageName: string) => {
   try {
-    const blobData = await getBlobData(`/Account/GetPostImage/${imageName}`);
+    const blobData = await getBlobData(`/Account/Post/${imageName}`);
     const fileReader = new FileReader();
 
     const base64Promise = new Promise<string>((resolve, reject) => {
@@ -120,15 +121,12 @@ export const addPost = async (formData: FormData) => {
 };
 export const getPostByUserId = async (userId: number) => {
   try {
-    const response = await request.get(
-      `/SocialActivity/GetPostByUserId?userId=${userId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: false,
-      }
-    );
+    const response = await request.get(`/SocialActivity/ByUserId/${userId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: false,
+    });
 
     return response.data;
   } catch (err) {
@@ -168,26 +166,24 @@ export const addComment = async (
 
 export const getCommentByPostId = async (postId: number) => {
   try {
-    const response = await request.get(
-      `/SocialActivity/GetCommentsByPostId?postId=${postId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: false,
-      }
-    );
+    const response = await request.get(`/SocialActivity/ByPostId/${postId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: false,
+    });
 
     return response.data;
   } catch (err) {
     throw err;
   }
 };
+getCommentByPostId(59);
 
 export const getLikesByPost = async (postId: number) => {
   try {
     const response = await request.get(
-      `/SocialActivity/GetLikesByPost?postId=${postId}`,
+      `/SocialActivity/LikeByPostId/${postId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -214,7 +210,7 @@ export const PostLike = async (
       isLike: Islike,
     };
     const response = await request.post(
-      `/SocialActivity/PostLike`,
+      `/SocialActivity/AddPostLike`,
       postLikeData
     );
     return response.data;

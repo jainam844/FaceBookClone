@@ -1,4 +1,4 @@
-import React, { useEffect, useState,  } from "react";
+import React, { useEffect, useState } from "react";
 import { Routes, Route, Outlet } from "react-router-dom";
 import { getUserData, getAvatarImage } from "../services/Response";
 import UserContext from "../components/Context/UserContext";
@@ -14,6 +14,7 @@ const HomeLayout = () => {
         const userId = userData.userId;
         const token = userData.token;
         const data = await getUserData(parseInt(userId), token);
+
         setUserData(data);
       } catch (error) {
         console.log("Error fetching user data:", error);

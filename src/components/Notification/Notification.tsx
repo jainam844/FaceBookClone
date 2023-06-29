@@ -4,7 +4,6 @@ import UserContext from "../Context/UserContext";
 import { Box } from "@mui/material";
 import NotificationItem from "./NotificationDat";
 import Grid from "@mui/material/Grid";
-
 interface Notification extends NotificationData {
   byUser?: string;
 }
@@ -39,30 +38,37 @@ const Notification = () => {
     <>
       <h1>Notifications</h1>
 
-      <Grid container spacing={2}>
-        {notifications.map((notification, index) => (
-          <Grid item xs={12} sm={6} key={notification.notificationId}>
-            <Box
-              sx={{
-                border: "1px solid #e0e0e0",
-                borderRadius: "8px",
-                padding: "10px",
-                marginBottom: "16px",
-                backgroundColor: "#ffffff",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                display: "flex",
-                gap: "12px",
-                transition: "background-color 0.3s",
-                "&:hover": {
-                  backgroundColor: "#F0F8FF",
-                },
-              }}
-            >
-              <NotificationItem notification={notification} />
-            </Box>
+      {notifications.map((notification) => (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Grid
+            container
+            key={notification.notificationId}
+            sx={{
+              border: "1px solid #e0e0e0",
+              borderRadius: "8px",
+              padding: "10px",
+              marginBottom: "16px",
+              backgroundColor: "#ffffff",
+              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              gap: "12px",
+              transition: "background-color 0.3s",
+              "&:hover": {
+                backgroundColor: "#F0F8FF",
+              },
+              width: "600px",
+            }}
+          >
+            <NotificationItem notification={notification} />
           </Grid>
-        ))}
-      </Grid>
+        </div>
+      ))}
     </>
   );
 };
