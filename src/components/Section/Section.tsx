@@ -11,6 +11,7 @@ import Story from "./Story/story";
 import Post from "./DisplayPost/DisplayPost";
 import UserContext from "../Context/UserContext";
 import BasicCard from "./AddDescription/AddDescription";
+import AddDescription from "./AddDescription/AddDescription";
 
 interface PostData {
   userName?: string;
@@ -29,7 +30,6 @@ const Section = (): JSX.Element => {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
 
-  
   const { userData } = useContext(UserContext);
 
   const observer = useRef<IntersectionObserver | null>(null);
@@ -53,7 +53,7 @@ const Section = (): JSX.Element => {
     const fetchPosts = async () => {
       try {
         const response = await getPostByUserId(pageNumber, 1, false);
-        console.log(pageNumber);
+        // console.log(pageNumber);
         if (Array.isArray(response.records)) {
           const data: PostData[] = response.records;
           const updatedData = await Promise.all(
@@ -89,7 +89,7 @@ const Section = (): JSX.Element => {
   return (
     <Box sx={{ flex: "1", width: "100%" }}>
       <Story />
-      <BasicCard setNewPost={setNewPost} />
+      <AddDescription setNewPost={setNewPost} />
       {postData.map((post, index) => {
         if (postData.length === index + 1) {
           return <Post key={post.postId} post={post} reference={lastPostRef} />;

@@ -33,7 +33,7 @@ const validateDescription = (value: string) => {
   return error;
 };
 
-const BasicCard = ({
+const AddDescription = ({
   setNewPost,
 }: {
   setNewPost: React.Dispatch<React.SetStateAction<PostData | null>>;
@@ -136,6 +136,7 @@ const BasicCard = ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        marginTop:'2rem'
       }}
     >
       <Card sx={{ width: 800, minHeight: 300 }}>
@@ -246,4 +247,4 @@ const BasicCard = ({
   );
 };
 
-export default BasicCard;
+export default AddDescription;

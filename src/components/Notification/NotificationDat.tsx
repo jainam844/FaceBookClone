@@ -43,7 +43,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             const getNotifData = await getCommentNotification(
               notification.activityId
             );
+            console.log(getNotifData.userName);
             setUsername(getNotifData.userName);
+            
             const avatarUrl = await getAvatarImage(getNotifData.avatar);
             setAvatar(avatarUrl);
           } catch (error) {
@@ -56,9 +58,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             const getLikeNotif = await getLikeNotification(
               notification.activityId
             );
-
             setUsername(getLikeNotif.userName);
-
             const avatarUrl = await getAvatarImage(getLikeNotif.avatar);
             setAvatar(avatarUrl);
           } catch (error) {
@@ -94,7 +94,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         ) : (
           <Avatar src={defaultAvatar} sx={{ marginRight: "10px" }} />
         )}
-        <p>{notification.byUser} Commented on Your Post</p>
+        <p>{username} Commented on Your Post</p>
       </Box>
     );
   } else if (notification.activityTypeName === NotificationType.PostLike) {
@@ -105,7 +105,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         ) : (
           <Avatar src={defaultAvatar} sx={{ marginRight: "10px" }} />
         )}
-        <p>{username} Liked Your Post</p>;
+        <p>{username} Liked Your Post</p>
       </Box>
     );
   } else if (notification.activityTypeName === NotificationType.NewPost) {
@@ -116,7 +116,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         ) : (
           <Avatar src={defaultAvatar} sx={{ marginRight: "10px" }} />
         )}
-        <p>{username} Added a New Post</p>;
+        <p>{username} Added a New Post</p>
       </Box>
     );
   } else {

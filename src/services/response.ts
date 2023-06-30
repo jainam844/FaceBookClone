@@ -188,7 +188,7 @@ export const getCommentByPostId = async (
       `/SocialActivity/CommentByPostId`,
       requestData
     );
-    // console.log(response.data);
+
     return response.data;
   } catch (err) {
     throw err;
@@ -234,28 +234,27 @@ export const PostLike = async (
   }
 };
 
-export const getUserNotification = async (userId: number) => {
+export const getUserNotification = async (
+  pageNumber: number,
+  pageSize: number
+) => {
   try {
-    const response = await request.get(
-      `/Notification/GetUserNotifications?userId=${userId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: false,
-      }
-    );
-
+    const requestData = {
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+    };
+    const response = await request.post(`/Notification`, requestData);
+    // console.log(requestData);
     return response.data;
   } catch (err) {
     throw err;
   }
 };
-
+// getUserNotification(10, 5);
 export const getCommentNotification = async (commentId: number) => {
   try {
     const response = await request.get(
-      `/SocialActivity/GetCommentById?commentId=${commentId}`,
+      `/SocialActivity/CommentById/${commentId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -269,11 +268,12 @@ export const getCommentNotification = async (commentId: number) => {
     throw err;
   }
 };
+// getCommentNotification(4);
 
 export const getLikeNotification = async (postLikeId: number) => {
   try {
     const response = await request.get(
-      `/SocialActivity/GetPostLikesById?postLikeId=${postLikeId}`,
+      `/SocialActivity/LikeById/${postLikeId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -281,7 +281,7 @@ export const getLikeNotification = async (postLikeId: number) => {
         withCredentials: false,
       }
     );
-    console.log(response.data);
+
     return response.data;
   } catch (err) {
     throw err;
@@ -290,16 +290,13 @@ export const getLikeNotification = async (postLikeId: number) => {
 
 export const getNewPostNotification = async (postId: number) => {
   try {
-    const response = await request.get(
-      `/SocialActivity/GetPostById?postId=${postId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: false,
-      }
-    );
-    console.log(response.data);
+    const response = await request.get(`/SocialActivity/PostById/${postId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: false,
+    });
+
     return response.data;
   } catch (err) {
     throw err;

@@ -196,7 +196,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
           1,
           post.postId
         );
-        console.log(commentsList);
+        // console.log(commentsList);
         const data = commentsData.record.responseModel;
         if (Array.isArray(data)) {
           setCommentsList((prevComments) => [...prevComments, ...data]);
@@ -211,7 +211,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
     fetchComments();
   }, [post.postId, pageNumber]);
   {
-    loadingComments && <p>Loading comments...</p>;
+    loadingComments ;
   }
 
   return (
@@ -263,13 +263,15 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
               justifyContent: "space-between",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <RecommendIcon sx={{ marginRight: 0.5, color: "#1877f2" }} />
-              <Typography color="initial">
-                {" "}
-                {likeCount.length} Likes{" "}
-              </Typography>
-            </div>
+           
+              <span style={{ display: "flex", alignItems: "center" }}>
+                <RecommendIcon sx={{ marginRight: 0.5, color: "#1877f2" }} />
+                <Typography color="initial">
+                  {likeCount.length} Likes
+                </Typography>
+              </span>
+           
+
             <Typography color="initial">
               {commentsList.length} comments
             </Typography>

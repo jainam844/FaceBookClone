@@ -79,9 +79,9 @@ export default function PrimarySearchAppBar() {
   useEffect(() => {
     const getAllNotification = async () => {
       try {
-        const notificationData = await getUserNotification(userData.userId);
-        console.log(notificationData.length);
-        setNotificationsCount(notificationData.length); // Update the notifications count
+        const notificationData = await getUserNotification(1, 30);
+        console.log(notificationData.records.length);
+        setNotificationsCount(notificationData.records.length); // Update the notifications count
       } catch (e) {
         console.log(e);
       }
