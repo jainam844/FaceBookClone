@@ -1,4 +1,11 @@
-import React, { useState, ChangeEvent, useEffect, useContext } from "react";
+import React, {
+  useState,
+  ChangeEvent,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+} from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -47,9 +54,9 @@ interface PostData {
 
 interface PostProps {
   post: PostData;
+  reference?: (node: HTMLDivElement) => void;
 }
-
-const Post: React.FC<PostProps> = ({ post }) => {
+const Post: React.FC<PostProps> = ({ post, reference }) => {
   const [newComment, setNewComment] = useState("");
   const [expanded, setExpanded] = useState(false);
   const [likeCount, setLikeCount] = useState("");
@@ -57,10 +64,26 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const [postImage, setPostImage] = useState<string[]>([]);
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
   const [openImageIndex, setOpenImageIndex] = useState<number | null>(null);
-  const [comments, setComments] = useState<CommentData[]>([]);
-  const [commentsList, setCommentsList] = useState<CommentData[]>([]);
 
   const [isLiked, setIsLiked] = useState(false);
+  const [commentsList, setCommentsList] = useState<CommentData[]>([]);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [hasMoreComments, setHasMoreComments] = useState<boolean>(false);
+  const [loadingComments, setLoadingComments] = useState<boolean>(true);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastCommentRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (loadingComments) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMoreComments) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observer.current.observe(node); // Make sure node is the correct element
+    },
+    [loadingComments, hasMoreComments]
+  );
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -168,10 +191,17 @@ const Post: React.FC<PostProps> = ({ post }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const commentsData = await getCommentByPostId(1, 10, post.postId);
+        const commentsData = await getCommentByPostId(
+          pageNumber,
+          1,
+          post.postId
+        );
+        console.log(commentsList);
         const data = commentsData.record.responseModel;
         if (Array.isArray(data)) {
-          setCommentsList(data);
+          setCommentsList((prevComments) => [...prevComments, ...data]);
+          setHasMoreComments(data.length > 0);
+          setLoadingComments(false);
         }
       } catch (error) {
         console.log(error);
@@ -179,11 +209,14 @@ const Post: React.FC<PostProps> = ({ post }) => {
     };
 
     fetchComments();
-  }, [post.postId]);
+  }, [post.postId, pageNumber]);
+  {
+    loadingComments && <p>Loading comments...</p>;
+  }
 
   return (
     <React.Fragment>
-      <Card sx={{ width: "60%", margin: "3rem auto" }}>
+      <Card ref={reference} sx={{ width: "60%", margin: "3rem auto" }}>
         <CardHeader
           avatar={<Avatar src={post.avatarUrl} />}
           action={
@@ -237,7 +270,9 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 {likeCount.length} Likes{" "}
               </Typography>
             </div>
-            <Typography color="initial">{commentsList.length} comments</Typography>
+            <Typography color="initial">
+              {commentsList.length} comments
+            </Typography>
           </Typography>
         </CardContent>
         <CardActions
@@ -291,15 +326,31 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </CardActions>
         <Collapse in={expanded}>
           <CardContent>
-            {commentsList.map((comment, index) => (
-              <CommentCollapse
-                key={index}
-                comment={comment.text}
-                userName={comment.userName}
-                avatarUrl={comment.avatar}
-                createdAt={comment.createdAt}
-              />
-            ))}
+            {commentsList.map((comment, index) => {
+              if (commentsList.length === index + 1) {
+                return (
+                  <CommentCollapse
+                    key={index}
+                    comment={comment.text}
+                    userName={comment.userName}
+                    avatarUrl={comment.avatar}
+                    createdAt={comment.createdAt}
+                    reference={lastCommentRef}
+                  />
+                );
+              } else {
+                return (
+                  <CommentCollapse
+                    key={index}
+                    comment={comment.text}
+                    userName={comment.userName}
+                    avatarUrl={comment.avatar}
+                    createdAt={comment.createdAt}
+                  />
+                );
+              }
+            })}
+
             <TextField
               id="standard-basic"
               label="Write a comment..."

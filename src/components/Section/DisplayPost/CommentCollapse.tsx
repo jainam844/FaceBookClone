@@ -12,6 +12,7 @@ interface CommentCollapseProps {
   userName: string;
   avatarUrl: string;
   createdAt: string;
+  reference?: (node: HTMLDivElement) => void;
 }
 
 const CommentCollapse: React.FC<CommentCollapseProps> = ({
@@ -19,6 +20,7 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
   userName,
   avatarUrl,
   createdAt,
+  reference,
 }) => {
   const [newComment, setNewComment] = useState("");
   const [avatarImageUrl, setAvatarImageUrl] = useState("");
@@ -51,6 +53,7 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
 
   return (
     <Card
+      ref={reference}
       sx={{
         backgroundColor: "#FFFFFF",
         marginBottom: "10px",

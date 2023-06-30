@@ -1,10 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+} from "react";
 import { getAvatarImage, getPostByUserId } from "../../services/Response";
 import Box from "@mui/material/Box";
 import Story from "./Story/story";
-import BasicCard from "./AddDescription/AddDescription";
 import Post from "./DisplayPost/DisplayPost";
 import UserContext from "../Context/UserContext";
+import BasicCard from "./AddDescription/AddDescription";
 
 interface PostData {
   userName?: string;
@@ -19,12 +25,35 @@ interface PostData {
 const Section = (): JSX.Element => {
   const [postData, setPostData] = useState<PostData[]>([]);
   const [newPost, setNewPost] = useState<PostData | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(false);
+
+  
   const { userData } = useContext(UserContext);
 
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const lastPostRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
+
   useEffect(() => {
-    const fetchPostData = async () => {
+    setLoading(true);
+    const fetchPosts = async () => {
       try {
-        const response = await getPostByUserId(1, 7, false);
+        const response = await getPostByUserId(pageNumber, 1, false);
+        console.log(pageNumber);
         if (Array.isArray(response.records)) {
           const data: PostData[] = response.records;
           const updatedData = await Promise.all(
@@ -34,7 +63,10 @@ const Section = (): JSX.Element => {
             })
           );
 
-          setPostData(updatedData);
+          setPostData((prevData) => [...prevData, ...updatedData]);
+
+          setHasMore(response.records.length > 0);
+          setLoading(false);
         } else {
           console.error("Invalid response format:", response);
         }
@@ -42,21 +74,31 @@ const Section = (): JSX.Element => {
         console.error("Error fetching post data:", err);
       }
     };
+
     if (userData) {
-      fetchPostData();
+      fetchPosts();
     }
-  }, [userData]);
+  }, [pageNumber, userData]);
+
+  useEffect(() => {
+    if (newPost) {
+      setPostData((prevData) => [newPost, ...prevData]);
+    }
+  }, [newPost]);
 
   return (
     <Box sx={{ flex: "1", width: "100%" }}>
       <Story />
       <BasicCard setNewPost={setNewPost} />
-      {newPost && <Post key={newPost.postId} post={newPost} />}
-      <div>
-        {postData.map((post, index) => (
-          <Post key={index} post={post} />
-        ))}
-      </div>
+      {postData.map((post, index) => {
+        if (postData.length === index + 1) {
+          return <Post key={post.postId} post={post} reference={lastPostRef} />;
+        } else {
+          return <Post key={post.postId} post={post} />;
+        }
+      })}
+
+      {loading && <p>Loading...</p>}
     </Box>
   );
 };
