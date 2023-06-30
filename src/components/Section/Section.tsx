@@ -24,7 +24,7 @@ const Section = (): JSX.Element => {
   useEffect(() => {
     const fetchPostData = async () => {
       try {
-        const response = await getPostByUserId(1, 7, true);
+        const response = await getPostByUserId(1, 7, false);
         if (Array.isArray(response.records)) {
           const data: PostData[] = response.records;
           const updatedData = await Promise.all(

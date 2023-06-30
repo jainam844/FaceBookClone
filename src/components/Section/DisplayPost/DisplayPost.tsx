@@ -237,7 +237,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 {likeCount.length} Likes{" "}
               </Typography>
             </div>
-            <Typography color="initial">{comments.length} comments</Typography>
+            <Typography color="initial">{commentsList.length} comments</Typography>
           </Typography>
         </CardContent>
         <CardActions
