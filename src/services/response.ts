@@ -188,13 +188,12 @@ export const getCommentByPostId = async (
       `/SocialActivity/CommentByPostId`,
       requestData
     );
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (err) {
     throw err;
   }
 };
-getCommentByPostId(1, 5, 1);
 
 export const getLikesByPost = async (postId: number) => {
   try {
@@ -264,7 +263,7 @@ export const getCommentNotification = async (commentId: number) => {
         withCredentials: false,
       }
     );
-    console.log(response.data);
+    // console.log(response.data);
     return response.data;
   } catch (err) {
     throw err;

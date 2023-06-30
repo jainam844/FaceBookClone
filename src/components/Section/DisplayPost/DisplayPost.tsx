@@ -58,6 +58,8 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
   const [openImageIndex, setOpenImageIndex] = useState<number | null>(null);
   const [comments, setComments] = useState<CommentData[]>([]);
+  const [commentsList, setCommentsList] = useState<CommentData[]>([]);
+
   const [isLiked, setIsLiked] = useState(false);
 
   const handleExpandClick = () => {
@@ -125,8 +127,12 @@ const Post: React.FC<PostProps> = ({ post }) => {
   const handlePost = async () => {
     if (newComment.trim() !== "") {
       try {
-        await addComment(userData.userId, post.postId, newComment);
-        console.log(userData.userId, post.postId, newComment);
+        const newCommentData = await addComment(
+          userData.userId,
+          post.postId,
+          newComment
+        );
+        setCommentsList([...commentsList, newCommentData]);
         setNewComment("");
       } catch (error) {
         console.log(error);
@@ -162,9 +168,11 @@ const Post: React.FC<PostProps> = ({ post }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const commentsData = await getCommentByPostId(1, 10, 53);
-        console.log(commentsData);
-        setComments(commentsData);
+        const commentsData = await getCommentByPostId(1, 10, post.postId);
+        const data = commentsData.record.responseModel;
+        if (Array.isArray(data)) {
+          setCommentsList(data);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -283,7 +291,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </CardActions>
         <Collapse in={expanded}>
           <CardContent>
-            {comments.map((comment, index) => (
+            {commentsList.map((comment, index) => (
               <CommentCollapse
                 key={index}
                 comment={comment.text}
@@ -291,7 +299,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
                 avatarUrl={comment.avatar}
                 createdAt={comment.createdAt}
               />
-            ))}{" "}
+            ))}
             <TextField
               id="standard-basic"
               label="Write a comment..."
