@@ -6,6 +6,8 @@ import {
   getNewPostNotification,
   getAvatarImage,
   getCommentByPostId,
+  getPostImage,
+  getUserNotification,
 } from "../../services/Response";
 import Avatar from "@mui/material/Avatar";
 
@@ -35,7 +37,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
 }) => {
   const [username, setUsername] = useState("");
   const [avatar, setAvatar] = useState<string | null>(null);
-
+  const [postImage, setPostImage] = useState<string[]>([]);
   useEffect(() => {
     const getUserdata = async () => {
       switch (notification.activityTypeName) {
@@ -44,12 +46,20 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             const getNotifData = await getCommentNotification(
               notification.activityId
             );
+  
             console.log(getNotifData);
-
+            const postData = await getNewPostNotification(getNotifData.postId);
+            console.log(postData);
+  
+            const ImageData = await getPostImage(postData.path);
+            console.log(postData.path);
+  
+            setPostImage([ImageData]); // Wrap ImageData in an array
+  
             setUsername(getNotifData.userName);
-
+  
             const avatarUrl = await getAvatarImage(getNotifData.avatar);
-
+  
             setAvatar(avatarUrl);
           } catch (error) {
             console.log(error);
@@ -98,6 +108,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           <Avatar src={defaultAvatar} sx={{ marginRight: "10px" }} />
         )}
         <p>{username} Commented on Your Post</p>
+        {postImage.length > 0 && (
+        <Avatar src={postImage[0]} sx={{ marginLeft: "50px" }} />
+      )}
       </Box>
     );
   } else if (notification.activityTypeName === NotificationType.PostLike) {

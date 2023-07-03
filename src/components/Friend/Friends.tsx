@@ -108,9 +108,20 @@ const Friend = () => {
           </Grid>
         </Grid>
 
-        {friends.map((friend) => (
-          <FriendList friend={friend} />
-        ))}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            padding: "2rem 2rem",
+            flexDirection: "row", // Switch back to row layout on larger screens
+            alignItems: "center",
+            flexWrap: "wrap", // Wrap the cards to a new line on larger screens
+          }}
+        >
+          {friends.map((friend) => (
+            <FriendList friend={friend} sx={{ width: "calc(33% - 1rem)" }} />
+          ))}
+        </Box>
       </Box>
     </Box>
   );
