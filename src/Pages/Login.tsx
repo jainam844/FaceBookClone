@@ -51,8 +51,9 @@ const LoginPage: React.FC = () => {
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
         navigate("/layout/home");
+        toast.success("Login successful!");
       } else {
-        toast.error("Login failed. Please try again."); // Show error toaster
+        toast.error("Login failed. Please try again.");
       }
     } catch (error) {
       console.log(error);

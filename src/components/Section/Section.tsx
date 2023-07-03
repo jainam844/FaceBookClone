@@ -12,6 +12,8 @@ import Post from "./DisplayPost/DisplayPost";
 import UserContext from "../Context/UserContext";
 import BasicCard from "./AddDescription/AddDescription";
 import AddDescription from "./AddDescription/AddDescription";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 interface PostData {
   userName?: string;
@@ -97,10 +99,11 @@ const Section = (): JSX.Element => {
           return <Post key={post.postId} post={post} />;
         }
       })}
-
-      {loading && <p>Loading...</p>}
+  
+      {loading && <CircularProgress sx={{ display: "block", margin: "auto" }} />}
     </Box>
   );
+  
 };
 
 export default Section;

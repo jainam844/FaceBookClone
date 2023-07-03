@@ -1,12 +1,12 @@
 //Request.ts
-import request from "./Request";
+import axiosInstance from "./Request";
 
 export const ForUserLogin = async (data: {
   email: string;
   password: string;
 }) => {
   try {
-    const response = await request.post(
+    const response = await axiosInstance.post(
       "/Account/Login",
       JSON.stringify(data),
       {
@@ -24,7 +24,7 @@ export const ForUserLogin = async (data: {
 };
 export const getUserData = async (id: number, token: string) => {
   try {
-    const response = await request.get(`/User/ById/${id}`, {
+    const response = await axiosInstance.get(`/User/ById/${id}`, {
       headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "69420",
@@ -49,7 +49,7 @@ export const getUserData = async (id: number, token: string) => {
 
 const getBlobData = async (url: string) => {
   try {
-    const response = await request.get(url, {
+    const response = await axiosInstance.get(url, {
       headers: {},
       withCredentials: false,
       responseType: "blob",
@@ -108,11 +108,15 @@ export const getPostImage = async (imageName: string) => {
 
 export const addPost = async (formData: FormData) => {
   try {
-    const response = await request.post("/SocialActivity/AddPost", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axiosInstance.post(
+      "/SocialActivity/AddPost",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
 
     return response.data;
   } catch (err) {
@@ -131,16 +135,17 @@ export const getPostByUserId = async (
       isUser: isUser,
     };
 
-    const response = await request.post(
+    const response = await axiosInstance.post(
       `/SocialActivity/PostByUserId`,
       requestData
     );
+    // console.log(response.data);
     return response.data;
   } catch (err) {
     throw err;
   }
 };
-// getPostByUserId(1, 2, false);
+getPostByUserId(1, 2, false);
 
 export const addComment = async (
   UserId: number,
@@ -153,7 +158,7 @@ export const addComment = async (
       postId: PostId,
       text: comment,
     };
-    const response = await request.post(
+    const response = await axiosInstance.post(
       `/SocialActivity/AddComments`,
       postdata,
 
@@ -184,7 +189,7 @@ export const getCommentByPostId = async (
       postId: postId,
     };
 
-    const response = await request.post(
+    const response = await axiosInstance.post(
       `/SocialActivity/CommentByPostId`,
       requestData
     );
@@ -197,7 +202,7 @@ export const getCommentByPostId = async (
 
 export const getLikesByPost = async (postId: number) => {
   try {
-    const response = await request.get(
+    const response = await axiosInstance.get(
       `/SocialActivity/LikeByPostId/${postId}`,
       {
         headers: {
@@ -224,7 +229,7 @@ export const PostLike = async (
       postId: PostId,
       isLike: Islike,
     };
-    const response = await request.post(
+    const response = await axiosInstance.post(
       `/SocialActivity/AddPostLike`,
       postLikeData
     );
@@ -243,7 +248,7 @@ export const getUserNotification = async (
       pageNumber: pageNumber,
       pageSize: pageSize,
     };
-    const response = await request.post(`/Notification`, requestData);
+    const response = await axiosInstance.post(`/Notification`, requestData);
     // console.log(requestData);
     return response.data;
   } catch (err) {
@@ -253,7 +258,7 @@ export const getUserNotification = async (
 // getUserNotification(10, 5);
 export const getCommentNotification = async (commentId: number) => {
   try {
-    const response = await request.get(
+    const response = await axiosInstance.get(
       `/SocialActivity/CommentById/${commentId}`,
       {
         headers: {
@@ -272,7 +277,7 @@ export const getCommentNotification = async (commentId: number) => {
 
 export const getLikeNotification = async (postLikeId: number) => {
   try {
-    const response = await request.get(
+    const response = await axiosInstance.get(
       `/SocialActivity/LikeById/${postLikeId}`,
       {
         headers: {
@@ -290,15 +295,42 @@ export const getLikeNotification = async (postLikeId: number) => {
 
 export const getNewPostNotification = async (postId: number) => {
   try {
-    const response = await request.get(`/SocialActivity/PostById/${postId}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: false,
-    });
+    const response = await axiosInstance.get(
+      `/SocialActivity/PostById/${postId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: false,
+      }
+    );
 
     return response.data;
   } catch (err) {
     throw err;
   }
 };
+export const getUserRequest = async (
+  pageNumber: number,
+  pageSize: number,
+  filter: number,
+  requestType: number
+) => {
+  try {
+    const requestData = {
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+      filter: filter,
+      requestType: requestType,
+    };
+    const response = await axiosInstance.post(
+      `/UserRequest/ByUserId`,
+      requestData
+    );
+    console.log(requestData);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+// getUserRequest(1, 100, 3, 2);

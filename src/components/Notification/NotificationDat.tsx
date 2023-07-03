@@ -5,6 +5,7 @@ import {
   getLikeNotification,
   getNewPostNotification,
   getAvatarImage,
+  getCommentByPostId,
 } from "../../services/Response";
 import Avatar from "@mui/material/Avatar";
 
@@ -43,10 +44,12 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             const getNotifData = await getCommentNotification(
               notification.activityId
             );
-            console.log(getNotifData.userName);
+            console.log(getNotifData);
+
             setUsername(getNotifData.userName);
-            
+
             const avatarUrl = await getAvatarImage(getNotifData.avatar);
+
             setAvatar(avatarUrl);
           } catch (error) {
             console.log(error);
