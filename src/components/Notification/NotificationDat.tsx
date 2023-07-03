@@ -46,20 +46,17 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             const getNotifData = await getCommentNotification(
               notification.activityId
             );
-  
-            console.log(getNotifData);
+
             const postData = await getNewPostNotification(getNotifData.postId);
-            console.log(postData);
-  
+
             const ImageData = await getPostImage(postData.path);
-            console.log(postData.path);
-  
-            setPostImage([ImageData]); // Wrap ImageData in an array
-  
+
+            setPostImage([ImageData]);
+
             setUsername(getNotifData.userName);
-  
+
             const avatarUrl = await getAvatarImage(getNotifData.avatar);
-  
+
             setAvatar(avatarUrl);
           } catch (error) {
             console.log(error);
@@ -71,6 +68,12 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             const getLikeNotif = await getLikeNotification(
               notification.activityId
             );
+            console.log(getLikeNotif);
+            const postData = await getNewPostNotification(getLikeNotif.postId);
+
+            const ImageData = await getPostImage(postData.path);
+            setPostImage([ImageData]);
+
             setUsername(getLikeNotif.userName);
             const avatarUrl = await getAvatarImage(getLikeNotif.avatar);
             setAvatar(avatarUrl);
@@ -84,6 +87,13 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             const getNewPostNotif = await getNewPostNotification(
               notification.activityId
             );
+            console.log(getNewPostNotif);
+            const postData = await getNewPostNotification(
+              getNewPostNotif.postId
+            );
+
+            const ImageData = await getPostImage(postData.path);
+            setPostImage([ImageData]);
 
             setUsername(getNewPostNotif.userName);
             const avatarUrl = await getAvatarImage(getNewPostNotif.avatar);
@@ -109,8 +119,8 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         )}
         <p>{username} Commented on Your Post</p>
         {postImage.length > 0 && (
-        <Avatar src={postImage[0]} sx={{ marginLeft: "50px" }} />
-      )}
+          <Avatar src={postImage[0]} sx={{ marginLeft: "50px" }} />
+        )}
       </Box>
     );
   } else if (notification.activityTypeName === NotificationType.PostLike) {
@@ -122,6 +132,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           <Avatar src={defaultAvatar} sx={{ marginRight: "10px" }} />
         )}
         <p>{username} Liked Your Post</p>
+        {postImage.length > 0 && (
+          <Avatar src={postImage[0]} sx={{ marginLeft: "50px" }} />
+        )}
       </Box>
     );
   } else if (notification.activityTypeName === NotificationType.NewPost) {
@@ -133,6 +146,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           <Avatar src={defaultAvatar} sx={{ marginRight: "10px" }} />
         )}
         <p>{username} Added a New Post</p>
+        {postImage.length > 0 && (
+          <Avatar src={postImage[0]} sx={{ marginLeft: "50px" }} />
+        )}
       </Box>
     );
   } else {

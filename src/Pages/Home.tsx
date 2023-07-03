@@ -20,12 +20,13 @@ const HomeApp = () => {
       >
         <div className="header">
           <Header />
+
           <Box
             sx={{
               display: ["flex", "flex", "none"],
               boxShadow: ["0px 5px 7px -7px rgba(0, 0, 0, 0.75)"],
               justifyContent: "center",
-              margin: "0.2rem 1rem",
+              margin: "0.1rem 0rem",
               backgroundColor: "white",
               padding: " 0.3rem 0.5rem",
               position: ["sticky", "sticky", "sticky"],
@@ -41,8 +42,8 @@ const HomeApp = () => {
         <Box
           sx={{
             position: "fixed",
-            width: "100%", // Adjust the width of the sidebar here
-            maxWidth: "300px", // Add a maximum width for the sidebar
+            width: "100%",
+            maxWidth: "300px",
             display: ["none", "none", "block"],
             marginTop: "-1rem",
             zIndex: 1,

@@ -30,6 +30,8 @@ const Search = styled("div")(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
+
+  border: `1px solid ${theme.palette.primary.main}`,
   marginLeft: 0,
   width: "100%",
 
@@ -80,8 +82,8 @@ export default function PrimarySearchAppBar() {
     const getAllNotification = async () => {
       try {
         const notificationData = await getUserNotification(1, 30);
-        console.log(notificationData.records.length);
-        setNotificationsCount(notificationData.records.length); // Update the notifications count
+
+        setNotificationsCount(notificationData.records.length);
       } catch (e) {
         console.log(e);
       }
@@ -210,11 +212,18 @@ export default function PrimarySearchAppBar() {
                 <img src={fbImgLogo} height={40} alt="fb logo" />
               </Box>
             </Typography>
-            <Search sx={{ marginRight: "100px", borderRadius: "20px" }}>
+            <Search
+              sx={{
+                marginRight: "100px",
+                borderRadius: "20px",
+                border: "1px solid #000000",
+              }}
+            >
               <SearchIconWrapper>
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
+              
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
               />
