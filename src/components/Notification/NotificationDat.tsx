@@ -20,7 +20,8 @@ enum NotificationType {
   Comment = 'CommentOnPost',
   PostLike = 'PostLike',
   NewPost = 'AddNewPost',
-  Acceptreq = 'AcceptRequest'
+  Acceptreq = 'AcceptRequest',
+  RejectReq = 'RejectRequest'
 }
 
 interface Notification extends NotificationData {
@@ -119,6 +120,27 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             const ImageData = await getPostImage(postData.path)
             setPostImage([ImageData])
 
+            setUsername(getUserReqNotifi.fromUserName)
+            const avatarUrl = await getAvatarImage(getUserReqNotifi.avatar)
+            setAvatar(avatarUrl)
+          } catch (error) {
+            console.log(error)
+          }
+          break
+        case NotificationType.RejectReq:
+          try {
+            const getUserReqNotifi = await getUserReqNotification(
+              notification.activityId
+            )
+            console.log(getUserReqNotifi)
+
+            const postData = await getNewPostNotification(
+              getUserReqNotifi.postId
+            )
+
+            const ImageData = await getPostImage(postData.path)
+            setPostImage([ImageData])
+
             setUsername(getUserReqNotifi.userName)
             const avatarUrl = await getAvatarImage(getUserReqNotifi.avatar)
             setAvatar(avatarUrl)
@@ -184,6 +206,20 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           <Avatar src={defaultAvatar} sx={{ marginRight: '10px' }} />
         )}
         <p>{username} Accepted Your Request</p>
+        {postImage.length > 0 && (
+          <Avatar src={postImage[0]} sx={{ marginLeft: '50px' }} />
+        )}
+      </Box>
+    )
+  } else if (notification.activityTypeName === NotificationType.RejectReq) {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
+        {avatar ? (
+          <Avatar src={avatar} sx={{ marginRight: '10px' }} />
+        ) : (
+          <Avatar src={defaultAvatar} sx={{ marginRight: '10px' }} />
+        )}
+        <p>{username} Rejected Your Request</p>
         {postImage.length > 0 && (
           <Avatar src={postImage[0]} sx={{ marginLeft: '50px' }} />
         )}

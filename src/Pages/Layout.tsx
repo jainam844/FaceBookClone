@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { Routes, Route, Outlet } from 'react-router-dom'
 import { getUserData, getAvatarImage } from '../services/Response'
 import UserContext from '../components/Context/UserContext'
+import { IUserData, UserData } from '../Models/User'
 
 const HomeLayout = () => {
-  const [userData, setUserData] = useState<any>('')
+  const [userData, setUserData] = useState<IUserData[]>([])
   const [userimageUrl, setImageUrl] = useState('')
 
   useEffect(() => {
@@ -12,11 +13,11 @@ const HomeLayout = () => {
       try {
         const userData = JSON.parse(localStorage.getItem('userInfo') ?? '')
 
-        console.log(userData)
         const userId = userData.userId
         const token = userData.token
         const data = await getUserData(parseInt(userId), token)
 
+        console.log(data)
         setUserData(data)
       } catch (error) {
         console.log('Error fetching user data:', error)
