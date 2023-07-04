@@ -36,7 +36,7 @@ const Notification = () => {
     marginBottom: 3,
   };
   const mainGridStyle1 = {
-    backgroundColor: "rgba(255, 192, 203, 0.5)", // Pink color with 50% transparency
+    backgroundColor: "rgba(255, 192, 203, 0.5)", 
     borderRadius: "2px",
     padding: "2px",
     marginBottom: "3px",
@@ -46,6 +46,7 @@ const Notification = () => {
     const getAllNotification = async () => {
       try {
         const notificationData = await getUserNotification(1, 20);
+        console.log(notificationData);
         setNotifications(notificationData.records);
       } catch (e) {
         console.log(e);

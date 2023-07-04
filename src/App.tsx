@@ -16,6 +16,7 @@ import HomeApp from "./Pages/Home";
 import Profile from "./Pages/Profile";
 import HomeLayout from "./Pages/Layout";
 import Notification from "./components/Notification/Notification";
+import RegisterPage from "./Pages/Register";
 
 interface ProtectedRouteProps {
   render: () => JSX.Element;
@@ -35,6 +36,7 @@ const App: React.FC = () => {
       <Router>
         <Routes>
           <Route path="/" element={<LoginPage />} />
+          <Route path="/Register" element={<RegisterPage />} />
           <Route
             path="/layout"
             element={<ProtectedRoute element={() => <HomeLayout />} />}

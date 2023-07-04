@@ -37,7 +37,7 @@ const HeaderIcons: React.FC = (): JSX.Element => {
       >
         <HomeIcon sx={{ fontSize: "1.8rem" }} />
       </Button>
-{/* 
+      {/* 
       <Button
         sx={{
           ...commonButtonStyles,
@@ -89,7 +89,7 @@ const HeaderIcons: React.FC = (): JSX.Element => {
       >
         <GroupsRoundedIcon sx={{ fontSize: "1.8rem" }} />
       </Button> */}
-       <Button
+      <Button
         sx={{
           ...commonButtonStyles,
           ...(location.pathname === "/layout/home/Notification"

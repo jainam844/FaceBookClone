@@ -13,10 +13,12 @@ import Grid from "@mui/material/Grid";
 import { IconButton } from "@mui/material";
 import SearchIcon from "@material-ui/icons/Search";
 import { getAvatarImage } from "../../services/Response";
+import { getUserRequestRespond } from "../../services/Response";
 
 interface Friend {
   fromUserName: string;
   fromAvatar: string;
+  requestId: number;
 }
 type FriendListProps = {
   friend: Friend;
@@ -34,12 +36,24 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
     getAvatar();
   }, []);
 
-  const handleConfirm = () => {
-    console.log("Confirmed friend with id:");
+  const handleConfirm = async () => {
+    try {
+      const response = await getUserRequestRespond(friend.requestId, true);
+
+      console.log("API response:", response);
+    } catch (error) {
+      console.error("API error:", error);
+    }
   };
 
-  const handleDelete = () => {
-    console.log("Deleted friend with id:");
+  const handleDelete = async () => {
+    try {
+      const response = await getUserRequestRespond(friend.requestId, false);
+
+      console.log("Deleted friend with id:", response);
+    } catch (error) {
+      console.error("API error:", error);
+    }
   };
 
   return (
@@ -67,7 +81,8 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
                 height: 30,
                 marginLeft: "-15px",
               }}
-            />   <Avatar
+            />{" "}
+            <Avatar
               src={avatar ? avatar : undefined}
               sx={{
                 border: "2px solid white",
@@ -76,7 +91,8 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
                 height: 30,
                 marginLeft: "-15px",
               }}
-            />   <Avatar
+            />{" "}
+            <Avatar
               src={avatar ? avatar : undefined}
               sx={{
                 border: "2px solid white",
@@ -86,7 +102,6 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
                 marginLeft: "-15px",
               }}
             />
-
             <Typography sx={{ fontSize: "15px", color: "gray" }}>
               Friend are Members
             </Typography>

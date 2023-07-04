@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Typography, Box, Button, TextField, Link } from "@mui/material";
+import { Typography, Box, Button, TextField,   } from "@mui/material";
+import { Link as RouterLink } from 'react-router-dom';
+
 import Grid from "@mui/material/Grid";
 import fbImgLogo from "../assets/BharatBook1.png";
 import IconButton from "@mui/material/IconButton";
@@ -200,18 +202,19 @@ const LoginPage: React.FC = () => {
                     variant="body2"
                     sx={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}
                   >
-                    <Link
+                    {/* <Link
                       href="#"
                       color="primary"
                       sx={{ fontWeight: "bold", textDecoration: "none" }}
                     >
                       Forgot Password?
-                    </Link>
+                    </Link> */}
                   </Typography>
                   <Button
+                    component={RouterLink}
+                    to="/Register"
                     variant="contained"
                     color="success"
-                    onClick={handleCreateAccount}
                     fullWidth
                     sx={{ marginBottom: "0.5rem", marginTop: "0.5rem" }}
                   >

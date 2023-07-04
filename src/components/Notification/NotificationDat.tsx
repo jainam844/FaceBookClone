@@ -68,7 +68,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             const getLikeNotif = await getLikeNotification(
               notification.activityId
             );
-            console.log(getLikeNotif);
+
             const postData = await getNewPostNotification(getLikeNotif.postId);
 
             const ImageData = await getPostImage(postData.path);
@@ -87,7 +87,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             const getNewPostNotif = await getNewPostNotification(
               notification.activityId
             );
-            console.log(getNewPostNotif);
+
             const postData = await getNewPostNotification(
               getNewPostNotif.postId
             );

@@ -333,4 +333,26 @@ export const getUserRequest = async (
     throw err;
   }
 };
+
+export const getUserRequestRespond = async (
+  requestId: number,
+  isAccepted: boolean
+) => {
+  try {
+    const requestData = {
+      requestId: requestId,
+      isAccepted: isAccepted,
+    };
+    const response = await axiosInstance.post(
+      `/UserRequest/Respond`,
+      requestData
+    );
+    console.log(requestData);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+// getUserRequestRespond(13, false);
+
 // getUserRequest(1, 100, 3, 2);
