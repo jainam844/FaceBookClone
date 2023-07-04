@@ -3,6 +3,7 @@ import { Typography, Box, Button, TextField } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import fbImgLogo from "../assets/BharatBook1.png";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Link as RouterLink } from "react-router-dom";
 import * as Yup from "yup";
 
 interface FormValues {
@@ -64,7 +65,8 @@ const RegisterPage = () => {
               />
 
               <Typography sx={{ fontWeight: "bold", marginTop: "1rem" }}>
-                Connect with Friends and the world <br /> around you on BharatBook
+                Connect with Friends and the world <br /> around you on
+                BharatBook
               </Typography>
             </Box>
           </Grid>
@@ -179,6 +181,17 @@ const RegisterPage = () => {
                     sx={{ marginTop: "1rem" }}
                   >
                     Register
+                  </Button>{" "}
+                  <Button
+                    component={RouterLink}
+                    to="/"
+                    variant="contained"
+                    color="success"
+                    fullWidth
+                    size="large"
+                    sx={{ marginTop: "1rem" }}
+                  >
+                    Login
                   </Button>
                 </Form>
               </Formik>
