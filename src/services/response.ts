@@ -139,7 +139,7 @@ export const getPostByUserId = async (
       `/SocialActivity/PostByUserId`,
       requestData
     );
-    // console.log(response.data);
+
     return response.data;
   } catch (err) {
     throw err;
@@ -249,13 +249,13 @@ export const getUserNotification = async (
       pageSize: pageSize,
     };
     const response = await axiosInstance.post(`/Notification`, requestData);
-    // console.log(requestData);
+
     return response.data;
   } catch (err) {
     throw err;
   }
 };
-// getUserNotification(10, 5);
+
 export const getCommentNotification = async (commentId: number) => {
   try {
     const response = await axiosInstance.get(
@@ -273,7 +273,6 @@ export const getCommentNotification = async (commentId: number) => {
     throw err;
   }
 };
-// getCommentNotification(4);
 
 export const getLikeNotification = async (postLikeId: number) => {
   try {
@@ -333,7 +332,6 @@ export const getUserRequest = async (
     throw err;
   }
 };
-
 export const getUserRequestRespond = async (
   requestId: number,
   isAccepted: boolean
@@ -353,6 +351,19 @@ export const getUserRequestRespond = async (
     throw err;
   }
 };
-// getUserRequestRespond(13, false);
 
-// getUserRequest(1, 100, 3, 2);
+export const getUserReqNotification = async (requestId: number) => {
+  try {
+    const response = await axiosInstance.get(`/UserRequest/ById/${requestId}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: false,
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+getUserReqNotification(1);

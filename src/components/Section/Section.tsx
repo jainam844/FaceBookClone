@@ -49,7 +49,7 @@ const Section = (): JSX.Element => {
     const fetchPosts = async () => {
       try {
         const response = await getPostByUserId(pageNumber, 1, false)
-        console.log(response)
+
         if (Array.isArray(response.records)) {
           const data: Ipost[] = response.records
           const updatedData = await Promise.all(

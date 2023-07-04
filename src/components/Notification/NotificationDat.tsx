@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
+import { useEffect, useState } from 'react'
+import Box from '@mui/material/Box'
 import {
   getCommentNotification,
   getLikeNotification,
@@ -8,36 +8,38 @@ import {
   getCommentByPostId,
   getPostImage,
   getUserNotification,
-} from "../../services/Response";
-import Avatar from "@mui/material/Avatar";
+  getUserReqNotification
+} from '../../services/Response'
+import Avatar from '@mui/material/Avatar'
 
 interface NotificationItemProps {
-  notification: Notification;
+  notification: Notification
 }
 
 enum NotificationType {
-  Comment = "CommentOnPost",
-  PostLike = "PostLike",
-  NewPost = "AddNewPost",
+  Comment = 'CommentOnPost',
+  PostLike = 'PostLike',
+  NewPost = 'AddNewPost',
+  Acceptreq = 'AcceptRequest'
 }
 
 interface Notification extends NotificationData {
-  byUser?: string;
+  byUser?: string
 }
 
 interface NotificationData {
-  notificationId: number;
-  activityType: number;
-  activityId: number;
-  activityTypeName: string;
+  notificationId: number
+  activityType: number
+  activityId: number
+  activityTypeName: string
 }
-const defaultAvatar = "/path/to/default/avatar.png";
+const defaultAvatar = '/path/to/default/avatar.png'
 const NotificationItem: React.FC<NotificationItemProps> = ({
-  notification,
+  notification
 }) => {
-  const [username, setUsername] = useState("");
-  const [avatar, setAvatar] = useState<string | null>(null);
-  const [postImage, setPostImage] = useState<string[]>([]);
+  const [username, setUsername] = useState('')
+  const [avatar, setAvatar] = useState<string | null>(null)
+  const [postImage, setPostImage] = useState<string[]>([])
   useEffect(() => {
     const getUserdata = async () => {
       switch (notification.activityTypeName) {
@@ -45,114 +47,150 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           try {
             const getNotifData = await getCommentNotification(
               notification.activityId
-            );
+            )
 
-            const postData = await getNewPostNotification(getNotifData.postId);
+            const postData = await getNewPostNotification(getNotifData.postId)
 
-            const ImageData = await getPostImage(postData.path);
+            const ImageData = await getPostImage(postData.path)
 
-            setPostImage([ImageData]);
+            setPostImage([ImageData])
 
-            setUsername(getNotifData.userName);
+            setUsername(getNotifData.userName)
 
-            const avatarUrl = await getAvatarImage(getNotifData.avatar);
+            const avatarUrl = await getAvatarImage(getNotifData.avatar)
 
-            setAvatar(avatarUrl);
+            setAvatar(avatarUrl)
           } catch (error) {
-            console.log(error);
+            console.log(error)
           }
-          break;
+          break
 
         case NotificationType.PostLike:
           try {
             const getLikeNotif = await getLikeNotification(
               notification.activityId
-            );
+            )
 
-            const postData = await getNewPostNotification(getLikeNotif.postId);
+            const postData = await getNewPostNotification(getLikeNotif.postId)
 
-            const ImageData = await getPostImage(postData.path);
-            setPostImage([ImageData]);
+            const ImageData = await getPostImage(postData.path)
+            setPostImage([ImageData])
 
-            setUsername(getLikeNotif.userName);
-            const avatarUrl = await getAvatarImage(getLikeNotif.avatar);
-            setAvatar(avatarUrl);
+            setUsername(getLikeNotif.userName)
+            const avatarUrl = await getAvatarImage(getLikeNotif.avatar)
+            setAvatar(avatarUrl)
           } catch (error) {
-            console.log(error);
+            console.log(error)
           }
-          break;
+          break
 
         case NotificationType.NewPost:
           try {
             const getNewPostNotif = await getNewPostNotification(
               notification.activityId
-            );
+            )
 
             const postData = await getNewPostNotification(
               getNewPostNotif.postId
-            );
+            )
 
-            const ImageData = await getPostImage(postData.path);
-            setPostImage([ImageData]);
+            const ImageData = await getPostImage(postData.path)
+            setPostImage([ImageData])
 
-            setUsername(getNewPostNotif.userName);
-            const avatarUrl = await getAvatarImage(getNewPostNotif.avatar);
-            setAvatar(avatarUrl);
+            setUsername(getNewPostNotif.userName)
+            const avatarUrl = await getAvatarImage(getNewPostNotif.avatar)
+            setAvatar(avatarUrl)
           } catch (error) {
-            console.log(error);
+            console.log(error)
           }
-          break;
+          break
+
+        case NotificationType.Acceptreq:
+          try {
+            const getUserReqNotifi = await getUserReqNotification(
+              notification.activityId
+            )
+            console.log(getUserReqNotifi)
+
+            const postData = await getNewPostNotification(
+              getUserReqNotifi.postId
+            )
+
+            const ImageData = await getPostImage(postData.path)
+            setPostImage([ImageData])
+
+            setUsername(getUserReqNotifi.userName)
+            const avatarUrl = await getAvatarImage(getUserReqNotifi.avatar)
+            setAvatar(avatarUrl)
+          } catch (error) {
+            console.log(error)
+          }
+          break
         default:
-          break;
+          break
       }
-    };
-    getUserdata();
-  }, [notification.activityType, notification.activityId]);
+    }
+    getUserdata()
+  }, [notification.activityType, notification.activityId])
 
   if (notification.activityTypeName === NotificationType.Comment) {
     return (
-      <Box sx={{ display: "flex", alignItems: "center", padding: "10px" }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
         {avatar ? (
-          <Avatar src={avatar} sx={{ marginRight: "10px" }} />
+          <Avatar src={avatar} sx={{ marginRight: '10px' }} />
         ) : (
-          <Avatar src={defaultAvatar} sx={{ marginRight: "10px" }} />
+          <Avatar src={defaultAvatar} sx={{ marginRight: '10px' }} />
         )}
         <p>{username} Commented on Your Post</p>
         {postImage.length > 0 && (
-          <Avatar src={postImage[0]} sx={{ marginLeft: "50px" }} />
+          <Avatar src={postImage[0]} sx={{ marginLeft: '50px' }} />
         )}
       </Box>
-    );
+    )
   } else if (notification.activityTypeName === NotificationType.PostLike) {
     return (
-      <Box sx={{ display: "flex", alignItems: "center", padding: "10px" }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
         {avatar ? (
-          <Avatar src={avatar} sx={{ marginRight: "10px" }} />
+          <Avatar src={avatar} sx={{ marginRight: '10px' }} />
         ) : (
-          <Avatar src={defaultAvatar} sx={{ marginRight: "10px" }} />
+          <Avatar src={defaultAvatar} sx={{ marginRight: '10px' }} />
         )}
         <p>{username} Liked Your Post</p>
         {postImage.length > 0 && (
-          <Avatar src={postImage[0]} sx={{ marginLeft: "50px" }} />
+          <Avatar src={postImage[0]} sx={{ marginLeft: '50px' }} />
         )}
       </Box>
-    );
+    )
   } else if (notification.activityTypeName === NotificationType.NewPost) {
     return (
-      <Box sx={{ display: "flex", alignItems: "center", padding: "10px" }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
         {avatar ? (
-          <Avatar src={avatar} sx={{ marginRight: "10px" }} />
+          <Avatar src={avatar} sx={{ marginRight: '10px' }} />
         ) : (
-          <Avatar src={defaultAvatar} sx={{ marginRight: "10px" }} />
+          <Avatar src={defaultAvatar} sx={{ marginRight: '10px' }} />
         )}
         <p>{username} Added a New Post</p>
         {postImage.length > 0 && (
-          <Avatar src={postImage[0]} sx={{ marginLeft: "50px" }} />
+          <Avatar src={postImage[0]} sx={{ marginLeft: '50px' }} />
         )}
       </Box>
-    );
+    )
+  } else if (notification.activityTypeName === NotificationType.Acceptreq) {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
+        {avatar ? (
+          <Avatar src={avatar} sx={{ marginRight: '10px' }} />
+        ) : (
+          <Avatar src={defaultAvatar} sx={{ marginRight: '10px' }} />
+        )}
+        <p>{username} Accepted Your Request</p>
+        {postImage.length > 0 && (
+          <Avatar src={postImage[0]} sx={{ marginLeft: '50px' }} />
+        )}
+      </Box>
+    )
   } else {
-    return null;
+    return null
   }
-};
-export default NotificationItem;
+}
+export default NotificationItem

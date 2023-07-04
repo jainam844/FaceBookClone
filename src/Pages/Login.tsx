@@ -36,8 +36,6 @@ const LoginPage: React.FC = () => {
     try {
       const loginSuccessful = await ForUserLogin({ email, password })
 
-      console.log('Login response:', loginSuccessful)
-
       if (loginSuccessful) {
         const decodedToken: { UserId: string } = jwtDecode(loginSuccessful)
         console.log('Decoded Token:', decodedToken)
