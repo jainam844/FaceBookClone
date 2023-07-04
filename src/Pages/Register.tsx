@@ -1,6 +1,15 @@
-import React from 'react'
-import { Typography, Box, Button, TextField } from '@mui/material'
+import React, { useState } from 'react'
+import {
+  Typography,
+  Box,
+  Button,
+  TextField,
+  IconButton,
+  InputAdornment
+} from '@mui/material'
 import Grid from '@mui/material/Grid'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import fbImgLogo from '../assets/BharatBook1.png'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { Link as RouterLink } from 'react-router-dom'
@@ -30,7 +39,9 @@ const RegisterPage = () => {
     firstName: Yup.string().required('Required'),
     lastName: Yup.string().required('Required'),
     email: Yup.string().email('Invalid email address').required('Required'),
-    mobile: Yup.string().required('Required'),
+    mobile: Yup.string()
+      .required('Required')
+      .matches(/^\d{10}$/, 'Mobile number must be 10 digits'),
     password: Yup.string().required('Required'),
     confirmPassword: Yup.string()
       .required('Required')
@@ -41,6 +52,12 @@ const RegisterPage = () => {
 
   const handleSubmit = (values: FormValues) => {
     console.log(values)
+  }
+
+  const [showPassword, setShowPassword] = useState(false)
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
   }
 
   return (
@@ -158,9 +175,22 @@ const RegisterPage = () => {
                     as={TextField}
                     name='password'
                     label='Password'
-                    type='password'
+                    type={showPassword ? 'text' : 'password'}
                     fullWidth
                     margin='normal'
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          <IconButton
+                            aria-label='toggle password visibility'
+                            onClick={handleTogglePasswordVisibility}
+                            edge='end'
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }}
                   />
                   <div style={{ color: 'red' }}>
                     <ErrorMessage name='password' component='div' />
