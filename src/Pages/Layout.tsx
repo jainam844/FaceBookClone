@@ -5,7 +5,7 @@ import UserContext from '../components/Context/UserContext'
 import { IUserData, UserData } from '../Models/User'
 
 const HomeLayout = () => {
-  const [userData, setUserData] = useState<IUserData[]>([])
+  const [userData, setUserData] = useState<IUserData>(new UserData())
   const [userimageUrl, setImageUrl] = useState('')
 
   useEffect(() => {
