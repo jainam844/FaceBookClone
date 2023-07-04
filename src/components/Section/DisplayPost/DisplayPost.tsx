@@ -36,12 +36,14 @@ import CommentCollapse from "./CommentCollapse";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import { getCommentByPostId } from "../../../services/Response";
+
 interface CommentData {
   text: string;
   userName: string;
   avatar: string;
   createdAt: string;
 }
+
 interface PostData {
   userName?: string;
   postId: number;
@@ -56,6 +58,7 @@ interface PostProps {
   post: PostData;
   reference?: (node: HTMLDivElement) => void;
 }
+
 const Post: React.FC<PostProps> = ({ post, reference }) => {
   const [newComment, setNewComment] = useState("");
   const [expanded, setExpanded] = useState(false);
@@ -64,7 +67,6 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
   const [postImage, setPostImage] = useState<string[]>([]);
   const [loadedImages, setLoadedImages] = useState<number[]>([]);
   const [openImageIndex, setOpenImageIndex] = useState<number | null>(null);
-
   const [isLiked, setIsLiked] = useState(false);
   const [commentsList, setCommentsList] = useState<CommentData[]>([]);
   const [pageNumber, setPageNumber] = useState<number>(1);
@@ -80,7 +82,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
           setPageNumber((prevPageNumber) => prevPageNumber + 1);
         }
       });
-      if (node) observer.current.observe(node); // Make sure node is the correct element
+      if (node) observer.current.observe(node);
     },
     [loadingComments, hasMoreComments]
   );
@@ -101,23 +103,6 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
       setIsLiked(response);
     }
   };
-
-  useEffect(() => {
-    const fetchLikes = async () => {
-      try {
-        const likesData = await getLikesByPost(post.postId);
-        setLikeCount(likesData);
-        const loginUserLiked = likesData.some(
-          (like: { userId: number }) => like.userId === userData.userId
-        );
-        setIsLiked(loginUserLiked);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchLikes();
-  }, [post.postId, isLiked]);
 
   const handleShareClick = () => {
     if (navigator.share) {
@@ -155,6 +140,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
           post.postId,
           newComment
         );
+
         setCommentsList([...commentsList, newCommentData]);
         setNewComment("");
       } catch (error) {
@@ -166,7 +152,22 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
   const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewComment(event.target.value);
   };
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const likesData = await getLikesByPost(post.postId);
+        setLikeCount(likesData);
+        const loginUserLiked = likesData.some(
+          (like: { userId: number }) => like.userId === userData.userId
+        );
+        setIsLiked(loginUserLiked);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
+    fetchLikes();
+  }, [post.postId, isLiked]);
   useEffect(() => {
     const fetchPostImages = async () => {
       if (post.path) {
@@ -196,7 +197,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
           1,
           post.postId
         );
-        // console.log(commentsList);
+
         const data = commentsData.record.responseModel;
         if (Array.isArray(data)) {
           setCommentsList((prevComments) => [...prevComments, ...data]);
@@ -211,7 +212,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
     fetchComments();
   }, [post.postId, pageNumber]);
   {
-    loadingComments ;
+    loadingComments;
   }
 
   return (
@@ -263,14 +264,10 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
               justifyContent: "space-between",
             }}
           >
-           
-              <span style={{ display: "flex", alignItems: "center" }}>
-                <RecommendIcon sx={{ marginRight: 0.5, color: "#1877f2" }} />
-                <Typography color="initial">
-                  {likeCount.length} Likes
-                </Typography>
-              </span>
-           
+            <span style={{ display: "flex", alignItems: "center" }}>
+              <RecommendIcon sx={{ marginRight: 0.5, color: "#1877f2" }} />
+              <Typography color="initial">{likeCount.length} Likes</Typography>
+            </span>
 
             <Typography color="initial">
               {commentsList.length} comments

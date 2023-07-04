@@ -54,7 +54,7 @@ const RegisterPage = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 height: "100%",
-                marginLeft: [0, 0, 30], // Responsive marginLeft
+                marginLeft: [0, 0, 0], // Responsive marginLeft
               }}
             >
               <img
@@ -65,8 +65,7 @@ const RegisterPage = () => {
               />
 
               <Typography sx={{ fontWeight: "bold", marginTop: "1rem" }}>
-                Connect with Friends and the world <br /> around you on
-                BharatBook
+                Connect with Friends and the world <br /> around you on BharatBook
               </Typography>
             </Box>
           </Grid>
@@ -80,11 +79,14 @@ const RegisterPage = () => {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
+              paddingX: "1rem", // Responsive horizontal padding
+              paddingY: ["2rem", "2rem", "1rem"], // Responsive vertical padding
             }}
           >
             <Box
               className="loginCard"
-              width="300px"
+              width="100%" // Adjusted to 100% for responsiveness
+              maxWidth="400px" // Added maxWidth to limit width on larger screens
               sx={{
                 padding: ["1rem", "1rem", "2rem"],
               }}

@@ -34,7 +34,7 @@ const stories = [
   },
   {
     backgroundImage:
-      "https://cdn.pixabay.com/photo/2023/06/14/09/18/trees-8062668_1280.jpg",
+      "https://cdn.pixabay.com/photo/2018/06/04/18/32/rhine-river-3453860_1280.jpg",
     avatar:
       "https://cdn.pixabay.com/photo/2018/01/15/08/34/woman-3083453_640.jpg",
     username: "Aayush Joshi",
@@ -46,7 +46,7 @@ const stories = [
       "https://cdn.pixabay.com/photo/2018/01/15/08/34/woman-3083453_640.jpg",
     username: "Krish Doshi",
   },
- 
+
   {
     backgroundImage:
       "https://cdn.pixabay.com/photo/2016/10/25/12/28/iceland-1768744_1280.jpg",

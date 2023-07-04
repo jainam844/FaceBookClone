@@ -22,7 +22,6 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
   createdAt,
   reference,
 }) => {
-  const [newComment, setNewComment] = useState("");
   const [avatarImageUrl, setAvatarImageUrl] = useState("");
   const commentStyle: React.CSSProperties = {
     display: "flex",

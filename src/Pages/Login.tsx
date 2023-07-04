@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Typography, Box, Button, TextField,   } from "@mui/material";
-import { Link as RouterLink } from 'react-router-dom';
+import { Typography, Box, Button, TextField } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 import Grid from "@mui/material/Grid";
 import fbImgLogo from "../assets/BharatBook1.png";
@@ -76,7 +76,7 @@ const LoginPage: React.FC = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 height: "100%",
-                marginLeft: [0, 0, 30], // Responsive marginLeft
+                marginLeft: [0, 0, 0], // Responsive marginLeft
               }}
             >
               <img
@@ -106,7 +106,7 @@ const LoginPage: React.FC = () => {
           >
             <Box
               className="loginCard"
-              width="300px"
+              width="350px"
               sx={{
                 padding: ["1rem", "1rem", "2rem"],
               }}
