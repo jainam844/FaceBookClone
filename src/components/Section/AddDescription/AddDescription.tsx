@@ -1,172 +1,164 @@
-import React, { useState, useContext } from "react";
-import { Formik, Field, Form } from "formik";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import TextField from "@mui/material/TextField";
-import SendIcon from "@mui/icons-material/Send";
-import UserContext from "../../Context/UserContext";
-import { addPost } from "../../../services/Response";
+import React, { useState, useContext } from 'react'
+import { Formik, Field, Form } from 'formik'
+import Box from '@mui/material/Box'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import Avatar from '@mui/material/Avatar'
+import TextField from '@mui/material/TextField'
+import SendIcon from '@mui/icons-material/Send'
+import UserContext from '../../Context/UserContext'
+import { addPost } from '../../../services/Response'
+import { Ipost } from '../../../Models/Post'
 
 interface FormValues {
-  description: string;
-}
-
-interface PostData {
-  userName?: string;
-  postId: number;
-  text?: string;
-  path?: string[];
-  avatar: string;
-  createdAt: string;
-  avatarUrl: string;
+  description: string
 }
 
 const validateDescription = (value: string) => {
-  let error: string | undefined;
+  let error: string | undefined
   if (!value) {
-    error = "Description is required";
+    error = 'Description is required'
   }
-  return error;
-};
+  return error
+}
 
 const AddDescription = ({
-  setNewPost,
+  handleNewPost
 }: {
-  setNewPost: React.Dispatch<React.SetStateAction<PostData | null>>;
+  handleNewPost: (newPostData: Ipost) => void
 }) => {
-  const [file, setFile] = useState<File | null>(null);
-  const [imageSizeError, setImageSizeError] = useState(false);
-  const { userData, userimageUrl } = useContext(UserContext);
+  const [file, setFile] = useState<File | null>(null)
+  const [imageSizeError, setImageSizeError] = useState(false)
+  const { userData, userimageUrl } = useContext(UserContext)
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const uploadedFile = event.target.files?.[0];
+    const uploadedFile = event.target.files?.[0]
 
     if (uploadedFile && uploadedFile.size <= 2 * 1024 * 1024) {
-      const compressedImage = await compressImage(uploadedFile);
-      setFile(compressedImage);
-      setImageSizeError(false); // Reset the error state
+      const compressedImage = await compressImage(uploadedFile)
+      setFile(compressedImage)
+      setImageSizeError(false)
     } else {
-      setFile(null); // Clear the selected file
-      setImageSizeError(true); // Set the error state to true
+      setFile(null)
+      setImageSizeError(true)
     }
-  };
+  }
 
   const compressImage = (file: File) => {
-    return new Promise<File>((resolve) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (event) => {
-        const img = new Image();
-        img.src = event.target?.result as string;
+    return new Promise<File>(resolve => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = event => {
+        const img = new Image()
+        img.src = event.target?.result as string
         img.onload = () => {
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
-          const maxWidth = 800;
-          const maxHeight = 800;
-          let width = img.width;
-          let height = img.height;
+          const canvas = document.createElement('canvas')
+          const ctx = canvas.getContext('2d')
+          const maxWidth = 800
+          const maxHeight = 800
+          let width = img.width
+          let height = img.height
 
           if (width > height && width > maxWidth) {
-            height *= maxWidth / width;
-            width = maxWidth;
+            height *= maxWidth / width
+            width = maxWidth
           } else if (height > maxHeight) {
-            width *= maxHeight / height;
-            height = maxHeight;
+            width *= maxHeight / height
+            height = maxHeight
           }
 
-          canvas.width = width;
-          canvas.height = height;
-          ctx?.drawImage(img, 0, 0, width, height);
+          canvas.width = width
+          canvas.height = height
+          ctx?.drawImage(img, 0, 0, width, height)
           canvas.toBlob(
-            (blob) => {
+            blob => {
               const compressedFile = new File([blob as Blob], file.name, {
                 type: file.type,
-                lastModified: Date.now(),
-              });
-              resolve(compressedFile);
+                lastModified: Date.now()
+              })
+              resolve(compressedFile)
             },
             file.type,
             0.7 // Compression quality (adjust as needed)
-          );
-        };
-      };
-    });
-  };
+          )
+        }
+      }
+    })
+  }
 
   const handleSubmit = async (values: FormValues) => {
-    const { description } = values;
+    const { description } = values
 
     try {
-      const formData = new FormData();
-      formData.append("UserId", userData.userId);
-      formData.append("Description", description);
+      const formData = new FormData()
+      formData.append('UserId', userData.userId)
+      formData.append('Description', description)
       if (file) {
-        formData.append("Images", file);
+        formData.append('Images', file)
       }
 
-      await addPost(formData);
+      await addPost(formData)
 
-      const newPostData: PostData = {
-        userName: userData.firstName + " " + userData.lastName,
+      const newPostData: Ipost = {
+        userId: userData.userId,
+        userName: userData.firstName + ' ' + userData.lastName,
         postId: -1,
         text: description,
         path: [],
         avatar: userData.avatar,
         createdAt: new Date().toISOString(),
-        avatarUrl: userData.avatarUrl,
-      };
+        avatarUrl: userData.avatarUrl
+      }
 
-      setNewPost(newPostData);
+      handleNewPost(newPostData)
 
-      console.log("Post added successfully!");
+      console.log('Post added successfully!')
     } catch (error) {
-      console.error("Failed to add post:", error);
+      console.error('Failed to add post:', error)
     }
-  };
+  }
 
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop:'2rem'
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '2rem'
       }}
     >
       <Card sx={{ width: 800, minHeight: 300 }}>
         <Typography
-          variant="h5"
-          component="div"
+          variant='h5'
+          component='div'
           sx={{
-            color: "primary.main",
+            color: 'primary.main',
             marginBottom: 2,
-            marginTop: "1rem",
-            display: "flex",
-            alignItems: "center",
-            marginLeft: "1rem",
-            fontSize: "1rem",
+            marginTop: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            marginLeft: '1rem',
+            fontSize: '1rem'
           }}
         >
           <Avatar src={userimageUrl} />
 
           <span>
-            {" "}
-            <Box sx={{ marginLeft: "10px", color: "black" }}>
-              {userData.firstName + " " + userData.lastName}{" "}
+            {' '}
+            <Box sx={{ marginLeft: '10px', color: 'black' }}>
+              {userData.firstName + ' ' + userData.lastName}{' '}
             </Box>
             <Typography
               sx={{
-                padding: "0.5rem 0.3rem",
-                marginLeft: "6rem",
-                marginTop: "-2rem",
-                color: "black",
-                display: ["none", "flex", "flex"],
+                padding: '0.5rem 0.3rem',
+                marginLeft: '6rem',
+                marginTop: '-2rem',
+                color: 'black',
+                display: ['none', 'flex', 'flex']
               }}
             >
               (What's on your mind?)
@@ -177,7 +169,7 @@ const AddDescription = ({
         <CardContent>
           <Formik
             initialValues={{
-              description: "",
+              description: ''
             }}
             onSubmit={handleSubmit}
           >
@@ -186,54 +178,54 @@ const AddDescription = ({
                 <Box>
                   <Field
                     as={TextField}
-                    id="description-input"
-                    name="description"
-                    label="Enter Description Here"
-                    variant="standard"
-                    sx={{ width: "100%" }}
+                    id='description-input'
+                    name='description'
+                    label='Enter Description Here'
+                    variant='standard'
+                    sx={{ width: '100%' }}
                     validate={validateDescription}
                   />
                   {errors.description && (
-                    <div style={{ color: "red" }}>{errors.description}</div>
+                    <div style={{ color: 'red' }}>{errors.description}</div>
                   )}
                 </Box>
                 <Box
                   sx={{
-                    marginTop: "1.3rem",
-                    borderRadius: "4px",
-                    padding: "0.5rem",
-                    display: "flex",
-                    alignItems: "center",
+                    marginTop: '1.3rem',
+                    borderRadius: '4px',
+                    padding: '0.5rem',
+                    display: 'flex',
+                    alignItems: 'center'
                   }}
                 >
-                  <label htmlFor="file-input" style={{ flexGrow: 1 }}>
+                  <label htmlFor='file-input' style={{ flexGrow: 1 }}>
                     <input
-                      type="file"
-                      id="file-input"
+                      type='file'
+                      id='file-input'
                       onChange={handleFileChange}
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                     />
-                    <Button variant="outlined" component="span">
+                    <Button variant='outlined' component='span'>
                       Upload Image
                     </Button>
                     {file && (
-                      <span style={{ marginLeft: "0.5rem" }}>{file.name}</span>
+                      <span style={{ marginLeft: '0.5rem' }}>{file.name}</span>
                     )}
                   </label>
                 </Box>
                 {imageSizeError && (
-                  <div style={{ color: "red" }}>
+                  <div style={{ color: 'red' }}>
                     Image size limit exceeded (max: 2MB)
                   </div>
                 )}
                 <Button
-                  type="submit"
-                  variant="contained"
+                  type='submit'
+                  variant='contained'
                   endIcon={<SendIcon />}
                   sx={{
-                    margin: "0 0.7rem 0.5rem 0",
-                    marginTop: "2rem",
-                    float: "right",
+                    margin: '0 0.7rem 0.5rem 0',
+                    marginTop: '2rem',
+                    float: 'right'
                   }}
                 >
                   Share Post
@@ -244,7 +236,7 @@ const AddDescription = ({
         </CardContent>
       </Card>
     </Box>
-  );
-};
+  )
+}
 
-export default AddDescription;
+export default AddDescription
