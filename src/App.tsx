@@ -33,6 +33,7 @@ const ProtectedRoute = ({
 }
 
 const App: React.FC = () => {
+  
   return (
     <React.Fragment>
       <Router>

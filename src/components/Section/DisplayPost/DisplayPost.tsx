@@ -46,7 +46,7 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ post, reference }) => {
-  console.log(post);
+
   const [newComment, setNewComment] = useState('')
   const [expanded, setExpanded] = useState(false)
   const [likeCount, setLikeCount] = useState('')

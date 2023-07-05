@@ -5,20 +5,17 @@ import {
   Button,
   TextField,
   IconButton,
-  InputAdornment,
-  Radio,
-  FormControlLabel,
-  RadioGroup
+  InputAdornment
 } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import fbImgLogo from '../assets/BharatBook1.png'
-import { Field, Form, Formik, ErrorMessage, FieldProps } from 'formik'
 import { Link as RouterLink } from 'react-router-dom'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Path } from '../components/Utils/Path'
-import MenuItem from '@mui/material/MenuItem'
+import { UserRegistration } from '../services/Response'
 
 interface FormValues {
   firstName: string
@@ -27,8 +24,6 @@ interface FormValues {
   mobile: string
   password: string
   confirmPassword: string
-  gender: string
-  birthday: string
 }
 
 const RegisterPage = () => {
@@ -38,9 +33,13 @@ const RegisterPage = () => {
     email: '',
     mobile: '',
     password: '',
-    confirmPassword: '',
-    gender: '',
-    birthday: ''
+    confirmPassword: ''
+  }
+
+  const [showPassword, setShowPassword] = useState(false)
+
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword(!showPassword)
   }
 
   const validationSchema = Yup.object({
@@ -60,34 +59,34 @@ const RegisterPage = () => {
       .required('Required')
       .test('passwords-match', 'Passwords must match', function (value) {
         return this.parent.password === value
-      }),
-    gender: Yup.string().required('Required')
+      })
   })
 
-  const handleSubmit = (values: FormValues) => {
-    console.log(values)
-  }
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async values => {
+      try {
+        const formData = new FormData()
+        formData.append('FirstName', values.firstName)
+        formData.append('LastName', values.lastName)
+        formData.append('Email', values.email)
+        formData.append('PhoneNumber', values.mobile)
+        formData.append('Password', values.password)
+        // formData.append('confirmPassword', values.confirmPassword)
 
-  const [showPassword, setShowPassword] = useState(false)
+        // Call the API function
+        const response = await UserRegistration(formData)
 
-  const handleTogglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
+        console.log('API Response:', response)
+      } catch (err) {
+        console.error('API Error:', err)
+      }
+    }
+  })
 
-  const GenderLabel = () => (
-    <TextField
-      label='Select Gender'
-      disabled
-      fullWidth
-      margin='normal'
-      InputProps={{
-        disableUnderline: true
-      }}
-      InputLabelProps={{
-        shrink: true
-      }}
-    />
-  )
+  const { values, touched, errors, handleChange, handleBlur, handleSubmit } =
+    formik
 
   return (
     <React.Fragment>
@@ -101,7 +100,7 @@ const RegisterPage = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 height: '100%',
-                marginLeft: [0, 0, 0] // Responsive marginLeft
+                marginLeft: [0, 0, 0]
               }}
             >
               <img
@@ -127,14 +126,14 @@ const RegisterPage = () => {
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
-              paddingX: '1rem', // Responsive horizontal padding
-              paddingY: ['2rem', '2rem', '1rem'] // Responsive vertical padding
+              paddingX: '1rem',
+              paddingY: ['2rem', '2rem', '1rem']
             }}
           >
             <Box
               className='loginCard'
-              width='100%' // Adjusted to 100% for responsiveness
-              maxWidth='600px' // Added maxWidth to limit width on larger screens
+              width='100%'
+              maxWidth='600px'
               sx={{
                 padding: ['1rem', '1rem', '2rem']
               }}
@@ -142,165 +141,132 @@ const RegisterPage = () => {
               borderRadius='8px'
               boxShadow='0px 2px 4px rgba(0, 0, 0, 0.2)'
             >
-              <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={handleSubmit}
-              >
-                <Form>
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <Field
-                        as={TextField}
-                        name='firstName'
-                        label='First Name'
-                        fullWidth
-                        margin='normal'
-                      />
-                      <div style={{ color: 'red' }}>
-                        <ErrorMessage name='firstName' component='div' />
-                      </div>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Field
-                        as={TextField}
-                        name='lastName'
-                        label='Last Name'
-                        fullWidth
-                        margin='normal'
-                      />
-                      <div style={{ color: 'red' }}>
-                        <ErrorMessage name='lastName' component='div' />
-                      </div>
-                    </Grid>
+              <form onSubmit={formik.handleSubmit}>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <TextField
+                      name='firstName'
+                      label='First Name'
+                      fullWidth
+                      margin='normal'
+                      value={values.firstName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.firstName && !!errors.firstName}
+                      helperText={touched.firstName && errors.firstName}
+                    />
                   </Grid>
-                  <Grid container>
-                    <Grid item xs={12}>
-                      <Field
-                        as={TextField}
-                        name='email'
-                        label='Email'
-                        fullWidth
-                        margin='normal'
-                      />
-                      <div style={{ color: 'red' }}>
-                        <ErrorMessage name='email' component='div' />
-                      </div>
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Field
-                        as={TextField}
-                        name='mobile'
-                        label='Mobile Number'
-                        fullWidth
-                        margin='normal'
-                      />
-                      <div style={{ color: 'red' }}>
-                        <ErrorMessage name='mobile' component='div' />
-                      </div>
-                    </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      name='lastName'
+                      label='Last Name'
+                      fullWidth
+                      margin='normal'
+                      value={values.lastName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.lastName && !!errors.lastName}
+                      helperText={touched.lastName && errors.lastName}
+                    />
                   </Grid>
-                  <Field
-                    as={TextField}
-                    name='password'
-                    label='Password'
-                    type={showPassword ? 'text' : 'password'}
-                    fullWidth
-                    margin='normal'
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position='end'>
-                          <IconButton
-                            aria-label='toggle password visibility'
-                            onClick={handleTogglePasswordVisibility}
-                            edge='end'
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                  <div style={{ color: 'red' }}>
-                    <ErrorMessage name='password' component='div' />
-                  </div>
-                  <Field
-                    as={TextField}
-                    name='confirmPassword'
-                    label='Confirm Password'
-                    type='password'
-                    fullWidth
-                    margin='normal'
-                  />
-                  <div style={{ color: 'red' }}>
-                    <ErrorMessage name='confirmPassword' component='div' />
-                  </div>
-                  <Field
-                    as={TextField}
-                    name='birthday'
-                    type='date'
-                    fullWidth
-                    margin='normal'
-                  />
-                  {/* <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <Field name='gender'>
-                        {({ field }: FieldProps<any>) => (
-                          <div>
-                         
-                            <Field
-                              as={TextField}
-                              select
-                              name='gender'
-                              label='Gender'
-                              fullWidth
-                              margin='normal'
-                            >
-                              <MenuItem value='male'>Male</MenuItem>
-                              <MenuItem value='female'>Female</MenuItem>
-                              <MenuItem value='other'>Other</MenuItem>
-                            </Field>
-                          </div>
-                        )}
-                      </Field>
-                      <div style={{ color: 'red' }}>
-                        <ErrorMessage name='gender' component='div' />
-                      </div>
-                    </Grid>
-                  </Grid> */}
-                  <Button
-                    type='submit'
-                    variant='contained'
-                    color='primary'
-                    fullWidth
-                    size='large'
-                    sx={{ marginTop: '1rem' }}
-                  >
-                    Register
-                  </Button>{' '}
+                </Grid>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <TextField
+                      name='email'
+                      label='Email'
+                      fullWidth
+                      margin='normal'
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.email && !!errors.email}
+                      helperText={touched.email && errors.email}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      name='mobile'
+                      label='Mobile Number'
+                      fullWidth
+                      margin='normal'
+                      value={values.mobile}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.mobile && !!errors.mobile}
+                      helperText={touched.mobile && errors.mobile}
+                    />
+                  </Grid>
+                </Grid>
+                <TextField
+                  name='password'
+                  label='Password'
+                  type={showPassword ? 'text' : 'password'}
+                  fullWidth
+                  margin='normal'
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.password && !!errors.password}
+                  helperText={touched.password && errors.password}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position='end'>
+                        <IconButton
+                          aria-label='toggle password visibility'
+                          onClick={handleTogglePasswordVisibility}
+                          edge='end'
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                <TextField
+                  name='confirmPassword'
+                  label='Confirm Password'
+                  type='password'
+                  fullWidth
+                  margin='normal'
+                  value={values.confirmPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.confirmPassword && !!errors.confirmPassword}
+                  helperText={touched.confirmPassword && errors.confirmPassword}
+                />
+                <Button
+                  type='submit'
+                  variant='contained'
+                  color='primary'
+                  fullWidth
+                  size='large'
+                  sx={{ marginTop: '1rem' }}
+                >
+                  Register
+                </Button>
+                <Typography
+                  sx={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
+                >
                   <Typography
-                    sx={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
+                    color='primary'
+                    sx={{ fontWeight: 'bold', textDecoration: 'none' }}
                   >
-                    <Typography
-                      color='primary'
-                      sx={{ fontWeight: 'bold', textDecoration: 'none' }}
-                    >
-                      Forgot Account?
-                    </Typography>
+                    Forgot Account?
                   </Typography>
-                  <Button
-                    component={RouterLink}
-                    to={Path.Login}
-                    variant='contained'
-                    color='success'
-                    fullWidth
-                    size='large'
-                    sx={{ marginTop: '1rem' }}
-                  >
-                    Login
-                  </Button>
-                </Form>
-              </Formik>
+                </Typography>
+                <Button
+                  component={RouterLink}
+                  to={Path.Login}
+                  variant='contained'
+                  color='success'
+                  fullWidth
+                  size='large'
+                  sx={{ marginTop: '1rem' }}
+                >
+                  Login
+                </Button>
+              </form>
             </Box>
           </Grid>
         </Grid>

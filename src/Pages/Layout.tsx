@@ -43,8 +43,12 @@ const HomeLayout = () => {
   }, [userData])
 
   return (
+
+    
     <React.Fragment>
+      
       <UserContext.Provider value={{ userData, userimageUrl }}>
+ 
         <Outlet />
       </UserContext.Provider>
     </React.Fragment>

@@ -95,15 +95,12 @@ const AddDescription = ({
 
     try {
       const formData = new FormData()
-      // formData.append('UserId', userData.userId)
       formData.append('Description', description)
       if (file) {
         formData.append('Images', file)
       }
-
       const response = await addPost(formData)
       handleNewPost(response)
-
       console.log('Post added successfully!')
     } catch (error) {
       console.error('Failed to add post:', error)
