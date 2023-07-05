@@ -18,7 +18,9 @@ import HomeLayout from './Pages/Layout'
 import Notification from './components/Notification/Notification'
 import RegisterPage from './Pages/Register'
 import { Path } from './components/Utils/Path'
-import { toast, ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 interface ProtectedRouteProps {
   render: () => JSX.Element
 }
@@ -33,7 +35,6 @@ const ProtectedRoute = ({
 }
 
 const App: React.FC = () => {
-  
   return (
     <React.Fragment>
       <Router>

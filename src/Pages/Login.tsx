@@ -52,6 +52,7 @@ const LoginPage: React.FC = () => {
         localStorage.setItem('userInfo', JSON.stringify(userInfo))
 
         navigate(Path.Home)
+        toast.success('You Are LoggedIn..!  😃  ')
       } else {
         toast.error('Login failed. Please try again.')
       }
@@ -61,7 +62,9 @@ const LoginPage: React.FC = () => {
   }
 
   return (
+    
     <React.Fragment>
+       <ToastContainer />
       <Box sx={{ height: '100vh', bgcolor: '#f0f2f5' }}>
         <Grid container sx={{ height: '100%' }}>
           <Grid item xs={12} md={6}>
@@ -220,7 +223,7 @@ const LoginPage: React.FC = () => {
           </Grid>
         </Grid>
       </Box>
-      <ToastContainer />
+   
     </React.Fragment>
   )
 }
