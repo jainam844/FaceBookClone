@@ -10,7 +10,7 @@ import Box from '@mui/material/Box'
 import Story from './Story/story'
 import Post from './DisplayPost/DisplayPost'
 import UserContext from '../Context/UserContext'
-import AddDescription from './AddDescription/AddDescription'
+import AddDescription from './SharePost/SharePost'
 import CircularProgress from '@mui/material/CircularProgress'
 
 import { Ipost, PostClass } from '../../Models/Post'
