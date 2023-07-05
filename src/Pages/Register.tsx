@@ -5,16 +5,20 @@ import {
   Button,
   TextField,
   IconButton,
-  InputAdornment
+  InputAdornment,
+  Radio,
+  FormControlLabel,
+  RadioGroup
 } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import fbImgLogo from '../assets/BharatBook1.png'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Field, Form, Formik, ErrorMessage, FieldProps } from 'formik'
 import { Link as RouterLink } from 'react-router-dom'
 import * as Yup from 'yup'
 import { Path } from '../components/Utils/Path'
+import MenuItem from '@mui/material/MenuItem'
 
 interface FormValues {
   firstName: string
@@ -23,6 +27,8 @@ interface FormValues {
   mobile: string
   password: string
   confirmPassword: string
+  gender: string
+  birthday: string
 }
 
 const RegisterPage = () => {
@@ -32,7 +38,9 @@ const RegisterPage = () => {
     email: '',
     mobile: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    gender: '',
+    birthday: ''
   }
 
   const validationSchema = Yup.object({
@@ -42,12 +50,18 @@ const RegisterPage = () => {
     mobile: Yup.string()
       .required('Required')
       .matches(/^\d{10}$/, 'Mobile number must be 10 digits'),
-    password: Yup.string().required('Required'),
+    password: Yup.string()
+      .required('Required')
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        'Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one special character'
+      ),
     confirmPassword: Yup.string()
       .required('Required')
       .test('passwords-match', 'Passwords must match', function (value) {
         return this.parent.password === value
-      })
+      }),
+    gender: Yup.string().required('Required')
   })
 
   const handleSubmit = (values: FormValues) => {
@@ -60,9 +74,24 @@ const RegisterPage = () => {
     setShowPassword(!showPassword)
   }
 
+  const GenderLabel = () => (
+    <TextField
+      label='Select Gender'
+      disabled
+      fullWidth
+      margin='normal'
+      InputProps={{
+        disableUnderline: true
+      }}
+      InputLabelProps={{
+        shrink: true
+      }}
+    />
+  )
+
   return (
     <React.Fragment>
-      <Box sx={{ height: '100vh', bgcolor: '#f0f2f5' }}>
+      <Box sx={{ height: '900px', bgcolor: '#f0f2f5' }}>
         <Grid container sx={{ height: '100%' }}>
           <Grid item xs={12} md={6}>
             <Box
@@ -105,7 +134,7 @@ const RegisterPage = () => {
             <Box
               className='loginCard'
               width='100%' // Adjusted to 100% for responsiveness
-              maxWidth='400px' // Added maxWidth to limit width on larger screens
+              maxWidth='600px' // Added maxWidth to limit width on larger screens
               sx={{
                 padding: ['1rem', '1rem', '2rem']
               }}
@@ -145,8 +174,8 @@ const RegisterPage = () => {
                       </div>
                     </Grid>
                   </Grid>
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
+                  <Grid container>
+                    <Grid item xs={12}>
                       <Field
                         as={TextField}
                         name='email'
@@ -158,7 +187,7 @@ const RegisterPage = () => {
                         <ErrorMessage name='email' component='div' />
                       </div>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12}>
                       <Field
                         as={TextField}
                         name='mobile'
@@ -206,6 +235,39 @@ const RegisterPage = () => {
                   <div style={{ color: 'red' }}>
                     <ErrorMessage name='confirmPassword' component='div' />
                   </div>
+                  <Field
+                    as={TextField}
+                    name='birthday'
+                    type='date'
+                    fullWidth
+                    margin='normal'
+                  />
+                  {/* <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Field name='gender'>
+                        {({ field }: FieldProps<any>) => (
+                          <div>
+                         
+                            <Field
+                              as={TextField}
+                              select
+                              name='gender'
+                              label='Gender'
+                              fullWidth
+                              margin='normal'
+                            >
+                              <MenuItem value='male'>Male</MenuItem>
+                              <MenuItem value='female'>Female</MenuItem>
+                              <MenuItem value='other'>Other</MenuItem>
+                            </Field>
+                          </div>
+                        )}
+                      </Field>
+                      <div style={{ color: 'red' }}>
+                        <ErrorMessage name='gender' component='div' />
+                      </div>
+                    </Grid>
+                  </Grid> */}
                   <Button
                     type='submit'
                     variant='contained'
@@ -216,6 +278,16 @@ const RegisterPage = () => {
                   >
                     Register
                   </Button>{' '}
+                  <Typography
+                    sx={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
+                  >
+                    <Typography
+                      color='primary'
+                      sx={{ fontWeight: 'bold', textDecoration: 'none' }}
+                    >
+                      Forgot Account?
+                    </Typography>
+                  </Typography>
                   <Button
                     component={RouterLink}
                     to={Path.Login}

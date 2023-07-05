@@ -71,10 +71,8 @@ const Section = (): JSX.Element => {
       }
     }
 
-    if (userData) {
       fetchPosts()
-    }
-  }, [pageNumber, userData])
+  }, [pageNumber])
 
   useEffect(() => {
     if (newPost.postId) {

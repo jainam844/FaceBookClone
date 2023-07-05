@@ -46,7 +46,7 @@ const Notification = () => {
     const getAllNotification = async () => {
       try {
         const notificationData = await getUserNotification(1, 30)
-        
+
         console.log(notificationData)
         setNotifications(notificationData.records)
       } catch (e) {

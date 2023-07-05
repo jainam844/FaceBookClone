@@ -267,7 +267,7 @@ export const getCommentNotification = async (commentId: number) => {
         withCredentials: false,
       }
     );
-    // console.log(response.data);
+
     return response.data;
   } catch (err) {
     throw err;
@@ -326,7 +326,7 @@ export const getUserRequest = async (
       `/UserRequest/ByUserId`,
       requestData
     );
-    console.log(requestData);
+
     return response.data;
   } catch (err) {
     throw err;
@@ -345,7 +345,7 @@ export const getUserRequestRespond = async (
       `/UserRequest/Respond`,
       requestData
     );
-    console.log(requestData);
+
     return response.data;
   } catch (err) {
     throw err;
@@ -360,10 +360,23 @@ export const getUserReqNotification = async (requestId: number) => {
       },
       withCredentials: false,
     });
-    console.log(response.data);
+
     return response.data;
   } catch (err) {
     throw err;
   }
 };
-getUserReqNotification(1);
+
+export const UserRegistration = async (formData: FormData) => {
+  try {
+    const response = await axiosInstance.post("/User/Upsert", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

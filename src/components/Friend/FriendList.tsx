@@ -14,7 +14,7 @@ import { IconButton } from '@mui/material'
 import SearchIcon from '@material-ui/icons/Search'
 import { getAvatarImage } from '../../services/Response'
 import { getUserRequestRespond } from '../../services/Response'
-
+import CardMedia from '@mui/material/CardMedia'
 interface Friend {
   fromUserName: string
   fromAvatar: string
@@ -58,13 +58,19 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
 
   return (
     <React.Fragment>
-      <Card sx={{ marginBottom: '1rem', width: '30%', minWidth: 300 }}>
-        <CardHeader
-          avatar={<Avatar src={avatar ? avatar : undefined} />}
-          title={friend.fromUserName}
+      <Card sx={{ marginBottom: '1rem', maxWidth: 345 }}>
+        <CardMedia
+          component='img'
+          height='194'
+          image={avatar ? avatar : friend.fromAvatar}
+          alt={friend.fromUserName}
         />
+
         <Divider />
         <CardContent>
+          <Typography gutterBottom variant='h5' component='div'>
+            {friend.fromUserName}
+          </Typography>
           <Box
             sx={{
               display: 'flex',
@@ -107,30 +113,36 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
             </Typography>
           </Box>
           <Box sx={{ marginTop: '0.8rem' }}>
-            <Button
-              variant='contained'
-              sx={{ borderRadius: '5px' }}
-              onClick={() => handleConfirm()}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant='outlined'
-              sx={{
-                borderRadius: '5px',
-                marginLeft: '1rem',
-                borderColor: 'gray',
-                color: 'white',
-                backgroundColor: 'gray',
-                '&:hover': {
-                  backgroundColor: 'darkgray',
-                  borderColor: 'gray'
-                }
-              }}
-              onClick={() => handleDelete()}
-            >
-              Delete
-            </Button>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <Button
+                  variant='contained'
+                  sx={{ borderRadius: '5px', width: '100%' }}
+                  onClick={() => handleConfirm()}
+                >
+                  Confirm
+                </Button>
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  variant='outlined'
+                  sx={{
+                    borderRadius: '5px',
+                    borderColor: 'gray',
+                    color: 'white',
+                    backgroundColor: 'gray',
+                    '&:hover': {
+                      backgroundColor: 'darkgray',
+                      borderColor: 'gray'
+                    },
+                    width: '100%'
+                  }}
+                  onClick={() => handleDelete()}
+                >
+                  Delete
+                </Button>
+              </Grid>
+            </Grid>
           </Box>
         </CardContent>
       </Card>

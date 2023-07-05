@@ -46,6 +46,7 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({ post, reference }) => {
+  console.log(post);
   const [newComment, setNewComment] = useState('')
   const [expanded, setExpanded] = useState(false)
   const [likeCount, setLikeCount] = useState('')
@@ -164,6 +165,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
         try {
           const imageData = await Promise.all(postImagePromises)
           setPostImage(imageData)
+          console.log(imageData)
           setLoadedImages(Array(imageData.length).fill(1))
         } catch (error) {
           console.log(error)

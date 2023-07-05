@@ -95,26 +95,14 @@ const AddDescription = ({
 
     try {
       const formData = new FormData()
-      formData.append('UserId', userData.userId)
+      // formData.append('UserId', userData.userId)
       formData.append('Description', description)
       if (file) {
         formData.append('Images', file)
       }
 
-      await addPost(formData)
-
-      const newPostData: Ipost = {
-        userId: userData.userId,
-        userName: userData.firstName + ' ' + userData.lastName,
-        postId: -1,
-        text: description,
-        path: [],
-        avatar: userData.avatar,
-        createdAt: new Date().toISOString(),
-        avatarUrl: userData.avatarUrl
-      }
-
-      handleNewPost(newPostData)
+      const response = await addPost(formData)
+      handleNewPost(response)
 
       console.log('Post added successfully!')
     } catch (error) {

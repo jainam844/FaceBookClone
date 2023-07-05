@@ -221,7 +221,7 @@ const LoginPage: React.FC = () => {
           </Grid>
         </Grid>
       </Box>
-      <ToastContainer />;
+      <ToastContainer />
     </React.Fragment>
   )
 }

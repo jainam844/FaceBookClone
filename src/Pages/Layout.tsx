@@ -17,7 +17,7 @@ const HomeLayout = () => {
         const token = userData.token
         const data = await getUserData(parseInt(userId), token)
 
-        console.log(data)
+        // console.log(data)
         setUserData(data)
       } catch (error) {
         console.log('Error fetching user data:', error)
