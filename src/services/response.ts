@@ -24,7 +24,7 @@ export const ForUserLogin = async (data: {
 };
 export const getUserData = async (id: number, token: string) => {
   try {
-    const response = await axiosInstance.get(`/User/ById/${id}`, {
+    const response = await axiosInstance.get(`/User/GetById/${id}`, {
       headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "69420",
@@ -159,7 +159,7 @@ export const addComment = async (
       text: comment,
     };
     const response = await axiosInstance.post(
-      `/SocialActivity/AddComments`,
+      `/SocialActivity/AddComment`,
       postdata,
 
       {
@@ -323,7 +323,7 @@ export const getUserRequest = async (
       requestType: requestType,
     };
     const response = await axiosInstance.post(
-      `/UserRequest/ByUserId`,
+      `/UserRequest/GetByUserId`,
       requestData
     );
 
@@ -354,12 +354,15 @@ export const getUserRequestRespond = async (
 
 export const getUserReqNotification = async (requestId: number) => {
   try {
-    const response = await axiosInstance.get(`/UserRequest/ById/${requestId}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      withCredentials: false,
-    });
+    const response = await axiosInstance.get(
+      `/UserRequest/GetById/${requestId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: false,
+      }
+    );
 
     return response.data;
   } catch (err) {

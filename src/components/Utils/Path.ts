@@ -1,3 +1,4 @@
+
 export enum Path {
   Login = "/",
   Register = "/Register",
@@ -11,4 +12,6 @@ export enum Path {
   Notification = "/layout/home/Notification",
   Friend = "/layout/home/friend",
   Profile = "/layout/Profile",
+  Suggestion="/layout/home/friend/suggestion",
+  YourFriend="/layout/home/friend/yourfriend"
 }

@@ -32,7 +32,6 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
       const avatarUrl = await getAvatarImage(friend.fromAvatar)
       setAvatar(avatarUrl)
     }
-
     getAvatar()
   }, [])
 

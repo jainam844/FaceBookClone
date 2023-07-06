@@ -20,6 +20,9 @@ import RegisterPage from './Pages/Register'
 import { Path } from './components/Utils/Path'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { Suggestion } from './components/Friend/Suggestion'
+import { FriendBox, } from './components/Friend/FriendBox'
+import YourFriend from './components/Friend/YourFriend'
 
 interface ProtectedRouteProps {
   render: () => JSX.Element
@@ -48,12 +51,21 @@ const App: React.FC = () => {
             <Route path={Path.Home} element={<HomeApp />}>
               <Route index element={<Section />} />
               <Route index path={Path.Feed} element={<Section />} />
+
               <Route path={Path.Flag} element={<Flag />} />
+
               <Route path={Path.Subscription} element={<Subscription />} />
               <Route path={Path.MarketPlace} element={<MarketPlace />} />
+
               <Route path={Path.UserFriend} element={<UserFriend />} />
+
               <Route path={Path.Notification} element={<Notification />} />
-              <Route path={Path.Friend} element={<Friend />} />
+
+              <Route path={Path.Friend} element={<Friend />}>
+                <Route index element={<FriendBox />} />
+                <Route path={Path.Suggestion} element={<Suggestion />} />
+                <Route path={Path.YourFriend} element={<YourFriend />} />
+              </Route>
             </Route>
             <Route path={Path.Profile} element={<Profile />} />
           </Route>

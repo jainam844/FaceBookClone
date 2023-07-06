@@ -171,19 +171,7 @@ const RegisterPage = () => {
                   </Grid>
                 </Grid>
                 <Grid container>
-                  <Grid item xs={12}>
-                    <TextField
-                      name='email'
-                      label='Email'
-                      fullWidth
-                      margin='normal'
-                      value={values.email}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      error={touched.email && !!errors.email}
-                      helperText={touched.email && errors.email}
-                    />
-                  </Grid>
+               
                   <Grid item xs={12}>
                     <TextField
                       name='mobile'
@@ -195,6 +183,19 @@ const RegisterPage = () => {
                       onBlur={handleBlur}
                       error={touched.mobile && !!errors.mobile}
                       helperText={touched.mobile && errors.mobile}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      name='email'
+                      label='Email'
+                      fullWidth
+                      margin='normal'
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.email && !!errors.email}
+                      helperText={touched.email && errors.email}
                     />
                   </Grid>
                 </Grid>
