@@ -171,7 +171,6 @@ const RegisterPage = () => {
                   </Grid>
                 </Grid>
                 <Grid container>
-               
                   <Grid item xs={12}>
                     <TextField
                       name='mobile'

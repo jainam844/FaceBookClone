@@ -1,17 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import List from '@mui/material/List'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import CardHeader from '@mui/material/CardHeader'
 import Divider from '@mui/material/Divider'
 import Avatar from '@mui/material/Avatar'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { Button } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Grid from '@mui/material/Grid'
-import { IconButton } from '@mui/material'
-import SearchIcon from '@material-ui/icons/Search'
 import { getAvatarImage } from '../../services/Response'
 import { getUserRequestRespond } from '../../services/Response'
 import CardMedia from '@mui/material/CardMedia'
@@ -30,6 +25,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
   useEffect(() => {
     const getAvatar = async () => {
       const avatarUrl = await getAvatarImage(friend.fromAvatar)
+      console.log(friend.fromAvatar)
       setAvatar(avatarUrl)
     }
     getAvatar()

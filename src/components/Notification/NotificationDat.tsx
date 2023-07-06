@@ -229,7 +229,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             />
           ) : (
             <Avatar
-              src='default-image-url.jpg' 
+              src='default-image-url.jpg'
               sx={{
                 marginLeft: '125px',
                 width: '50px',

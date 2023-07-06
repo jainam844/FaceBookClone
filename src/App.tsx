@@ -20,9 +20,10 @@ import RegisterPage from './Pages/Register'
 import { Path } from './components/Utils/Path'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { Suggestion } from './components/Friend/Suggestion'
+// import { Suggestion } from './components/Friend/Suggestion'
 import { FriendBox, } from './components/Friend/FriendBox'
 import YourFriend from './components/Friend/YourFriend'
+import Suggestion from './components/Friend/Suggestion'
 
 interface ProtectedRouteProps {
   render: () => JSX.Element

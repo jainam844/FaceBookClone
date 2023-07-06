@@ -383,3 +383,38 @@ export const UserRegistration = async (formData: FormData) => {
     throw err;
   }
 };
+export const getUserSuggestion = async (
+  pageNumber: number,
+  pageSize: number
+) => {
+  try {
+    const requestData = {
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+    };
+    const response = await axiosInstance.post(`/User/Suggestion`, requestData);
+    // console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+export const getUserMutual = async (
+  pageNumber: number,
+  pageSize: number,
+  userId: number
+) => {
+  try {
+    const requestData = {
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+      userId: userId,
+    };
+    const response = await axiosInstance.post(`/User/Suggestion`, requestData);
+    // console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+//  getUserMutual(1,10,6);
