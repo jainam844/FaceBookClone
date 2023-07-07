@@ -118,9 +118,7 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
               {receivcefriends.fromUserName}
             </Typography>
 
-            <Box
-              sx={{ display: "flex", marginTop: "0.3rem",}}
-            >
+            <Box sx={{ display: "flex", marginTop: "0.3rem" }}>
               {receivcefriend[0] ? (
                 <Avatar
                   src={receivcefriend[0].friend.avatarUrl}
@@ -129,13 +127,13 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
               ) : null}
 
               {receivcefriend[0] ? (
-             <Typography
-             sx={{
-               fontSize: ['12px', '15px'],
-               color: 'gray',
-               marginTop: '0.5rem',
-             }}
-           >
+                <Typography
+                  sx={{
+                    fontSize: ["12px", "15px"],
+                    color: "gray",
+                    marginTop: "0.5rem",
+                  }}
+                >
                   {`${receivcefriend[0].friend.firstName} ${receivcefriend[0].friend.lastName}`}
                   {receivcefriend.length > 1
                     ? ` and ${receivcefriend.length - 1} other mutual friend${
@@ -151,7 +149,6 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
                     fontSize: "15px",
                     color: "gray",
                     marginTop: "0.5rem",
-          
                   }}
                 >
                   No mutual friends

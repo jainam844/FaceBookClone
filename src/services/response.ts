@@ -399,6 +399,7 @@ export const getUserSuggestion = async (
     throw err;
   }
 };
+
 export const getUserMutual = async (
   pageNumber: number,
   pageSize: number,
@@ -417,4 +418,20 @@ export const getUserMutual = async (
     throw err;
   }
 };
-//  getUserMutual(1,10,6);
+export const getUserRequestSend = async (toUserId: number) => {
+  try {
+    const requestData = {
+      toUserId: toUserId,
+    };
+    const response = await axiosInstance.post(
+      `/UserRequest/Send/`,
+      requestData
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+getUserRequestSend(5);

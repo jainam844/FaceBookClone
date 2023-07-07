@@ -42,7 +42,7 @@ export const FriendBox = () => {
           FilterStatus.PENDING,
           RequestType.Received
         )
-        console.log(response.records)
+        // console.log(response.records)
         setFriends(response.records)
       } catch (error) {
         console.error('Error fetching friends:', error)

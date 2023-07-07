@@ -8,7 +8,7 @@ const Suggestion = () => {
     const fetchData = async () => {
       try {
         const response = await getUserSuggestion(1, 11)
-        console.log(response)
+
         setFriends(response.records)
       } catch (error) {
         console.error('Error fetching friends:', error)
