@@ -1,56 +1,75 @@
-import React, { useState, useEffect } from 'react'
-import List from '@mui/material/List'
-import { getAvatarImage } from '../../services/Response'
-import { getUserRequestRespond } from '../../services/Response'
-import Avatar from '@mui/material/Avatar'
-import Box from '@mui/material/Box'
-import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid'
+import React, { useState, useEffect } from "react";
+import List from "@mui/material/List";
+import { getAvatarImage, getUserMutual } from "../../services/Response";
+import { getUserRequestRespond } from "../../services/Response";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 interface Friend {
-  fromUserName: string
-  fromAvatar: string
-  requestId: number
+  fromUserName: string;
+  fromAvatar: string;
+  requestId: number;
+  fromUserId: number;
+  avatarUrl: string;
+  firstName: string;
+  lastName: string;
+  avatar: string;
 }
 type FriendListProps = {
-  receivcefriends: Friend
-  sx?: React.CSSProperties
-}
+  receivcefriends: Friend;
+  sx?: React.CSSProperties;
+};
 const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
-  const [avatar, setAvatar] = useState<string | null>(null)
-  console.log('hii', receivcefriends)
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [receivcefriend, setreceiveFriend] = useState<
+    { friend: Friend; length: number }[]
+  >([]);
+
+  console.log("hii", receivcefriends);
   useEffect(() => {
     const getAvatar = async () => {
-      const avatarUrl = await getAvatarImage(receivcefriends.fromAvatar)
-      setAvatar(avatarUrl)
-    }
-    getAvatar()
-  }, [])
+      const avatarUrl = await getAvatarImage(receivcefriends.fromAvatar);
+      setAvatar(avatarUrl);
+    };
+    getAvatar();
+  }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getUserMutual(1, 10, receivcefriends.fromUserId);
+        console.log(response);
+        if (Array.isArray(response.records)) {
+          const data = response.records;
+          console.log(data);
+          const updatedData = await Promise.all(
+            data.map(async (receivcefriends: Friend) => {
+              console.log(receivcefriends);
+              let avatarUrl = null;
+              if (receivcefriends.avatar) {
+                avatarUrl = await getAvatarImage(receivcefriends.avatar);
+                console.log(avatarUrl);
+              }
+              return { ...receivcefriends, avatarUrl };
+            })
+          );
+          console.log(updatedData);
+          setreceiveFriend(
+            updatedData.map((friend) => ({
+              friend,
+              length: updatedData.length - 1,
+            }))
+          );
 
-  const handleConfirm = async () => {
-    try {
-      const response = await getUserRequestRespond(
-        receivcefriends.requestId,
-        true
-      )
+          // setAvatar(avatarUrl);
+        }
+      } catch (error) {
+        console.error("Error fetching friends:", error);
+      }
+    };
 
-      console.log('API response:', response)
-    } catch (error) {
-      console.error('API error:', error)
-    }
-  }
-
-  const handleDelete = async () => {
-    try {
-      const response = await getUserRequestRespond(
-        receivcefriends.requestId,
-        false
-      )
-
-      console.log('Deleted friend with id:', response)
-    } catch (error) {
-      console.error('API error:', error)
-    }
-  }
+    fetchData();
+  }, []);
 
   return (
     <React.Fragment>
@@ -59,57 +78,91 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
           container
           spacing={2}
           columns={16}
-          sx={{ margin: '20px 0', padding: ['10px', 0] }}
+          sx={{ margin: "20px 0", padding: ["10px", 0] }}
         >
-          <Grid item xs={3} sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Avatar
               sx={{ width: [70, 80], height: [70, 80] }}
               src={avatar ? avatar : receivcefriends.fromUserName}
-            ></Avatar>
+            />
           </Grid>
-          <Grid item xs={false} sm={9} md={9} lg={5} sx={{ display: 'flex', justifyContent: 'center' }}>
+
+          <Grid
+            item
+            xs={12}
+            sm={9}
+            md={9}
+            lg={5}
+            sx={{
+              display: "flex",
+              justifyContent: ["center", "flex-start"],
+              alignItems: "center",
+              flexDirection: "column",
+              textAlign: "center",
+            }}
+          >
             <Typography
-              color='initial'
+              color="initial"
               sx={{ fontSize: [14, 18], fontWeight: 700, marginTop: 0.5 }}
             >
               {receivcefriends.fromUserName}
-              <Box sx={{ display: 'flex', marginTop: '0.3rem' }}>
+            </Typography>
+
+            <Box
+              sx={{ display: "flex", marginTop: "0.3rem",}}
+            >
+              {receivcefriend[0] ? (
                 <Avatar
-                  src='https://source.unsplash.com/bh4LQHcOcxE/600x300'
-                  sx={{ border: '2px solid white', zIndex: '100' }}
+                  src={receivcefriend[0].friend.avatarUrl}
+                  sx={{ border: "2px solid white", zIndex: "100" }}
                 />
-                <Avatar
-                  src='https://source.unsplash.com/cqtw4QCfbQg/600x300'
-                  sx={{
-                    marginLeft: '-15px',
-                    border: '2px solid white',
-                    zIndex: '80'
-                  }}
-                />
-                <Avatar
-                  src='https://source.unsplash.com/QhR78CbFPoE/600x300'
-                  sx={{
-                    marginLeft: '-15px',
-                    border: '2px solid white',
-                    zIndex: '70'
-                  }}
-                />
+              ) : null}
+
+              {receivcefriend[0] ? (
+             <Typography
+             sx={{
+               fontSize: ['12px', '15px'],
+               color: 'gray',
+               marginTop: '0.5rem',
+             }}
+           >
+                  {`${receivcefriend[0].friend.firstName} ${receivcefriend[0].friend.lastName}`}
+                  {receivcefriend.length > 1
+                    ? ` and ${receivcefriend.length - 1} other mutual friend${
+                        receivcefriend.length !== 2 ? "s" : ""
+                      }`
+                    : receivcefriend.length === 1
+                    ? " and 0 other mutual friends"
+                    : ""}
+                </Typography>
+              ) : (
                 <Typography
                   sx={{
-                    fontSize: '15px',
-                    color: 'gray',
-                    marginTop: '0.5rem'
+                    fontSize: "15px",
+                    color: "gray",
+                    marginTop: "0.5rem",
+          
                   }}
                 >
-                  Jainam and 10 Friend are Members
+                  No mutual friends
                 </Typography>
-              </Box>
-            </Typography>
+              )}
+            </Box>
           </Grid>
         </Grid>
       </List>
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default ReceiveReq
+export default ReceiveReq;

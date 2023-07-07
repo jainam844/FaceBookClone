@@ -410,7 +410,7 @@ export const getUserMutual = async (
       pageSize: pageSize,
       userId: userId,
     };
-    const response = await axiosInstance.post(`/User/Suggestion`, requestData);
+    const response = await axiosInstance.post(`/User/Mutual`, requestData);
     // console.log(response.data);
     return response.data;
   } catch (err) {

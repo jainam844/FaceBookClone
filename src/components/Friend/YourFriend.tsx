@@ -66,6 +66,8 @@ export default function YourFriend () {
           FilterStatus.ACCEPTED,
           RequestType.Sent
         )
+
+        
         console.log(response.records)
         setFriends(response.records)
       } catch (error) {
