@@ -7,44 +7,34 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import { getAvatarImage } from "../../services/Response";
+import { getAvatarImage, getUserCancelReq } from "../../services/Response";
 import { getUserRequestRespond } from "../../services/Response";
 import CardMedia from "@mui/material/CardMedia";
 import defaultimg from "../../assets/images.jpg";
 interface Friend {
-  fromUserName: string;
-  fromAvatar: string;
+  toUserName: string;
+  toAvatar: string;
   requestId: number;
 }
 type FriendListProps = {
   friend: Friend;
   sx?: React.CSSProperties;
 };
-const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
+const FriendListSent: React.FC<FriendListProps> = ({ friend, sx }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
-  // console.log("hii", friend);
+  console.log("hii", friend);
   useEffect(() => {
     const getAvatar = async () => {
-      const avatarUrl = await getAvatarImage(friend.fromAvatar);
-      console.log(friend.fromAvatar);
+      const avatarUrl = await getAvatarImage(friend.toAvatar);
+      console.log(friend.toAvatar);
       setAvatar(avatarUrl);
     };
     getAvatar();
   }, []);
 
-  const handleConfirm = async () => {
-    try {
-      const response = await getUserRequestRespond(friend.requestId, true);
-
-      console.log("API response:", response);
-    } catch (error) {
-      console.error("API error:", error);
-    }
-  };
-
   const handleDelete = async () => {
     try {
-      const response = await getUserRequestRespond(friend.requestId, false);
+      const response = await getUserCancelReq(friend.requestId);
 
       console.log("Deleted friend with id:", response);
     } catch (error) {
@@ -61,8 +51,8 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
           image={
             avatar
               ? avatar
-              : friend && friend.fromAvatar
-              ? friend.fromAvatar
+              : friend && friend.toAvatar
+              ? friend.toAvatar
               : defaultimg
           }
         />
@@ -70,7 +60,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
         <Divider />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {friend.fromUserName}
+            {friend.toUserName}
           </Typography>
           <Box
             sx={{
@@ -115,7 +105,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
           </Box>
           <Box sx={{ marginTop: "0.8rem" }}>
             <Grid container spacing={1}>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Button
                   variant="contained"
                   sx={{ borderRadius: "5px", width: "100%" }}
@@ -123,7 +113,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
                 >
                   Confirm
                 </Button>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <Button
                   variant="outlined"
@@ -140,7 +130,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
                   }}
                   onClick={() => handleDelete()}
                 >
-                  Delete
+                  Cancel Request
                 </Button>
               </Grid>
             </Grid>
@@ -151,4 +141,4 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
   );
 };
 
-export default FriendList;
+export default FriendListSent;

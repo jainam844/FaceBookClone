@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getUserSuggestion } from '../../services/Response'
 import Suggestionlist from './suggestionlist'
-
+import Grid from "@mui/material/Grid";
 const Suggestion = () => {
   const [friends, setFriends] = useState([])
   useEffect(() => {
@@ -19,10 +19,13 @@ const Suggestion = () => {
 
   return (
     <>
-    
+        <Grid container spacing={2} justifyContent="start">
       {friends.map(friend => (
+           <Grid item  xs={12} sm={6} md={4} lg={3}>
         <Suggestionlist friend={friend} sx={{ width: 'calc(33% - 1rem)' }} />
+        </Grid>
       ))}
+      </Grid>
     </>
   )
 }

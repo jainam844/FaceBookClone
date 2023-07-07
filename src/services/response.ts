@@ -420,13 +420,7 @@ export const getUserMutual = async (
 };
 export const getUserRequestSend = async (toUserId: number) => {
   try {
-    const requestData = {
-      toUserId: toUserId,
-    };
-    const response = await axiosInstance.post(
-      `/UserRequest/Send/`,
-      requestData
-    );
+    const response = await axiosInstance.post(`/UserRequest/Send/${toUserId}`);
     console.log(response.data);
     return response.data;
   } catch (err) {
@@ -434,4 +428,16 @@ export const getUserRequestSend = async (toUserId: number) => {
   }
 };
 
-getUserRequestSend(5);
+export const getUserCancelReq = async (requestId: number) => {
+  try {
+    const response = await axiosInstance.post(
+      `/UserRequest/CancleOrRemove/${requestId}`
+    );
+  
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+
