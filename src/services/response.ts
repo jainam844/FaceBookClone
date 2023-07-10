@@ -433,11 +433,43 @@ export const getUserCancelReq = async (requestId: number) => {
     const response = await axiosInstance.post(
       `/UserRequest/CancleOrRemove/${requestId}`
     );
-  
+
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+export const getReadNotification = async (notificationId: number) => {
+  try {
+    const response = await axiosInstance.post(
+      `/Notification/Read/${notificationId}`
+    );
+    console.log(response.data);
     return response.data;
   } catch (err) {
     throw err;
   }
 };
 
+export const getClearNotification = async (notificationId: number) => {
+  try {
+    const response = await axiosInstance.get(
+      `/Notification/Clear/${notificationId}`
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
 
+export const getClearAllNotification = async () => {
+  try {
+    const response = await axiosInstance.get(`/Notification/ClearAll`);
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+// getClearNotification(261);

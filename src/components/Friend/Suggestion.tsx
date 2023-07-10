@@ -1,32 +1,35 @@
-import React, { useEffect, useState } from 'react'
-import { getUserSuggestion } from '../../services/Response'
-import Suggestionlist from './suggestionlist'
+import React, { useEffect, useState } from "react";
+import { getUserSuggestion } from "../../services/Response";
+import Suggestionlist from "./suggestionlist";
 import Grid from "@mui/material/Grid";
 const Suggestion = () => {
-  const [friends, setFriends] = useState([])
+  const [friends, setFriends] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getUserSuggestion(1, 11)
+        const response = await getUserSuggestion(1, 100);
 
-        setFriends(response.records)
+        setFriends(response.records);
       } catch (error) {
-        console.error('Error fetching friends:', error)
+        console.error("Error fetching friends:", error);
       }
-    }
-    fetchData()
-  }, [])
+    };
+    fetchData();
+  }, []);
 
   return (
     <>
-        <Grid container spacing={2} justifyContent="start">
-      {friends.map(friend => (
-           <Grid item  xs={12} sm={6} md={4} lg={3}>
-        <Suggestionlist friend={friend} sx={{ width: 'calc(33% - 1rem)' }} />
-        </Grid>
-      ))}
+      <Grid container spacing={2} justifyContent="start">
+        {friends.map((friend) => (
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <Suggestionlist
+              friend={friend}
+              sx={{ width: "calc(33% - 1rem)" }}
+            />
+          </Grid>
+        ))}
       </Grid>
     </>
-  )
-}
-export default Suggestion
+  );
+};
+export default Suggestion;

@@ -8,14 +8,23 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
-import { getAvatarImage, getUserRequestSend } from "../../services/Response";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  getAvatarImage,
+  getUserMutual,
+  getUserRequestSend,
+} from "../../services/Response";
 import defaultimg from "../../assets/images.jpg";
 interface Friend {
   firstName: string;
   lastName: string;
   avatar: string;
   requestId: number;
-  userId:number;
+  userId: number;
+  avatarUrl: string;
+  toUserId: number;
+  fromUserId: number;
 }
 type FriendListProps = {
   friend: Friend;
@@ -23,6 +32,8 @@ type FriendListProps = {
 };
 const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
+
+  const [friends, setFriends] = useState<Friend[]>([]);
   console.log("hello", friend);
   useEffect(() => {
     const getAvatar = async () => {
@@ -32,6 +43,39 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
     };
     getAvatar();
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getUserMutual(1, 100, friend.userId);
+        console.log(friend.fromUserId);
+        if (Array.isArray(response.records)) {
+          const data = response.records;
+          console.log(data);
+          const updatedData = await Promise.all(
+            data.map(async (friend: Friend) => {
+              console.log(friend);
+              let avatarUrl = null;
+              if (friend.avatar) {
+                avatarUrl = await getAvatarImage(friend.avatar);
+                console.log(avatarUrl);
+              }
+              return { ...friend, avatarUrl };
+            })
+          );
+
+          console.log(updatedData);
+          setFriends(updatedData);
+          // setAvatar(avatarUrl);
+        }
+      } catch (error) {
+        console.error("Error fetching friends:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleConfirm = async () => {
     try {
       const response = await getUserRequestSend(friend.userId);
@@ -77,7 +121,7 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
           >
             {friend.firstName} {friend.lastName}
           </Typography>
-          <Box
+          {/* <Box
             sx={{
               display: "flex",
               alignItems: "center",
@@ -93,30 +137,56 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
                 marginLeft: "-15px",
               }}
             />
-            <Avatar
-              sx={{
-                border: "2px solid white",
-                zIndex: 100,
-                width: 30,
-                height: 30,
-                marginLeft: "-15px",
-              }}
-            />
-            <Avatar
-              sx={{
-                border: "2px solid white",
-                zIndex: 100,
-                width: 30,
-                height: 30,
-                marginLeft: "-15px",
-              }}
-            />
+    
             <Typography
               sx={{ fontSize: "15px", color: "gray", marginLeft: "0.5rem" }}
             >
               Friends are Members
             </Typography>
-          </Box>
+          </Box> */}
+          {friends.length > 0 ? (
+            <Box sx={{ display: "flex", marginTop: "0.3rem" }}>
+              {friends.slice(0, 3).map((friend, index) => (
+                <Avatar
+                  key={index}
+                  src={friend.avatarUrl}
+                  sx={{
+                    border: "2px solid white",
+                    zIndex: 100 - index,
+                    marginLeft: `${index * -12}px`,
+                    position: "relative",
+                  }}
+                />
+              ))}
+
+              {friends.length > 0 && (
+                <Typography
+                  sx={{
+                    fontSize: ["12px", "15px"],
+                    color: "gray",
+                    marginTop: "0.5rem",
+                  }}
+                >
+                  {`${friends[0].firstName} ${friends[0].lastName}`}
+                  {friends.length > 1
+                    ? ` and ${friends.length - 1} other mutual friend${
+                        friends.length !== 2 ? "s" : ""
+                      }`
+                    : " is a mutual friend"}
+                </Typography>
+              )}
+            </Box>
+          ) : (
+            <Typography
+              sx={{
+                fontSize: ["12px", "15px"],
+                color: "gray",
+                marginTop: "0.5rem",
+              }}
+            >
+              No mutual friends
+            </Typography>
+          )}
         </CardContent>
 
         <Box
@@ -143,6 +213,7 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
                 onClick={() => handleConfirm()}
               >
                 Add Friend
+                <AddIcon sx={{ marginLeft: "1rem" }} />
               </Button>
             </Grid>
             <Grid item xs={12}>
@@ -161,6 +232,7 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
                 onClick={() => handleDelete()}
               >
                 Remove
+                <DeleteIcon sx={{ marginLeft: "2rem" }} />
               </Button>
             </Grid>
           </Grid>

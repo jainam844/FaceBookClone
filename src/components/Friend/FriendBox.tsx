@@ -80,7 +80,7 @@ export const FriendBox = () => {
       try {
         const response = await getUserRequest(
           1,
-          10,
+          100,
           FilterStatus.PENDING,
           RequestType.Sent
         );
@@ -99,7 +99,7 @@ export const FriendBox = () => {
       try {
         const response = await getUserRequest(
           1,
-          10,
+          100,
           FilterStatus.PENDING,
           RequestType.Received
         );

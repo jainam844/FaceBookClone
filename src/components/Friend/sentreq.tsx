@@ -39,7 +39,7 @@ const SentReq: React.FC<FriendListProps> = ({ friend, sx }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getUserMutual(1, 10, friend.toUserId);
+        const response = await getUserMutual(1, 100, friend.toUserId);
         console.log(response);
         if (Array.isArray(response.records)) {
           const data = response.records;
@@ -77,7 +77,17 @@ const SentReq: React.FC<FriendListProps> = ({ friend, sx }) => {
           columns={16}
           sx={{ margin: "20px 0", padding: ["10px", 0] }}
         >
-          <Grid item xs={3} sx={{ display: "flex", justifyContent: "center" }}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Avatar
               sx={{ width: [70, 80], height: [70, 80] }}
               src={avatar ? avatar : friend.toUserName}
@@ -85,37 +95,54 @@ const SentReq: React.FC<FriendListProps> = ({ friend, sx }) => {
           </Grid>
           <Grid
             item
-            xs={false}
+            xs={12}
             sm={9}
             md={9}
             lg={5}
-            sx={{ display: "flex", justifyContent: "center" }}
+            sx={{
+              display: "flex",
+              justifyContent: ["center", "flex-start"],
+              alignItems: "center",
+              flexDirection: "column",
+              textAlign: "center",
+            }}
           >
             <Typography
               color="initial"
               sx={{ fontSize: [14, 18], fontWeight: 700, marginTop: 0.5 }}
             >
               {friend.toUserName}
-              {friends.map((friend) => (
-                <Box sx={{ display: "flex", marginTop: "0.3rem" }}>
+              <Box sx={{ display: "flex", marginTop: "0.3rem" }}>
+                {friends.slice(0, 3).map((friend, index) => (
                   <Avatar
+                    key={index}
                     src={friend.avatarUrl}
-                    sx={{ border: "2px solid white", zIndex: "100" }}
+                    sx={{
+                      border: "2px solid white",
+                      zIndex: 100 - index,
+                      marginLeft: `${index * -12}px`,
+                      position: "relative",
+                    }}
                   />
+                ))}
 
+                {friends.length > 0 && (
                   <Typography
                     sx={{
-                      fontSize: "15px",
+                      fontSize: ["12px", "15px"],
                       color: "gray",
                       marginTop: "0.5rem",
                     }}
                   >
-                    {friend.firstName} {friend.lastName} and{" "}
-                    {friends.length - 1} other mutual Friend
-                    {friends.length !== 2 ? "s" : ""}{" "}
+                    {`${friends[0].firstName} ${friends[0].lastName}`}
+                    {friends.length > 1
+                      ? ` and ${friends.length - 1} other mutual friend${
+                          friends.length !== 2 ? "s" : ""
+                        }`
+                      : " is a mutual friend"}
                   </Typography>
-                </Box>
-              ))}
+                )}
+              </Box>
             </Typography>
           </Grid>
         </Grid>

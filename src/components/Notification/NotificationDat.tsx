@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react'
-import Box from '@mui/material/Box'
+import * as React from "react";
+import { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 import {
   getCommentNotification,
   getLikeNotification,
@@ -8,273 +10,334 @@ import {
   getCommentByPostId,
   getPostImage,
   getUserNotification,
-  getUserReqNotification
-} from '../../services/Response'
-import Avatar from '@mui/material/Avatar'
+  getUserReqNotification,
+  getReadNotification,
+  getClearNotification,
+  getClearAllNotification,
+} from "../../services/Response";
+import Avatar from "@mui/material/Avatar";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ClearIcon from "@mui/icons-material/Clear";
 
 interface NotificationItemProps {
-  notification: Notification
+  notification: Notification;
+  onClearNotification: (notificationId: number) => void;
 }
 
 enum NotificationType {
-  Comment = 'CommentOnPost',
-  PostLike = 'PostLike',
-  NewPost = 'AddNewPost',
-  Acceptreq = 'AcceptRequest',
-  RejectReq = 'RejectRequest'
+  Comment = "CommentOnPost",
+  PostLike = "PostLike",
+  NewPost = "AddNewPost",
+  Acceptreq = "AcceptRequest",
+  RejectReq = "RejectRequest",
+  SendReq = "SendRequest",
 }
 
 interface Notification extends NotificationData {
-  byUser?: string
+  byUser?: string;
 }
 
 interface NotificationData {
-  notificationId: number
-  activityType: number
-  activityId: number
-  activityTypeName: string
+  notificationId: number;
+  activityType: number;
+  activityId: number;
+  activityTypeName: string;
+  isRead: number;
 }
-const defaultAvatar = '/path/to/default/avatar.png'
+
+const defaultAvatar = "/path/to/default/avatar.png";
+
 const NotificationItem: React.FC<NotificationItemProps> = ({
-  notification
+  notification,
+  onClearNotification,
 }) => {
-  const [username, setUsername] = useState('')
-  const [avatar, setAvatar] = useState<string | null>(null)
-  const [postImage, setPostImage] = useState<string[]>([])
-  useEffect(() => {
-    const getUserdata = async () => {
-      switch (notification.activityTypeName) {
-        case NotificationType.Comment:
-          try {
-            const getNotifData = await getCommentNotification(
-              notification.activityId
-            )
+  const [username, setUsername] = useState("");
+  const [avatar, setAvatar] = useState<string | null>(null);
+  const [postImage, setPostImage] = useState<string[]>([]);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
-            const postData = await getNewPostNotification(getNotifData.postId)
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-            const ImageData = await getPostImage(postData.path)
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
-            setPostImage([ImageData])
-
-            setUsername(getNotifData.userName)
-
-            const avatarUrl = await getAvatarImage(getNotifData.avatar)
-
-            setAvatar(avatarUrl)
-          } catch (error) {
-            console.log(error)
-          }
-          break
-
-        case NotificationType.PostLike:
-          try {
-            const getLikeNotif = await getLikeNotification(
-              notification.activityId
-            )
-
-            const postData = await getNewPostNotification(getLikeNotif.postId)
-
-            const ImageData = await getPostImage(postData.path)
-            setPostImage([ImageData])
-
-            setUsername(getLikeNotif.userName)
-            const avatarUrl = await getAvatarImage(getLikeNotif.avatar)
-            setAvatar(avatarUrl)
-          } catch (error) {
-            console.log(error)
-          }
-          break
-
-        case NotificationType.NewPost:
-          try {
-            const getNewPostNotif = await getNewPostNotification(
-              notification.activityId
-            )
-            console.log(getNewPostNotif)
-
-            setUsername(getNewPostNotif.userName)
-            const avatarUrl = await getAvatarImage(getNewPostNotif.avatar)
-            setAvatar(avatarUrl)
-
-            const postData = await getNewPostNotification(
-              getNewPostNotif.postId
-            )
-
-            const ImageData = await getPostImage(postData.path)
-            setPostImage([ImageData])
-          } catch (error) {
-            console.log(error)
-          }
-          break
-
-        case NotificationType.Acceptreq:
-          try {
-            const getUserReqNotifi = await getUserReqNotification(
-              notification.activityId
-            )
-
-            console.log(getUserReqNotifi.toUserName)
-            setUsername(getUserReqNotifi.toUserName)
-
-            const avatarUrl = await getAvatarImage(getUserReqNotifi.toAvatar)
-            console.log(getUserReqNotifi.toAvatar)
-            setAvatar(avatarUrl)
-          } catch (error) {
-            console.log(error)
-          }
-          break
-        case NotificationType.RejectReq:
-          try {
-            const getUserReqNotifi = await getUserReqNotification(
-              notification.activityId
-            )
-            setUsername(getUserReqNotifi.toUserName)
-            const avatarUrl = await getAvatarImage(getUserReqNotifi.toAvatar)
-            setAvatar(avatarUrl)
-          } catch (error) {
-            console.log(error)
-          }
-          break
-        default:
-          break
-      }
+  const handleReadNotification = async () => {
+    try {
+      await getReadNotification(notification.notificationId);
+      console.log("Notification marked as read");
+      notification.isRead = 1; // Update the isRead property to 1 (read)
+      handleClose();
+    } catch (error) {
+      console.log(error);
+      // Handle the error appropriately
     }
-    getUserdata()
-  }, [notification.activityType, notification.activityId])
+  };
 
-  if (notification.activityTypeName === NotificationType.Comment) {
-    return (
-      <Box sx={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
-        <Box sx={{ width: '20%' }}>
-          {avatar ? (
-            <Avatar src={avatar} sx={{ marginRight: '10px' }} />
-          ) : (
-            <Avatar src={defaultAvatar} sx={{ marginRight: '10px' }} />
-          )}
-        </Box>
-        <Box sx={{ width: '60%' }}>
-          {' '}
-          <p>{username} Commented on Your Post</p>
-        </Box>
-        <Box sx={{ width: '20%' }}>
-          {postImage.length > 0 && (
+  const handleClearNotification = async () => {
+    try {
+      await getClearNotification(notification.notificationId);
+      onClearNotification(notification.notificationId); 
+      console.log("Notification clear");
+      handleClose();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchData = async () => {
+    let avatarUrl = null;
+    let postData = null;
+
+    switch (notification.activityTypeName) {
+      case NotificationType.Comment:
+        try {
+          const getNotifData = await getCommentNotification(
+            notification.activityId
+          );
+
+          setUsername(getNotifData.userName);
+
+          avatarUrl = await getAvatarImage(getNotifData.avatar);
+
+          postData = await getNewPostNotification(getNotifData.postId);
+
+          const ImageData = await getPostImage(postData.path);
+          setPostImage([ImageData]);
+        } catch (error) {
+          console.log(error);
+        }
+        break;
+
+      case NotificationType.PostLike:
+        try {
+          const getLikeNotif = await getLikeNotification(
+            notification.activityId
+          );
+
+          setUsername(getLikeNotif.userName);
+
+          avatarUrl = await getAvatarImage(getLikeNotif.avatar);
+
+          postData = await getNewPostNotification(getLikeNotif.postId);
+
+          const ImageData = await getPostImage(postData.path);
+          setPostImage([ImageData]);
+        } catch (error) {
+          console.log(error);
+        }
+        break;
+
+      case NotificationType.NewPost:
+        try {
+          const getNewPostNotif = await getNewPostNotification(
+            notification.activityId
+          );
+
+          setUsername(getNewPostNotif.userName);
+
+          avatarUrl = await getAvatarImage(getNewPostNotif.avatar);
+
+          postData = await getNewPostNotification(getNewPostNotif.postId);
+
+          const ImageData = await getPostImage(postData.path);
+          setPostImage([ImageData]);
+        } catch (error) {
+          console.log(error);
+        }
+        break;
+
+      case NotificationType.Acceptreq:
+        try {
+          const getUserReqNotifi = await getUserReqNotification(
+            notification.activityId
+          );
+
+          setUsername(getUserReqNotifi.toUserName);
+
+          avatarUrl = await getAvatarImage(getUserReqNotifi.toAvatar);
+        } catch (error) {
+          console.log(error);
+        }
+        break;
+
+      case NotificationType.RejectReq:
+        try {
+          const getUserReqNotifi = await getUserReqNotification(
+            notification.activityId
+          );
+
+          setUsername(getUserReqNotifi.toUserName);
+
+          avatarUrl = await getAvatarImage(getUserReqNotifi.toAvatar);
+        } catch (error) {
+          console.log(error);
+        }
+        break;
+
+      case NotificationType.SendReq:
+        try {
+          const getUserReqNotifi = await getUserReqNotification(
+            notification.activityId
+          );
+
+          setUsername(getUserReqNotifi.fromUserName);
+
+          avatarUrl = await getAvatarImage(getUserReqNotifi.fromAvatar);
+        } catch (error) {
+          console.log(error);
+        }
+        break;
+
+      default:
+        break;
+    }
+
+    setAvatar(avatarUrl);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [notification.activityType, notification.activityId]);
+
+  const renderNotificationItem = () => {
+    let notificationText = "";
+    let postImageElement = null;
+
+    switch (notification.activityTypeName) {
+      case NotificationType.Comment:
+        notificationText = `${username} Commented on Your Post`;
+        postImageElement = postImage.length > 0 && (
+          <Avatar
+            src={postImage[0]}
+            sx={{
+              marginLeft: "20px",
+              width: "50px",
+              height: "50px",
+              borderRadius: "10px",
+            }}
+          />
+        );
+        break;
+
+      case NotificationType.PostLike:
+        notificationText = `${username} Liked Your Post`;
+        postImageElement = postImage.length > 0 && (
+          <Avatar
+            src={postImage[0]}
+            sx={{
+              marginLeft: "20px",
+              width: "50px",
+              height: "50px",
+              borderRadius: "10px",
+            }}
+          />
+        );
+        break;
+
+      case NotificationType.NewPost:
+        notificationText = `${username} Added a New Post`;
+        postImageElement =
+          postImage.length > 0 ? (
             <Avatar
               src={postImage[0]}
               sx={{
-                marginLeft: '103px',
-                width: '50px',
-                height: '50px',
-                borderRadius: '10px'
-              }}
-            />
-          )}
-        </Box>
-      </Box>
-    )
-  } else if (notification.activityTypeName === NotificationType.PostLike) {
-    return (
-      <Box sx={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
-        <Box sx={{ width: '20%' }}>
-          {avatar ? (
-            <Avatar src={avatar} sx={{ marginRight: '10px' }} />
-          ) : (
-            <Avatar src={defaultAvatar} sx={{ marginRight: '10px' }} />
-          )}
-        </Box>
-        <Box sx={{ width: '60%' }}>
-          {' '}
-          <p>{username} Liked Your Post</p>
-        </Box>
-        <Box sx={{ width: '20%' }}>
-          {' '}
-          {postImage.length > 0 && (
-            <Avatar
-              src={postImage[0]}
-              sx={{
-                marginLeft: '130px',
-                width: '50px',
-                height: '50px',
-                borderRadius: '10px'
-              }}
-            />
-          )}
-        </Box>
-      </Box>
-    )
-  } else if (notification.activityTypeName === NotificationType.NewPost) {
-    return (
-      <Box sx={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
-        <Box sx={{ width: '20%' }}>
-          {avatar ? (
-            <Avatar src={avatar} sx={{ marginRight: '10px' }} />
-          ) : (
-            <Avatar src={defaultAvatar} sx={{ marginRight: '10px' }} />
-          )}
-        </Box>
-        <Box sx={{ width: '60%' }}>
-          {' '}
-          <p>{username} Added a New Post</p>
-        </Box>
-        <Box sx={{ width: '20%' }}>
-          {' '}
-          {postImage.length > 0 ? (
-            <Avatar
-              src={postImage[0]}
-              sx={{
-                marginLeft: '125px',
-                width: '50px',
-                height: '50px',
-                borderRadius: '10px'
+                marginLeft: "20px",
+                width: "50px",
+                height: "50px",
+                borderRadius: "10px",
               }}
             />
           ) : (
             <Avatar
-              src='default-image-url.jpg'
+              src="default-image-url.jpg"
               sx={{
-                marginLeft: '125px',
-                width: '50px',
-                height: '50px',
-                borderRadius: '10px'
+                marginLeft: "20px",
+                width: "50px",
+                height: "50px",
+                borderRadius: "10px",
               }}
             />
-          )}
-        </Box>
-      </Box>
-    )
-  } else if (notification.activityTypeName === NotificationType.Acceptreq) {
+          );
+        break;
+
+      case NotificationType.Acceptreq:
+        notificationText = `${username} Accepted Your Request`;
+        break;
+
+      case NotificationType.RejectReq:
+        notificationText = `${username} Rejected Your Request`;
+        break;
+
+      case NotificationType.SendReq:
+        notificationText = `${username} Sent You Request`;
+        break;
+
+      default:
+        return null;
+    }
+
     return (
-      <Box sx={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
-        <Box sx={{ width: '20%' }}>
-          {avatar ? (
-            <Avatar src={avatar} sx={{ marginRight: '10px' }} />
-          ) : (
-            <Avatar src={defaultAvatar} sx={{ marginRight: '10px' }} />
-          )}
-        </Box>
-        <Box sx={{ width: '60%' }}>
-          {' '}
-          <p>{username} Accepted Your Request</p>
-        </Box>
+      <Box sx={{ display: "flex", alignItems: "center", mb: "20px" }}>
+        {avatar ? (
+          <Avatar src={avatar} sx={{ marginRight: "10px" }} />
+        ) : (
+          <Avatar src={defaultAvatar} sx={{ marginRight: "10px" }} />
+        )}
+        <Typography
+          variant="body1"
+          sx={{
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {notificationText}
+        </Typography>
+        {postImageElement}
       </Box>
-    )
-  } else if (notification.activityTypeName === NotificationType.RejectReq) {
-    return (
-      <Box sx={{ display: 'flex', alignItems: 'center', padding: '10px' }}>
-        <Box sx={{ width: '20%' }}>
-          {avatar ? (
-            <Avatar src={avatar} sx={{ marginRight: '10px' }} />
-          ) : (
-            <Avatar src={defaultAvatar} sx={{ marginRight: '10px' }} />
-          )}
-        </Box>
-        <Box sx={{ width: '60%' }}>
-          {' '}
-          <p>{username} Rejected Your Request</p>
-        </Box>
-      </Box>
-    )
-  } else {
-    return null
-  }
-}
-export default NotificationItem
+    );
+  };
+
+  return (
+    <>
+      {renderNotificationItem()}
+      <Button
+        aria-controls="notification-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
+      >
+        <MoreHorizIcon />
+      </Button>
+      <Menu
+        id="notification-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        {!notification.isRead && (
+          <MenuItem onClick={handleReadNotification}>
+            <Typography>Read</Typography>
+            <VisibilityIcon sx={{ marginLeft: "auto", cursor: "pointer" }} />
+          </MenuItem>
+        )}
+        <MenuItem onClick={handleClearNotification}>
+          Delete
+          <ClearIcon sx={{ marginLeft: "auto", cursor: "pointer" }} />
+        </MenuItem>
+      </Menu>
+    </>
+  );
+};
+
+export default NotificationItem;

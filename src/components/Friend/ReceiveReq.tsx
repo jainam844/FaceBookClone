@@ -37,7 +37,7 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getUserMutual(1, 10, receivcefriends.fromUserId);
+        const response = await getUserMutual(1, 100, receivcefriends.fromUserId);
         console.log(response);
         if (Array.isArray(response.records)) {
           const data = response.records;
@@ -119,14 +119,20 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
             </Typography>
 
             <Box sx={{ display: "flex", marginTop: "0.3rem" }}>
-              {receivcefriend[0] ? (
+              {receivcefriend.slice(0, 3).map((friend, index) => (
                 <Avatar
-                  src={receivcefriend[0].friend.avatarUrl}
-                  sx={{ border: "2px solid white", zIndex: "100" }}
+                  key={index}
+                  src={friend.friend.avatarUrl}
+                  sx={{
+                    border: "2px solid white",
+                    zIndex: 100 - index,
+                    marginLeft: `${index * -12}px`,
+                    position: "relative",
+                  }}
                 />
-              ) : null}
+              ))}
 
-              {receivcefriend[0] ? (
+              {receivcefriend.length > 0 ? (
                 <Typography
                   sx={{
                     fontSize: ["12px", "15px"],
@@ -139,14 +145,12 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
                     ? ` and ${receivcefriend.length - 1} other mutual friend${
                         receivcefriend.length !== 2 ? "s" : ""
                       }`
-                    : receivcefriend.length === 1
-                    ? " and 0 other mutual friends"
-                    : ""}
+                    : " is a mutual friend"}
                 </Typography>
               ) : (
                 <Typography
                   sx={{
-                    fontSize: "15px",
+                    fontSize: ["12px", "15px"],
                     color: "gray",
                     marginTop: "0.5rem",
                   }}
