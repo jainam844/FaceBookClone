@@ -5,7 +5,11 @@ import React, {
   useRef,
   useCallback
 } from 'react'
-import { getAvatarImage, getPostByUserId } from '../../services/Response'
+import {
+  getAvatarImage,
+  getPostByUserId,
+  getStoryByUserId
+} from '../../services/Response'
 import Box from '@mui/material/Box'
 import Story from './Story/story'
 import Post from './DisplayPost/DisplayPost'
@@ -17,6 +21,8 @@ import { Ipost, PostClass } from '../../Models/Post'
 
 const Section = (): JSX.Element => {
   const [postData, setPostData] = useState<Ipost[]>([])
+
+  const [story, setStory] = useState<[]>([])
   const [newPost, setNewPost] = useState<Ipost>(new PostClass())
 
   const onChangePost = (post: Ipost) => {
@@ -25,8 +31,6 @@ const Section = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true)
   const [pageNumber, setPageNumber] = useState<number>(1)
   const [hasMore, setHasMore] = useState<boolean>(false)
-
-  const { userData } = useContext(UserContext)
 
   const observer = useRef<IntersectionObserver | null>(null)
 
@@ -55,6 +59,7 @@ const Section = (): JSX.Element => {
           const updatedData = await Promise.all(
             data.map(async post => {
               const avatarUrl = await getAvatarImage(post.avatar)
+
               return { ...post, avatarUrl }
             })
           )
@@ -71,7 +76,7 @@ const Section = (): JSX.Element => {
       }
     }
 
-      fetchPosts()
+    fetchPosts()
   }, [pageNumber])
 
   useEffect(() => {
@@ -80,9 +85,28 @@ const Section = (): JSX.Element => {
     }
   }, [newPost])
 
+  useEffect(() => {
+    const fetchStory = async () => {
+      try {
+        const pageNumber = 1
+        const pageSize = 100
+
+        const data = await getStoryByUserId(pageNumber, pageSize)
+        setStory(data.records)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchStory()
+  }, [])
+
   return (
     <Box sx={{ flex: '1', width: '100%' }}>
-      <Story />
+      {story.map((item, index) => (
+        <Story key={index} story={item} />
+      ))}
+
       <AddDescription handleNewPost={onChangePost} />
 
       {postData.map((post, index) => {

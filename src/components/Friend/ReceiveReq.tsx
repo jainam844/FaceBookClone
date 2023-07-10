@@ -30,7 +30,9 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
   useEffect(() => {
     const getAvatar = async () => {
       const avatarUrl = await getAvatarImage(receivcefriends.fromAvatar);
+      if(avatarUrl){
       setAvatar(avatarUrl);
+      }
     };
     getAvatar();
   }, []);

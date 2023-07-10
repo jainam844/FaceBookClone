@@ -38,8 +38,9 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
   useEffect(() => {
     const getAvatar = async () => {
       const avatarUrl = await getAvatarImage(friend.avatar)
-
+      if(avatarUrl){
       setAvatar(avatarUrl)
+      }
     }
     getAvatar()
   }, [])

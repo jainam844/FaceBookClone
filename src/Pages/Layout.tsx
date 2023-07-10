@@ -6,7 +6,7 @@ import { IUserData, UserData } from '../Models/User'
 
 const HomeLayout = () => {
   const [userData, setUserData] = useState<IUserData>(new UserData())
-  const [userimageUrl, setImageUrl] = useState("")
+  const [userimageUrl, setImageUrl] = useState('')
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -29,12 +29,10 @@ const HomeLayout = () => {
     if (userData) {
       const fetchProfileImage = async () => {
         try {
-       
           const imgUrl = await getAvatarImage(userData.avatar)
-          if(imgUrl){
+          if (imgUrl) {
             setImageUrl(imgUrl)
           }
-       
         } catch (error) {
           console.error('Error fetching avatar image:', error)
         }

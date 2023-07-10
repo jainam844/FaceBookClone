@@ -42,7 +42,9 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
     const fetchAvatarImage = async () => {
       try {
         const imgUrl = await getAvatarImage(avatarUrl)
-        setAvatarImageUrl(imgUrl)
+        if (imgUrl) {
+          setAvatarImageUrl(imgUrl)
+        }
       } catch (error) {
         console.error('Failed to fetch avatar image:', error)
       }

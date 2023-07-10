@@ -201,8 +201,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
       default:
         break;
     }
-
+    if(avatarUrl){
     setAvatar(avatarUrl);
+    }
   };
 
   useEffect(() => {

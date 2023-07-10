@@ -7,7 +7,7 @@ export interface Ipost {
     text: string;
     userId: number;
     userName: string;
-    avatarUrl: string;
+    avatarUrl: string | undefined; 
   }
   
   export class PostClass implements Ipost {
@@ -18,7 +18,7 @@ export interface Ipost {
     text: string;
     userId: number;
     userName: string;
-    avatarUrl: string;
+    avatarUrl: string | undefined; 
   
     constructor(init?: Ipost) {
       this.postId = init?.postId ?? 0;

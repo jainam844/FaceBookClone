@@ -64,22 +64,23 @@ const getBlobData = async (url: string) => {
 export const getAvatarImage = async (imageName: string) => {
   try {
     if (imageName.length > 0) {
-    const blobData = await getBlobData(`/Account/Avatar/${imageName}`);
-    const fileReader = new FileReader();
+      const blobData = await getBlobData(`/Account/Avatar/${imageName}`);
+      const fileReader = new FileReader();
 
-    const base64Promise = new Promise<string>((resolve, reject) => {
-      fileReader.onloadend = () => {
-        const base64Data = fileReader.result as string;
-        const base64String = base64Data.split(",")[1]; // Extract base64 data
-        resolve(base64String);
-      };
-      fileReader.onerror = reject;
-    });
-    fileReader.readAsDataURL(blobData);
-    const profileImage = await base64Promise;
-    const imgUrl = `data:image/png;base64, ${profileImage}`;
-    return imgUrl;
-  } }catch (err) {
+      const base64Promise = new Promise<string>((resolve, reject) => {
+        fileReader.onloadend = () => {
+          const base64Data = fileReader.result as string;
+          const base64String = base64Data.split(",")[1]; // Extract base64 data
+          resolve(base64String);
+        };
+        fileReader.onerror = reject;
+      });
+      fileReader.readAsDataURL(blobData);
+      const profileImage = await base64Promise;
+      const imgUrl = `data:image/png;base64, ${profileImage}`;
+      return imgUrl;
+    }
+  } catch (err) {
     throw err;
   }
 };
@@ -110,7 +111,6 @@ export const getPostImage = async (imageName: string) => {
     throw err;
   }
 };
-
 
 export const addPost = async (formData: FormData) => {
   try {
@@ -478,3 +478,25 @@ export const getClearAllNotification = async () => {
     throw err;
   }
 };
+export const getStoryByUserId = async (
+  pageNumber: number,
+  pageSize: number
+) => {
+  try {
+    const requestData = {
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+    };
+
+    const response = await axiosInstance.post(
+      `/Story/GetByUserId`,
+      requestData
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+getStoryByUserId(1, 100);
