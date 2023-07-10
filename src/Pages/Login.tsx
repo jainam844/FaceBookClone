@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Typography, Box, Button, TextField } from '@mui/material'
 import { Link as RouterLink } from 'react-router-dom'
-
 import Grid from '@mui/material/Grid'
 import fbImgLogo from '../assets/BharatBook1.png'
 import IconButton from '@mui/material/IconButton'
@@ -62,9 +61,8 @@ const LoginPage: React.FC = () => {
   }
 
   return (
-    
     <React.Fragment>
-       <ToastContainer />
+      <ToastContainer />
       <Box sx={{ height: '100vh', bgcolor: '#f0f2f5' }}>
         <Grid container sx={{ height: '100%' }}>
           <Grid item xs={12} md={6}>
@@ -197,16 +195,21 @@ const LoginPage: React.FC = () => {
                   >
                     Log In
                   </Button>
-                  <Typography
+                  {/* <Box
                     sx={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
+                  > */}
+                  <Typography
+                    color='primary'
+                    sx={{
+                      marginBottom: '0.5rem',
+                      marginTop: '0.5rem',
+                      fontWeight: 'bold',
+                      textDecoration: 'none'
+                    }}
                   >
-                    <Typography
-                      color='primary'
-                      sx={{ fontWeight: 'bold', textDecoration: 'none' }}
-                    >
-                      Forgot Password?
-                    </Typography>
+                    Forgot Password?
                   </Typography>
+                  {/* </Box> */}
                   <Button
                     component={RouterLink}
                     to={Path.Register}
@@ -223,7 +226,6 @@ const LoginPage: React.FC = () => {
           </Grid>
         </Grid>
       </Box>
-   
     </React.Fragment>
   )
 }

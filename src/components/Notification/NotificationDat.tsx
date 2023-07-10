@@ -26,6 +26,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 interface NotificationItemProps {
   notification: Notification;
   onClearNotification: (notificationId: number) => void;
+  setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
 }
 
 enum NotificationType {
@@ -60,7 +61,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   const [postImage, setPostImage] = useState<string[]>([]);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -68,24 +69,25 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const handleReadNotification = async () => {
     try {
       await getReadNotification(notification.notificationId);
-      console.log("Notification marked as read");
-      notification.isRead = 1; // Update the isRead property to 1 (read)
+
+      notification.isRead = 1; 
       handleClose();
+
+      onClearNotification(notification.notificationId);
     } catch (error) {
       console.log(error);
-      // Handle the error appropriately
+
     }
   };
 
   const handleClearNotification = async () => {
     try {
       await getClearNotification(notification.notificationId);
-      onClearNotification(notification.notificationId); 
-      console.log("Notification clear");
+      onClearNotification(notification.notificationId);
+
       handleClose();
     } catch (error) {
       console.log(error);

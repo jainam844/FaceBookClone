@@ -6,7 +6,7 @@ import { IUserData, UserData } from '../Models/User'
 
 const HomeLayout = () => {
   const [userData, setUserData] = useState<IUserData>(new UserData())
-  const [userimageUrl, setImageUrl] = useState('')
+  const [userimageUrl, setImageUrl] = useState("")
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -16,8 +16,6 @@ const HomeLayout = () => {
         const userId = userData.userId
         const token = userData.token
         const data = await getUserData(parseInt(userId), token)
-
-        // console.log(data)
         setUserData(data)
       } catch (error) {
         console.log('Error fetching user data:', error)
@@ -31,8 +29,12 @@ const HomeLayout = () => {
     if (userData) {
       const fetchProfileImage = async () => {
         try {
+       
           const imgUrl = await getAvatarImage(userData.avatar)
-          setImageUrl(imgUrl)
+          if(imgUrl){
+            setImageUrl(imgUrl)
+          }
+       
         } catch (error) {
           console.error('Error fetching avatar image:', error)
         }
@@ -43,12 +45,8 @@ const HomeLayout = () => {
   }, [userData])
 
   return (
-
-    
     <React.Fragment>
-      
       <UserContext.Provider value={{ userData, userimageUrl }}>
- 
         <Outlet />
       </UserContext.Provider>
     </React.Fragment>

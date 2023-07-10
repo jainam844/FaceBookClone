@@ -84,7 +84,7 @@ export const FriendBox = () => {
           FilterStatus.PENDING,
           RequestType.Sent
         );
-        // console.log(response.records);
+      
         setSentFriends(response.records);
       } catch (error) {
         console.error("Error fetching friends:", error);
@@ -103,7 +103,7 @@ export const FriendBox = () => {
           FilterStatus.PENDING,
           RequestType.Received
         );
-        console.log(response.records);
+     
         setFriends(response.records);
       } catch (error) {
         console.error("Error fetching friends:", error);

@@ -63,6 +63,7 @@ const getBlobData = async (url: string) => {
 
 export const getAvatarImage = async (imageName: string) => {
   try {
+    if (imageName.length > 0) {
     const blobData = await getBlobData(`/Account/Avatar/${imageName}`);
     const fileReader = new FileReader();
 
@@ -78,33 +79,38 @@ export const getAvatarImage = async (imageName: string) => {
     const profileImage = await base64Promise;
     const imgUrl = `data:image/png;base64, ${profileImage}`;
     return imgUrl;
-  } catch (err) {
+  } }catch (err) {
     throw err;
   }
 };
 export const getPostImage = async (imageName: string) => {
   try {
-    const blobData = await getBlobData(`/Account/Post/${imageName}`);
-    const fileReader = new FileReader();
+    if (imageName.length > 0) {
+      const blobData = await getBlobData(`/Account/Post/${imageName}`);
+      const fileReader = new FileReader();
 
-    const base64Promise = new Promise<string>((resolve, reject) => {
-      fileReader.onloadend = () => {
-        const base64Data = fileReader.result as string;
-        const base64String = base64Data.split(",")[1]; // Extract base64 data
-        resolve(base64String);
-      };
-      fileReader.onerror = reject;
-    });
+      const base64Promise = new Promise<string>((resolve, reject) => {
+        fileReader.onloadend = () => {
+          const base64Data = fileReader.result as string;
+          const base64String = base64Data.split(",")[1]; // Extract base64 data
+          resolve(base64String);
+        };
+        fileReader.onerror = reject;
+      });
 
-    fileReader.readAsDataURL(blobData);
+      fileReader.readAsDataURL(blobData);
 
-    const profileImage = await base64Promise;
-    const imgUrl = `data:image/png;base64, ${profileImage}`;
-    return imgUrl;
+      const profileImage = await base64Promise;
+      const imgUrl = `data:image/png;base64, ${profileImage}`;
+      return imgUrl;
+    } else {
+      throw new Error("Image name is empty");
+    }
   } catch (err) {
     throw err;
   }
 };
+
 
 export const addPost = async (formData: FormData) => {
   try {
@@ -393,7 +399,7 @@ export const getUserSuggestion = async (
       pageSize: pageSize,
     };
     const response = await axiosInstance.post(`/User/Suggestion`, requestData);
-    // console.log(response.data);
+
     return response.data;
   } catch (err) {
     throw err;
@@ -412,7 +418,7 @@ export const getUserMutual = async (
       userId: userId,
     };
     const response = await axiosInstance.post(`/User/Mutual`, requestData);
-    // console.log(response.data);
+
     return response.data;
   } catch (err) {
     throw err;
@@ -472,4 +478,3 @@ export const getClearAllNotification = async () => {
     throw err;
   }
 };
-// getClearNotification(261);

@@ -26,7 +26,6 @@ const SentReq: React.FC<FriendListProps> = ({ friend, sx }) => {
   const [friends, setFriends] = useState<Friend[]>([]);
 
   const [avatar, setAvatar] = useState<string | null>(null);
-  console.log("hii", friend);
 
   useEffect(() => {
     const getAvatar = async () => {
@@ -40,23 +39,23 @@ const SentReq: React.FC<FriendListProps> = ({ friend, sx }) => {
     const fetchData = async () => {
       try {
         const response = await getUserMutual(1, 100, friend.toUserId);
-        console.log(response);
+      
         if (Array.isArray(response.records)) {
           const data = response.records;
-          console.log(data);
+       
           const updatedData = await Promise.all(
             data.map(async (friend: Friend) => {
               console.log(friend);
               let avatarUrl = null;
               if (friend.avatar) {
                 avatarUrl = await getAvatarImage(friend.avatar);
-                console.log(avatarUrl);
+          
               }
               return { ...friend, avatarUrl };
             })
           );
 
-          console.log(updatedData);
+   
           setFriends(updatedData);
           // setAvatar(avatarUrl);
         }

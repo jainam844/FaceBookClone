@@ -32,11 +32,11 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
 
   const [friends, setFriends] = useState<Friend[]>([]);
-  console.log("hii", friend);
+
   useEffect(() => {
     const getAvatar = async () => {
       const avatarUrl = await getAvatarImage(friend.fromAvatar);
-      console.log(friend.fromAvatar);
+
       setAvatar(avatarUrl);
     };
     getAvatar();
@@ -45,23 +45,23 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
     const fetchData = async () => {
       try {
         const response = await getUserMutual(1, 100, friend.fromUserId);
-        console.log(friend.toUserId);
+     
         if (Array.isArray(response.records)) {
           const data = response.records;
-          console.log(data);
+     
           const updatedData = await Promise.all(
             data.map(async (friend: Friend) => {
-              console.log(friend);
+          
               let avatarUrl = null;
               if (friend.avatar) {
                 avatarUrl = await getAvatarImage(friend.avatar);
-                console.log(avatarUrl);
+           
               }
               return { ...friend, avatarUrl };
             })
           );
 
-          console.log(updatedData);
+        
           setFriends(updatedData);
           // setAvatar(avatarUrl);
         }
@@ -76,7 +76,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
     try {
       const response = await getUserRequestRespond(friend.requestId, true);
 
-      console.log("API response:", response);
+   
     } catch (error) {
       console.error("API error:", error);
     }
@@ -86,7 +86,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
     try {
       const response = await getUserRequestRespond(friend.requestId, false);
 
-      console.log("Deleted friend with id:", response);
+
     } catch (error) {
       console.error("API error:", error);
     }

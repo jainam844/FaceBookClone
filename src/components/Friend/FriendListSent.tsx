@@ -7,8 +7,12 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import ClearIcon from '@mui/icons-material/Clear';
-import { getAvatarImage, getUserCancelReq, getUserMutual } from "../../services/Response";
+import ClearIcon from "@mui/icons-material/Clear";
+import {
+  getAvatarImage,
+  getUserCancelReq,
+  getUserMutual,
+} from "../../services/Response";
 import { getUserRequestRespond } from "../../services/Response";
 import CardMedia from "@mui/material/CardMedia";
 import defaultimg from "../../assets/images.jpg";
@@ -20,7 +24,7 @@ interface Friend {
   firstName: string;
   lastName: string;
   avatar: string;
-  toUserId:number;
+  toUserId: number;
 }
 type FriendListProps = {
   friend: Friend;
@@ -29,7 +33,7 @@ type FriendListProps = {
 const FriendListSent: React.FC<FriendListProps> = ({ friend, sx }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
   const [friends, setFriends] = useState<Friend[]>([]);
-  console.log("hii", friend);
+
   useEffect(() => {
     const getAvatar = async () => {
       const avatarUrl = await getAvatarImage(friend.toAvatar);
@@ -42,25 +46,25 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend, sx }) => {
     const fetchData = async () => {
       try {
         const response = await getUserMutual(1, 100, friend.toUserId);
-        console.log(response);
+  
         if (Array.isArray(response.records)) {
           const data = response.records;
-          console.log(data);
+     
           const updatedData = await Promise.all(
             data.map(async (friend: Friend) => {
-              console.log(friend);
+          
               let avatarUrl = null;
               if (friend.avatar) {
                 avatarUrl = await getAvatarImage(friend.avatar);
-                console.log(avatarUrl);
+              
               }
               return { ...friend, avatarUrl };
             })
           );
 
-          console.log(updatedData);
+     
           setFriends(updatedData);
-          // setAvatar(avatarUrl);
+       
         }
       } catch (error) {
         console.error("Error fetching friends:", error);
@@ -73,7 +77,7 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend, sx }) => {
     try {
       const response = await getUserCancelReq(friend.requestId);
 
-      console.log("Deleted friend with id:", response);
+
     } catch (error) {
       console.error("API error:", error);
     }
@@ -143,58 +147,10 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend, sx }) => {
               No mutual friends
             </Typography>
           )}
-          {/* <Box
-            sx={{
-              display: "flex",
-              marginTop: "0.8rem",
-              alignItems: "center",
-            }}
-          >
-            <Avatar
-              src={avatar ? avatar : undefined}
-              sx={{
-                border: "2px solid white",
-                zIndex: 100,
-                width: 30,
-                height: 30,
-                marginLeft: "-15px",
-              }}
-            />{" "}
-            <Avatar
-              src={avatar ? avatar : undefined}
-              sx={{
-                border: "2px solid white",
-                zIndex: 100,
-                width: 30,
-                height: 30,
-                marginLeft: "-15px",
-              }}
-            />{" "}
-            <Avatar
-              src={avatar ? avatar : undefined}
-              sx={{
-                border: "2px solid white",
-                zIndex: 100,
-                width: 30,
-                height: 30,
-                marginLeft: "-15px",
-              }}
-            />
-            <Typography sx={{ fontSize: "15px", color: "gray" }}>
-              Friend are Members
-            </Typography>
-          </Box> */}
+      
           <Box sx={{ marginTop: "0.8rem" }}>
             <Grid container spacing={1}>
-              {/* <Grid item xs={12}>
-                <Button
-                  variant="contained"
-                  sx={{ borderRadius: "5px", width: "100%" }}
-                  onClick={() => handleConfirm()}
-                >
-                  Confirm
-                </Button>
-              </Grid> */}
+           
               <Grid item xs={12}>
                 <Button
                   variant="outlined"
@@ -211,9 +167,8 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend, sx }) => {
                   }}
                   onClick={() => handleDelete()}
                 >
-
                   Cancel Request
-                  <ClearIcon sx={{marginLeft:'1rem'}}/>
+                  <ClearIcon sx={{ marginLeft: "1rem" }} />
                 </Button>
               </Grid>
             </Grid>

@@ -8,7 +8,7 @@ import StorefrontIcon from '@mui/icons-material/Storefront'
 import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded'
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
 import { Path } from '../Utils/Path'
-
+import PeopleIcon from '@mui/icons-material/People'
 const commonButtonStyles = {
   color: 'gray',
   margin: { xs: '0rem 0.3rem', sm: '0rem 0.3rem', xl: '0.5rem 1rem' },
@@ -81,7 +81,16 @@ const HeaderIcons: React.FC = (): JSX.Element => {
       >
         <GroupsRoundedIcon sx={{ fontSize: "1.8rem" }} />
       </Button> */}
-
+      <Button
+        sx={{
+          ...commonButtonStyles,
+          ...(location.pathname === Path.Friend ? activeButtonStyles : {})
+        }}
+        component={Link}
+        to={Path.Friend}
+      >
+        <PeopleIcon sx={{ fontSize: '1.8rem' }} />
+      </Button>
       <Button
         sx={{
           ...commonButtonStyles,
@@ -91,7 +100,7 @@ const HeaderIcons: React.FC = (): JSX.Element => {
         to={Path.Notification}
       >
         <NotificationsActiveIcon sx={{ fontSize: '1.8rem' }} />
-      </Button>
+      </Button>{' '}
     </React.Fragment>
   )
 }

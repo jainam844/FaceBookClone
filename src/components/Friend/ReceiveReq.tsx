@@ -38,22 +38,22 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
     const fetchData = async () => {
       try {
         const response = await getUserMutual(1, 100, receivcefriends.fromUserId);
-        console.log(response);
+      
         if (Array.isArray(response.records)) {
           const data = response.records;
-          console.log(data);
+      
           const updatedData = await Promise.all(
             data.map(async (receivcefriends: Friend) => {
-              console.log(receivcefriends);
+           
               let avatarUrl = null;
               if (receivcefriends.avatar) {
                 avatarUrl = await getAvatarImage(receivcefriends.avatar);
-                console.log(avatarUrl);
+             
               }
               return { ...receivcefriends, avatarUrl };
             })
           );
-          console.log(updatedData);
+        
           setreceiveFriend(
             updatedData.map((friend) => ({
               friend,
