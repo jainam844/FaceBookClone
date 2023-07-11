@@ -1,5 +1,8 @@
 import { getAvatarImage, getStoryImage } from "../../../services/Response";
 import React, { useState, useEffect } from "react";
+import LinearProgress from "@mui/material/LinearProgress";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Avatar,
   Box,
@@ -27,7 +30,7 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-
+  const [progress, setProgress] = React.useState(0);
   useEffect(() => {
     const fetchAvatar = async () => {
       try {
@@ -69,7 +72,21 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
 
     fetchStoryImages();
   }, [story.stories]);
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((oldProgress) => {
+        if (oldProgress === 100) {
+          return 0;
+        }
+        const diff = Math.random() * 10;
+        return Math.min(oldProgress + diff, 100);
+      });
+    }, 500);
 
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
   const handleImageClick = (image: string, event: React.MouseEvent) => {
     event.preventDefault();
     setSelectedImageIndex(postImage.indexOf(image));
@@ -144,35 +161,80 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
         </Typography>
       </Paper>
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
-        <DialogContent>
-          {postImage.length > 1 && (
-            <>
-              <Button
-                disabled={selectedImageIndex === 0}
-                onClick={handlePrevStory}
-              >
-                Prev
-              </Button>
-              <Slider
-                value={selectedImageIndex}
-                min={0}
-                max={postImage.length - 1}
-                onChange={handleSliderChange}
-              />
-              <Button
-                disabled={selectedImageIndex === postImage.length - 1}
-                onClick={handleNextStory}
-              >
-                Next
-              </Button>
-            </>
-          )}
+        <DialogContent
+          sx={{
+            position: "relative",
+            padding: "1rem 0",
+            maxWidth: "600px", // Set your desired width
+            height: "500px", // Set your desired height
+          }}
+        >
+          <Avatar
+            src={avatarUrl}
+            sx={{
+              position: "absolute",
+              top: 10,
+              left: 10,
+              width: 40,
+              height: 40,
+              borderRadius: "50%",
+            }}
+          />
+          <Typography
+            variant="subtitle1"
+            sx={{
+              marginLeft: "60px",
+              fontWeight: "bold",
+              color: "black",
+            }}
+          >
+            {story.userName}
+          </Typography>
+          <div
+            style={{
+              overflow: "hidden", // Hide any content that exceeds the container dimensions
+              width: "100%", // Set the width of the container as needed
+              // Set the height of the container as needed
+            }}
+          >
+            {postImage.length > 1 && (
+              <>
+                <Slider
+                  value={selectedImageIndex}
+                  min={0}
+                  max={postImage.length - 1}
+                  onChange={handleSliderChange}
+                />
+                {/* Rest of your code */}
+              </>
+            )}
+          </div>
           {selectedImageIndex !== null && (
-            <img
-              src={`data:image/png;base64,${postImage[selectedImageIndex]}`}
-              alt="Story"
-              style={{ maxWidth: "100%",maxHeight:"40vh" }}
-            />
+            <>
+              {selectedImageIndex !== 0 && ( // Display "Prev" button if not the first image
+                <Button
+                  disabled={selectedImageIndex === 0}
+                  onClick={handlePrevStory}
+                  style={{ position: "absolute", top: "90%", left: 0 }}
+                >
+                  Prev
+                </Button>
+              )}
+              <img
+                src={`data:image/png;base64,${postImage[selectedImageIndex]}`}
+                alt="Story"
+                style={{ width: "30vw", height: "40vh" }}
+              />
+              {selectedImageIndex !== postImage.length - 1 && ( // Display "Next" button if not the last image
+                <Button
+                  disabled={selectedImageIndex === postImage.length - 1}
+                  onClick={handleNextStory}
+                  style={{ position: "absolute", top: "90%", right: 0 }}
+                >
+                  Next
+                </Button>
+              )}
+            </>
           )}
         </DialogContent>
       </Dialog>

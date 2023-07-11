@@ -7,7 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Formik, Field, Form } from "formik";
-
+import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -23,7 +23,7 @@ interface FormValues {
   description: string;
 }
 
-const validateDescription = (value: string) => {
+const validateDescription1 = (value: string) => {
   let error: string | undefined;
   if (!value) {
     error = "Description is required";
@@ -38,10 +38,10 @@ interface FormDialogProps {
 
 const FormDialog = ({ open, onClose }: FormDialogProps) => {
   const [file, setFile] = useState<File | null>(null);
-  const [imageSizeError, setImageSizeError] = useState(false);
+  const [imageSizeError1, setImageSizeError1] = useState(false);
   const { userData, userimageUrl } = useContext(UserContext);
 
-  const handleFileChange = async (
+  const handleFileChange1 = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const uploadedFile = event.target.files?.[0];
@@ -49,10 +49,10 @@ const FormDialog = ({ open, onClose }: FormDialogProps) => {
     if (uploadedFile && uploadedFile.size <= 2 * 1024 * 1024) {
       const compressedImage = await compressImage(uploadedFile);
       setFile(compressedImage);
-      setImageSizeError(false);
+      setImageSizeError1(false);
     } else {
       setFile(null);
-      setImageSizeError(true);
+      setImageSizeError1(true);
     }
   };
 
@@ -108,8 +108,8 @@ const FormDialog = ({ open, onClose }: FormDialogProps) => {
         formData.append("Images", file);
       }
       const response = await addStory(formData);
-      // handleNewPost(response);
-      console.log("Post added successfully!");
+      // handlenewStory(response);
+      console.log(response);
     } catch (error) {
       console.error("Failed to add post:", error);
     }
@@ -169,7 +169,7 @@ const FormDialog = ({ open, onClose }: FormDialogProps) => {
                     label="Enter Description Here"
                     variant="standard"
                     sx={{ width: "100%" }}
-                    validate={validateDescription}
+                    validate={validateDescription1}
                   />
                   {errors.description && (
                     <div style={{ color: "red" }}>{errors.description}</div>
@@ -184,11 +184,11 @@ const FormDialog = ({ open, onClose }: FormDialogProps) => {
                     alignItems: "center",
                   }}
                 >
-                  <label htmlFor="file-input" style={{ flexGrow: 1 }}>
+                  <label htmlFor="story-file-input" style={{ flexGrow: 1 }}>
                     <input
                       type="file"
-                      id="file-input"
-                      onChange={handleFileChange}
+                      id="story-file-input"
+                      onChange={handleFileChange1}
                       style={{ display: "none" }}
                     />
                     <Button variant="outlined" component="span">
@@ -199,35 +199,23 @@ const FormDialog = ({ open, onClose }: FormDialogProps) => {
                     )}
                   </label>
                 </Box>
-                {imageSizeError && (
+                {imageSizeError1 && (
                   <div style={{ color: "red" }}>
                     Image size limit exceeded (max: 2MB)
                   </div>
                 )}
-                <Grid container>
-                  <Grid item xs={6}>
-                    <Button
-                      onClick={onClose}
-                      sx={{ margin: "0 0.7rem 0.5rem 0", marginTop: "2rem" }}
-                    >
-                      Cancel
-                    </Button>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      endIcon={<SendIcon />}
-                      sx={{
-                        margin: "0 0.7rem 0.5rem 0",
-                        marginTop: "2rem",
-                        float: "right",
-                      }}
-                    >
-                      Share Post
-                    </Button>
-                  </Grid>
-                </Grid>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  endIcon={<SendIcon />}
+                  sx={{
+                    margin: "0 0.7rem 0.5rem 0",
+                    marginTop: "2rem",
+                    float: "right",
+                  }}
+                >
+                  Share Post
+                </Button>
               </Form>
             )}
           </Formik>
