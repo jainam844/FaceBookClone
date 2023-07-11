@@ -111,6 +111,33 @@ export const getPostImage = async (imageName: string) => {
     throw err;
   }
 };
+export const getStoryImage = async (imageName: string) => {
+  try {
+    if (imageName.length > 0) {
+      const blobData = await getBlobData(`/Account/Story/${imageName}`);
+      const fileReader = new FileReader();
+
+      const base64Promise = new Promise<string>((resolve, reject) => {
+        fileReader.onloadend = () => {
+          const base64Data = fileReader.result as string;
+          const base64String = base64Data.split(",")[1]; // Extract base64 data
+          resolve(base64String);
+        };
+        fileReader.onerror = reject;
+      });
+
+      fileReader.readAsDataURL(blobData);
+
+      const profileImage = await base64Promise;
+      // const imgUrl = `data:image/png;base64, ${profileImage}`;
+      return profileImage;
+    } else {
+      throw new Error("Image name is empty");
+    }
+  } catch (err) {
+    throw err;
+  }
+};
 
 export const addPost = async (formData: FormData) => {
   try {
