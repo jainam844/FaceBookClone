@@ -14,7 +14,7 @@ import {
   Paper,
   Slider,
 } from "@mui/material";
-
+import { Grid } from "@mui/material";
 interface StoryProps {
   story: {
     backgroundImage: string;
@@ -121,6 +121,7 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
 
   return (
     <>
+      <Grid item>
       <Paper
         sx={{
           height: 180,
@@ -160,6 +161,7 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
           {story.userName}
         </Typography>
       </Paper>
+      </Grid>
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
         <DialogContent
           sx={{

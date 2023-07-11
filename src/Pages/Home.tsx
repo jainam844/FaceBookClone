@@ -1,74 +1,85 @@
-import React from 'react'
-import Header from '../components/Header/Header'
-import Widget from '../components/Widget/Widget'
-import Box from '@mui/material/Box'
-import { BrowserRouter as Router, Outlet } from 'react-router-dom'
-import HeaderIcons from '../components/Header/HeaderIcons'
+import React from "react";
+import Header from "../components/Header/Header";
+import Widget from "../components/Widget/Widget";
+import Box from "@mui/material/Box";
+import { BrowserRouter as Router, Outlet } from "react-router-dom";
+import HeaderIcons from "../components/Header/HeaderIcons";
 
-import 'react-toastify/dist/ReactToastify.css'
-import Sidebar from '../components/Sidebar/side'
+import "react-toastify/dist/ReactToastify.css";
+import Sidebar from "../components/Sidebar/side";
 
 const HomeApp = () => {
   return (
     <React.Fragment>
       <Box
         sx={{
-          position: 'sticky',
+          position: "sticky",
           top: 0,
-          zIndex: 100
+          zIndex: 100,
         }}
       >
-        <div className='header'>
+        <div className="header">
           <Header />
 
           <Box
             sx={{
-              display: ['flex', 'flex', 'none'],
-              boxShadow: ['0px 5px 7px -7px rgba(0, 0, 0, 0.75)'],
-              justifyContent: 'center',
-              margin: '0.1rem 0rem',
-              backgroundColor: 'white',
-              padding: ' 0.3rem 0.5rem',
-              position: ['sticky', 'sticky', 'sticky'],
+              display: ["flex", "flex", "none"],
+              boxShadow: ["0px 5px 7px -7px rgba(0, 0, 0, 0.75)"],
+              justifyContent: "center",
+              margin: "0.1rem 0rem",
+              backgroundColor: "white",
+              padding: " 0.3rem 0.5rem",
+              position: ["sticky", "sticky", "sticky"],
               top: 0,
-              zIndex: 100
+              zIndex: 100,
             }}
           >
             <HeaderIcons />
           </Box>
         </div>
       </Box>
-      <Box sx={{ display: 'flex', minHeight: '100vh' }}>
+      <Box sx={{ display: "flex", minHeight: "100vh" }}>
         <Box
           sx={{
-            position: 'fixed',
-            width: '100%',
-            maxWidth: '300px',
-            display: ['none', 'none', 'block'],
-            marginTop: '-1rem',
-            zIndex: 1
+            position: "fixed",
+            width: "100%",
+            maxWidth: "300px",
+            display: ["none", "none", "block"],
+            marginTop: "-1rem",
+            zIndex: 1,
           }}
         >
           <Sidebar />
         </Box>
         <Box
           sx={{
-            marginLeft: ['0%', '0%', '300px'],
-            width: ['100%', '100%', 'calc(100% - 300px)'],
-            backgroundColor: '#f0f2f5',
-            zIndex: 0
+            marginLeft: ["0%", "0%", "300px"],
+            width: ["100%", "100%", "calc(100% - 300px)"],
+            backgroundColor: "#f0f2f5",
+            zIndex: 0,
           }}
         >
-          <Box sx={{ width: '100%' }}>
+          <Box sx={{ width: "100%" }}>
             <Outlet />
           </Box>
-         
         </Box>
-        <Widget />
+        {/* <Box
+          sx={{
+            position: "fixed",
+            width: "100%",
+            maxWidth: "300px",
+            display: ["none", "none", "block"],
+            marginTop: "-1rem",
+            zIndex: 1,
+            // left: "auto", // Add this line to set the horizontal position of the widget
+            // right: 0, // Add this line to set the widget on the right side
+          }}
+        >
+          <Widget />
+        </Box> */}
       </Box>
-    
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default HomeApp
+export default HomeApp;
