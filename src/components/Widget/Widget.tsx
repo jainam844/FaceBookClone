@@ -1,18 +1,18 @@
-import { Box } from '@mui/material'
+import { Box } from "@mui/material";
 const Widget = (): JSX.Element => {
   return (
     <>
       <Box
         sx={{
-          width: '18%',
-          boxShadow: '0px 5px 10px -7px rgba(0, 0, 0, 0.75)',
-          // height: '80vh',
-          display: ['none', 'none', 'none', 'block']
+          width: "20%",
+          // boxShadow: "0px 5px 10px -7px rgba(255, 254, 254, 0.75)",
+          // height: "80vh",
+          display: ["none", "none", "block"],
         }}
       >
         hi
       </Box>
     </>
-  )
-}
-export default Widget
+  );
+};
+export default Widget;

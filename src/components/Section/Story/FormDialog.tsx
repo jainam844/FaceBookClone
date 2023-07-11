@@ -1,17 +1,24 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 import { Formik, Field, Form } from "formik";
+
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
+
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import TextField from "@mui/material/TextField";
+
 import SendIcon from "@mui/icons-material/Send";
 import UserContext from "../../Context/UserContext";
-import { addPost } from "../../../services/Response";
-import { Ipost } from "../../../Models/Post";
-
+import { addPost, addStory } from "../../../services/Response";
+import { Grid } from "@mui/material";
 interface FormValues {
   description: string;
 }
@@ -24,11 +31,12 @@ const validateDescription = (value: string) => {
   return error;
 };
 
-const AddDescription = ({
-  handleNewPost,
-}: {
-  handleNewPost: (newPostData: Ipost) => void;
-}) => {
+interface FormDialogProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+const FormDialog = ({ open, onClose }: FormDialogProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [imageSizeError, setImageSizeError] = useState(false);
   const { userData, userimageUrl } = useContext(UserContext);
@@ -99,8 +107,8 @@ const AddDescription = ({
       if (file) {
         formData.append("Images", file);
       }
-      const response = await addPost(formData);
-      handleNewPost(response);
+      const response = await addStory(formData);
+      // handleNewPost(response);
       console.log("Post added successfully!");
     } catch (error) {
       console.error("Failed to add post:", error);
@@ -108,15 +116,8 @@ const AddDescription = ({
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: "2rem",
-      }}
-    >
-      <Card sx={{ width: 800, minHeight: 300 }}>
+    <Dialog open={open} onClose={onClose}>
+      <Card sx={{ width: 600, minHeight: 300 }}>
         <Typography
           variant="h5"
           component="div"
@@ -203,25 +204,36 @@ const AddDescription = ({
                     Image size limit exceeded (max: 2MB)
                   </div>
                 )}
-                <Button
-                  type="submit"
-                  variant="contained"
-                  endIcon={<SendIcon />}
-                  sx={{
-                    margin: "0 0.7rem 0.5rem 0",
-                    marginTop: "2rem",
-                    float: "right",
-                  }}
-                >
-                  Share Post
-                </Button>
+                <Grid container>
+                  <Grid item xs={6}>
+                    <Button
+                      onClick={onClose}
+                      sx={{ margin: "0 0.7rem 0.5rem 0", marginTop: "2rem" }}
+                    >
+                      Cancel
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      endIcon={<SendIcon />}
+                      sx={{
+                        margin: "0 0.7rem 0.5rem 0",
+                        marginTop: "2rem",
+                        float: "right",
+                      }}
+                    >
+                      Share Post
+                    </Button>
+                  </Grid>
+                </Grid>
               </Form>
             )}
           </Formik>
         </CardContent>
       </Card>
-    </Box>
+    </Dialog>
   );
 };
-
-export default AddDescription;
+export default FormDialog;

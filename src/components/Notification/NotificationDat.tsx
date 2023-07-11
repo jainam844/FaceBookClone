@@ -48,6 +48,7 @@ interface NotificationData {
   activityId: number;
   activityTypeName: string;
   isRead: number;
+  createdAt:string;
 }
 
 const defaultAvatar = "/path/to/default/avatar.png";
@@ -60,8 +61,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   const [avatar, setAvatar] = useState<string | null>(null);
   const [postImage, setPostImage] = useState<string[]>([]);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [currentDateTime, setCurrentDateTime] = useState<Date>(new Date()); // New state for current datetime
   const open = Boolean(anchorEl);
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -69,17 +71,17 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const handleReadNotification = async () => {
     try {
       await getReadNotification(notification.notificationId);
 
-      notification.isRead = 1; 
+      notification.isRead = 1;
       handleClose();
 
       onClearNotification(notification.notificationId);
     } catch (error) {
       console.log(error);
-
     }
   };
 
@@ -201,14 +203,25 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
       default:
         break;
     }
-    if(avatarUrl){
-    setAvatar(avatarUrl);
+    if (avatarUrl) {
+      setAvatar(avatarUrl);
     }
   };
 
   useEffect(() => {
     fetchData();
   }, [notification.activityType, notification.activityId]);
+
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const renderNotificationItem = () => {
     let notificationText = "";
@@ -287,8 +300,31 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         return null;
     }
 
+    const createdAt = new Date(notification.createdAt);
+    const timeDiff = Math.round((currentDateTime.getTime() - createdAt.getTime()) / 1000); // in seconds
+
+    let timeAgo = "";
+    if (timeDiff < 60) {
+      timeAgo = `${timeDiff} seconds ago`;
+    } else if (timeDiff < 3600) {
+      const minutes = Math.floor(timeDiff / 60);
+      timeAgo = `${minutes} ${minutes === 1 ? "minute" : "minutes"} ago`;
+    } else if (timeDiff < 86400) {
+      const hours = Math.floor(timeDiff / 3600);
+      timeAgo = `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
+    } else {
+      const days = Math.floor(timeDiff / 86400);
+      timeAgo = `${days} ${days === 1 ? "day" : "days"} ago`;
+    }
+
     return (
-      <Box sx={{ display: "flex", alignItems: "center", mb: "20px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          mb: "20px",
+        }}
+      >
         {avatar ? (
           <Avatar src={avatar} sx={{ marginRight: "10px" }} />
         ) : (
@@ -300,9 +336,17 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
+            color: notification.isRead ? "gray" : "initial",
           }}
         >
           {notificationText}
+        </Typography>
+        <Typography
+          variant="caption"
+          color="textSecondary"
+          sx={{ marginLeft: "auto", ml: "10px" }}
+        >
+          {timeAgo}
         </Typography>
         {postImageElement}
       </Box>

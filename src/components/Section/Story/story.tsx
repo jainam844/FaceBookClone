@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import { Avatar, Box, Typography, Button } from "@mui/material";
 
-import CreateStory from "./CreateUser";
+import CreateStory from "./CreateStory";
 import {
   getAvatarImage,
   getPostImage,

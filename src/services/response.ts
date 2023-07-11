@@ -156,6 +156,19 @@ export const addPost = async (formData: FormData) => {
     throw err;
   }
 };
+export const addStory = async (formData: FormData) => {
+  try {
+    const response = await axiosInstance.post("/Story/Add", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
 export const getPostByUserId = async (
   pageNumber: number,
   pageSize: number,

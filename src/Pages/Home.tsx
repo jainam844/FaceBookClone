@@ -62,8 +62,9 @@ const HomeApp = () => {
           <Box sx={{ width: '100%' }}>
             <Outlet />
           </Box>
-          {/* <Widget /> */}
+         
         </Box>
+        <Widget />
       </Box>
     
     </React.Fragment>
