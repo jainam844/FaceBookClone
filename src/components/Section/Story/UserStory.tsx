@@ -8,6 +8,7 @@ import React, { useState, useEffect } from "react";
 import LinearProgress from "@mui/material/LinearProgress";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
   Avatar,
   Box,
@@ -32,6 +33,11 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [progress, setProgress] = React.useState(0);
+  const [boxOpen, setBoxOpen] = useState(false);
+  const handleVisibilityClick = () => {
+    setBoxOpen((prevOpen) => !prevOpen);
+  };
+
   useEffect(() => {
     const fetchAvatar = async () => {
       try {
@@ -188,7 +194,7 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
             position: "relative",
             padding: "1rem 0",
             maxWidth: "600px", // Set your desired width
-            height: "500px", // Set your desired height
+            minHeight: "80vh", // Set your desired height
           }}
         >
           <Box sx={{ marginBottom: "0.5rem" }}>
@@ -216,9 +222,8 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
           </Box>
           <div
             style={{
-              overflow: "hidden", // Hide any content that exceeds the container dimensions
-              width: "100%", // Set the width of the container as needed
-              // Set the height of the container as needed
+              overflow: "hidden",
+              width: "100%",
             }}
           >
             {postImage.length > 1 && (
@@ -228,15 +233,13 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
                   min={0}
                   max={postImage.length - 1}
                   onChange={handleSliderChange}
-                  // sx={{marginTop:'1rem'}}
                 />
-                {/* Rest of your code */}
               </>
             )}
           </div>
           {selectedImageIndex !== null && (
             <>
-              {selectedImageIndex !== 0 && ( // Display "Prev" button if not the first image
+              {selectedImageIndex !== 0 && (
                 <Button
                   disabled={selectedImageIndex === 0}
                   onClick={handlePrevStory}
@@ -245,13 +248,16 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
                   Prev
                 </Button>
               )}
-              <img
-                src={`data:image/png;base64,${postImage[selectedImageIndex]}`}
-                alt="Story"
-                style={{ width: "30vw", height: "40vh" }}
-              />
+              <div style={{ width: "30vw", height: "60vh" }}>
+                <img
+                  src={`data:image/png;base64,${postImage[selectedImageIndex]}`}
+                  alt="Story"
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </div>
+
               <Typography
-                variant="caption" // or any other appropriate variant
+                variant="caption"
                 sx={{
                   position: "absolute",
                   bottom: 40,
@@ -264,7 +270,7 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
               >
                 {story.stories[selectedImageIndex].text}
               </Typography>
-              {selectedImageIndex !== postImage.length - 1 && ( // Display "Next" button if not the last image
+              {selectedImageIndex !== postImage.length - 1 && (
                 <Button
                   disabled={selectedImageIndex === postImage.length - 1}
                   onClick={handleNextStory}
@@ -276,6 +282,22 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
             </>
           )}
         </DialogContent>
+
+        {boxOpen && (
+          <Box
+            sx={{
+              position: "relative",
+              bottom: 0,
+              left: 0,
+              Width: "5vw",
+              minHeight: "100px",
+              backgroundColor: "white",
+              borderTop: "1px solid gray",
+              padding: "1rem",
+            }}
+          ></Box>
+        )}
+        <VisibilityIcon onClick={handleVisibilityClick} />
       </Dialog>
     </>
   );

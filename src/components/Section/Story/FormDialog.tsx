@@ -38,7 +38,7 @@ interface FormDialogProps {
   handlenewStory: (storyData: IStory) => void;
 }
 
-const FormDialog = ({ open, onClose,handlenewStory }: FormDialogProps)   => {
+const FormDialog = ({ open, onClose, handlenewStory }: FormDialogProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [imageSizeError1, setImageSizeError1] = useState(false);
   const { userData, userimageUrl } = useContext(UserContext);

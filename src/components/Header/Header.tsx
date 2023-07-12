@@ -21,7 +21,7 @@ import Avatar from "@mui/material/Avatar";
 import UserContext from "../Context/UserContext";
 import HeaderIcons from "./HeaderIcons";
 import { getUserNotification } from "../../services/Response";
-
+import { Button } from "@mui/material";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -63,6 +63,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
+const commonButtonStyles = {
+  color: "gray",
+  margin: { xs: "0rem 0.3rem", sm: "0rem 0.3rem", xl: "0.2rem 0.1rem" },
+  padding: { xs: "0.5rem 0.5rem", sm: "0.5rem 0.5rem", xl: "0.1rem 0.5rem" },
+  "&:hover": {
+    color: "#2e81f4",
+  },
+};
 
 export default function PrimarySearchAppBar() {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
@@ -223,7 +231,6 @@ export default function PrimarySearchAppBar() {
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
-              
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
               />
@@ -234,9 +241,12 @@ export default function PrimarySearchAppBar() {
             </Box>
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <IconButton
+              <Button
                 size="large"
-                sx={{ display: ["none", "none", "none", "flex"] }}
+                sx={{
+                  display: ["none", "none", "none", "flex"],
+                  ...commonButtonStyles,
+                }}
                 aria-label="show 17 new notifications"
                 color="inherit"
               >
@@ -246,8 +256,8 @@ export default function PrimarySearchAppBar() {
                   {" "}
                   {userData.firstName + " " + userData.lastName}
                 </Box>
-              </IconButton>
-              <IconButton
+              </Button>
+              <Button
                 size="large"
                 aria-label="show 4 new mails"
                 color="inherit"
@@ -255,8 +265,8 @@ export default function PrimarySearchAppBar() {
                 <Badge color="error">
                   <AddIcon />
                 </Badge>
-              </IconButton>
-              <IconButton
+              </Button>
+              <Button
                 size="large"
                 aria-label="show 17 new notifications"
                 color="inherit"
@@ -264,7 +274,7 @@ export default function PrimarySearchAppBar() {
                 <Badge badgeContent={notificationsCount} color="error">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </Button>
               <IconButton
                 size="large"
                 edge="end"
@@ -278,7 +288,7 @@ export default function PrimarySearchAppBar() {
               </IconButton>
             </Box>
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
-              <IconButton
+              <Button
                 size="large"
                 aria-label="show more"
                 aria-controls={mobileMenuId}
@@ -287,7 +297,7 @@ export default function PrimarySearchAppBar() {
                 color="inherit"
               >
                 <AccountCircle />
-              </IconButton>
+              </Button>
             </Box>
           </Toolbar>
         </AppBar>
