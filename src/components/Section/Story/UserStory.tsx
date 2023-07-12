@@ -198,11 +198,26 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
           }}
         >
           <Box sx={{ marginBottom: "0.5rem" }}>
+            <DialogTitle>
+              <IconButton
+                edge="end"
+                color="inherit"
+                onClick={handleDialogClose}
+                aria-label="close"
+                sx={{
+                  position: "absolute",
+                  right: 12,
+                  top: 8,
+                }}
+              >
+                <CloseIcon />
+              </IconButton>
+            </DialogTitle>
             <Avatar
               src={avatarUrl}
               sx={{
                 position: "absolute",
-                top: 10,
+                top: 40,
                 left: 10,
                 width: 40,
                 height: 40,
@@ -286,16 +301,30 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
         {boxOpen && (
           <Box
             sx={{
+              display: "flex",
+              alignItems: "center", // Align items vertically
               position: "relative",
               bottom: 0,
               left: 0,
-              Width: "5vw",
+              minWidth: "100px",
               minHeight: "100px",
               backgroundColor: "white",
               borderTop: "1px solid gray",
               padding: "1rem",
             }}
-          ></Box>
+          >
+            <Avatar src={avatarUrl} sx={{ marginRight: "10px" }} />
+            <Typography
+              variant="body1"
+              sx={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {story.userName}
+            </Typography>
+          </Box>
         )}
         <VisibilityIcon onClick={handleVisibilityClick} />
       </Dialog>
