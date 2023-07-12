@@ -1,41 +1,63 @@
-import React from 'react'
-import { Button } from '@mui/material'
-import { BrowserRouter as Router, Link, useLocation } from 'react-router-dom'
-import HomeIcon from '@mui/icons-material/Home'
-import FlagIcon from '@mui/icons-material/Flag'
-import SubscriptionsIcon from '@mui/icons-material/Subscriptions'
-import StorefrontIcon from '@mui/icons-material/Storefront'
-import GroupsRoundedIcon from '@mui/icons-material/GroupsRounded'
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive'
-import { Path } from '../Utils/Path'
-import PeopleIcon from '@mui/icons-material/People'
+import React, { useState, useContext, useEffect } from "react";
+import { Button } from "@mui/material";
+import { BrowserRouter as Router, Link, useLocation } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
+import FlagIcon from "@mui/icons-material/Flag";
+import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
+import StorefrontIcon from "@mui/icons-material/Storefront";
+import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import { Path } from "../Utils/Path";
+import PeopleIcon from "@mui/icons-material/People";
+import Badge from "@mui/material/Badge";
+import { getUserNotification } from "../../services/Response";
+import UserContext from "../Context/UserContext";
 const commonButtonStyles = {
-  color: 'gray',
-  margin: { xs: '0rem 0.3rem', sm: '0rem 0.3rem', xl: '0.5rem 1rem' },
-  padding: { xs: '0.5rem 0.5rem', sm: '0.5rem 0.5rem', xl: '1rem 1rem' },
-  '&:hover': {
-    color: '#2e81f4'
-  }
-}
+  color: "gray",
+  margin: { xs: "0rem 0.3rem", sm: "0rem 0.3rem", xl: "0.5rem 1rem" },
+  padding: { xs: "0.5rem 0.5rem", sm: "0.5rem 0.5rem", xl: "1rem 1rem" },
+  "&:hover": {
+    color: "#2e81f4",
+  },
+};
 
 const activeButtonStyles = {
-  borderBottom: '2px solid #2e81f4',
-  color: '#2e81f4'
-}
+  borderBottom: "2px solid #2e81f4",
+  color: "#2e81f4",
+};
 
 const HeaderIcons: React.FC = (): JSX.Element => {
-  const location = useLocation()
+  const location = useLocation();
+  const [notificationsCount, setNotificationsCount] = useState(0);
+  const { userData, userimageUrl } = useContext(UserContext);
+
+  useEffect(() => {
+    const getAllNotification = async () => {
+      try {
+        const notificationData = await getUserNotification(1, 30);
+
+        setNotificationsCount(notificationData.records.length);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    if (userData.userId) {
+      getAllNotification();
+    }
+  }, [userData.userId]);
+
   return (
     <React.Fragment>
       <Button
         sx={{
           ...commonButtonStyles,
-          ...(location.pathname === Path.Feed ? activeButtonStyles : {})
+          ...(location.pathname === Path.Feed ? activeButtonStyles : {}),
         }}
         component={Link}
         to={Path.Feed}
       >
-        <HomeIcon sx={{ fontSize: '1.8rem' }} />
+        <HomeIcon sx={{ fontSize: "1.8rem" }} />
       </Button>
       {/* 
       <Button
@@ -84,25 +106,41 @@ const HeaderIcons: React.FC = (): JSX.Element => {
       <Button
         sx={{
           ...commonButtonStyles,
-          ...(location.pathname === Path.Friend ? activeButtonStyles : {})
+          ...(location.pathname === Path.Friend ? activeButtonStyles : {}),
         }}
         component={Link}
         to={Path.Friend}
       >
-        <PeopleIcon sx={{ fontSize: '1.8rem' }} />
+        <PeopleIcon sx={{ fontSize: "1.8rem" }} />
       </Button>
-      <Button
-        sx={{
-          ...commonButtonStyles,
-          ...(location.pathname === Path.Notification ? activeButtonStyles : {})
-        }}
-        component={Link}
-        to={Path.Notification}
-      >
-        <NotificationsActiveIcon sx={{ fontSize: '1.8rem' }} />
-      </Button>{' '}
-    </React.Fragment>
-  )
-}
 
-export default HeaderIcons
+    
+        <Button
+          sx={{
+            ...commonButtonStyles,
+            ...(location.pathname === Path.Notification
+              ? activeButtonStyles
+              : {}),
+          }}
+          component={Link}
+          to={Path.Notification}
+        >  <Badge
+        badgeContent={notificationsCount}
+        color="error"
+        sx={{
+          position: "relative",
+          top: "0px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+          <NotificationsActiveIcon sx={{ fontSize: "1.8rem" }} />
+          </Badge>
+        </Button>
+  
+    </React.Fragment>
+  );
+};
+
+export default HeaderIcons;

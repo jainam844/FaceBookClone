@@ -495,6 +495,15 @@ export const getReadNotification = async (notificationId: number) => {
     throw err;
   }
 };
+export const getAddStoryNotification = async (storyId: number) => {
+  try {
+    const response = await axiosInstance.post(`/Story/GetById/${storyId}`);
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
 
 export const getClearNotification = async (notificationId: number) => {
   try {
@@ -558,7 +567,7 @@ export const getStoryViews = async (
     };
 
     const response = await axiosInstance.post(`/Story/Views`, requestData);
-  
+
     return response.data;
   } catch (err) {
     throw err;

@@ -14,6 +14,7 @@ import {
   getReadNotification,
   getClearNotification,
   getClearAllNotification,
+  getAddStoryNotification,
 } from "../../services/Response";
 import Avatar from "@mui/material/Avatar";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
@@ -36,6 +37,7 @@ enum NotificationType {
   Acceptreq = "AcceptRequest",
   RejectReq = "RejectRequest",
   SendReq = "SendRequest",
+  AddStory = "AddNewStory",
 }
 
 interface Notification extends NotificationData {
@@ -48,7 +50,7 @@ interface NotificationData {
   activityId: number;
   activityTypeName: string;
   isRead: number;
-  createdAt:string;
+  createdAt: string;
 }
 
 const defaultAvatar = "/path/to/default/avatar.png";
@@ -186,6 +188,20 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         }
         break;
 
+      case NotificationType.AddStory:
+        try {
+          const getUserReqNotifi = await getAddStoryNotification(
+            notification.activityId
+          );
+          console.log(getUserReqNotifi.userName);
+          setUsername(getUserReqNotifi.userName);
+
+          avatarUrl = await getAvatarImage(getUserReqNotifi.toAvatar);
+        } catch (error) {
+          console.log(error);
+        }
+        break;
+
       case NotificationType.SendReq:
         try {
           const getUserReqNotifi = await getUserReqNotification(
@@ -211,7 +227,6 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   useEffect(() => {
     fetchData();
   }, [notification.activityType, notification.activityId]);
-
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -296,12 +311,18 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
         notificationText = `${username} Sent You Request`;
         break;
 
+      case NotificationType.AddStory:
+        notificationText = `${username} Added New Story`;
+        break;
+
       default:
         return null;
     }
 
     const createdAt = new Date(notification.createdAt);
-    const timeDiff = Math.round((currentDateTime.getTime() - createdAt.getTime()) / 1000); // in seconds
+    const timeDiff = Math.round(
+      (currentDateTime.getTime() - createdAt.getTime()) / 1000
+    );
 
     let timeAgo = "";
     if (timeDiff < 60) {
