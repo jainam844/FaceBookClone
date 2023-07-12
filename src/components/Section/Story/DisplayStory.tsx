@@ -17,11 +17,14 @@ import React, {
   useCallback,
 } from "react";
 import UserStory from "./UserStory";
+import { IStory } from "../../../Models/Story";
 
 const Story: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
-  const [story, setStory] = useState<[]>([]);
+  const [story, setStory] = useState<IStory[]>([]);
+
+  console.log(story);
   useEffect(() => {
     const fetchStory = async () => {
       try {
@@ -38,6 +41,19 @@ const Story: React.FC = () => {
     fetchStory();
   }, []);
 
+  const apendNewStory = (storyData: IStory) => {
+    setStory((StoriesList) =>
+      StoriesList.map((story) => {
+        if (story.userId === storyData.userId) {
+          return {
+            ...story,
+            stories: [storyData.stories[0], ...story.stories],
+          };
+        }
+        return story;
+      })
+    );
+  };
   const scrollLeft = () => {
     scrollContainerRef.current?.scrollBy({
       top: -100,
@@ -63,7 +79,7 @@ const Story: React.FC = () => {
             ref={scrollContainerRef}
           >
             <Grid item>
-              <CreateStory />
+              <CreateStory handlenewStory={apendNewStory} />
             </Grid>
 
             {story.map((item, index) => (

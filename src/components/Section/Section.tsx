@@ -11,7 +11,7 @@ import {
   getStoryByUserId,
 } from "../../services/Response";
 import Box from "@mui/material/Box";
-import Story from "./Story/story";
+import Story from "./Story/DisplayStory";
 import Post from "./DisplayPost/DisplayPost";
 import UserContext from "../Context/UserContext";
 import AddDescription from "./SharePost/SharePost";
@@ -51,15 +51,13 @@ const Section = (): JSX.Element => {
     setLoading(true);
     const fetchPosts = async () => {
       try {
-        const response = await getPostByUserId(pageNumber, 1, false);
+        const response = await getPostByUserId(pageNumber, 100, false);
 
         if (Array.isArray(response.records)) {
           const data: Ipost[] = response.records;
           const updatedData = await Promise.all(
             data.map(async (post) => {
-              const avatarUrl = await getAvatarImage(post.avatar);
-
-              return { ...post, avatarUrl };
+              return { ...post };
             })
           );
 

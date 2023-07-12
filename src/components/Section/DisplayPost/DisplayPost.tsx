@@ -49,6 +49,8 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post, reference }) => {
   const [newComment, setNewComment] = useState("");
   const [expanded, setExpanded] = useState(false);
+
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [likeCount, setLikeCount] = useState("");
   const { userData } = useContext(UserContext);
   const [postImage, setPostImage] = useState<string[]>([]);
@@ -90,7 +92,18 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
       setIsLiked(response);
     }
   };
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      try {
+        const avatarUrl = (await getAvatarImage(post.avatar)) ?? "";
+        setAvatarUrl(avatarUrl);
+      } catch (error) {
+        console.error("Error fetching avatar image:", error);
+      }
+    };
 
+    fetchAvatar();
+  }, [post.avatar]);
   const handleShareClick = () => {
     if (navigator.share) {
       navigator
@@ -153,7 +166,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
     };
 
     fetchLikes();
-  }, [post.postId, isLiked]);
+  }, [isLiked]);
   useEffect(() => {
     const fetchPostImages = async () => {
       if (post.path) {
@@ -205,7 +218,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
     <React.Fragment>
       <Card ref={reference} sx={{ width: "60%", margin: "3rem auto" }}>
         <CardHeader
-          avatar={<Avatar src={post.avatarUrl} />}
+          avatar={<Avatar src={avatarUrl} />}
           action={
             <IconButton aria-label="settings">
               <MoreVertIcon />

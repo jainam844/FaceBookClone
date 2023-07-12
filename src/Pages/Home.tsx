@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../components/Sidebar/side";
 
 const HomeApp = () => {
+  const widgetVisible = true;
   return (
     <React.Fragment>
       <Box
@@ -38,6 +39,7 @@ const HomeApp = () => {
           </Box>
         </div>
       </Box>
+
       <Box sx={{ display: "flex", minHeight: "100vh" }}>
         <Box
           sx={{
@@ -54,29 +56,16 @@ const HomeApp = () => {
         <Box
           sx={{
             marginLeft: ["0%", "0%", "300px"],
-            width: ["100%", "100%", "calc(100% - 300px)"],
+            width: ["100%", "100%", "85%"],
+            maxWidth: ["100%", "100%", "calc(85% - 300px)"],
             backgroundColor: "#f0f2f5",
             zIndex: 0,
           }}
         >
           <Box sx={{ width: "100%" }}>
-            <Outlet />
+            {widgetVisible ? <Outlet /> : <Widget />}
           </Box>
         </Box>
-        {/* <Box
-          sx={{
-            position: "fixed",
-            width: "100%",
-            maxWidth: "300px",
-            display: ["none", "none", "block"],
-            marginTop: "-1rem",
-            zIndex: 1,
-            // left: "auto", // Add this line to set the horizontal position of the widget
-            // right: 0, // Add this line to set the widget on the right side
-          }}
-        >
-          <Widget />
-        </Box> */}
       </Box>
     </React.Fragment>
   );

@@ -8,9 +8,10 @@ const Widget = (): JSX.Element => {
           boxShadow: "0px 5px 10px -7px rgba(255, 254, 254, 0.75)",
           // height: "80vh",
           // display: ["none", "none", "block"],
+          marginTop:'5rem'
         }}
       >
-        hi
+        iiiiiiiiiiiiiiii
       </Box>
     </>
   );

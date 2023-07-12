@@ -4,7 +4,12 @@ import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import FormDialog from "./FormDialog";
 import Box from "@mui/material/Box";
-const CreateStory = () => {
+import { IStory } from "../../../Models/Story";
+interface CreateStoryProps {
+  handlenewStory: (storyData: IStory) => void;
+}
+
+const CreateStory: React.FC<CreateStoryProps> = ({ handlenewStory }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -55,7 +60,7 @@ const CreateStory = () => {
           </Typography>
         </Paper>
       </Box>
-      <FormDialog open={open} onClose={handleClose} />
+      <FormDialog open={open} onClose={handleClose} handlenewStory={handlenewStory} />
     </>
   );
 };

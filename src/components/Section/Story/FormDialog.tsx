@@ -19,6 +19,7 @@ import SendIcon from "@mui/icons-material/Send";
 import UserContext from "../../Context/UserContext";
 import { addPost, addStory } from "../../../services/Response";
 import { Grid } from "@mui/material";
+import { IStory } from "../../../Models/Story";
 interface FormValues {
   description: string;
 }
@@ -34,9 +35,10 @@ const validateDescription1 = (value: string) => {
 interface FormDialogProps {
   open: boolean;
   onClose: () => void;
+  handlenewStory: (storyData: IStory) => void;
 }
 
-const FormDialog = ({ open, onClose }: FormDialogProps) => {
+const FormDialog = ({ open, onClose,handlenewStory }: FormDialogProps)   => {
   const [file, setFile] = useState<File | null>(null);
   const [imageSizeError1, setImageSizeError1] = useState(false);
   const { userData, userimageUrl } = useContext(UserContext);
@@ -108,7 +110,7 @@ const FormDialog = ({ open, onClose }: FormDialogProps) => {
         formData.append("Images", file);
       }
       const response = await addStory(formData);
-      // handlenewStory(response);
+      handlenewStory(response);
       console.log(response);
     } catch (error) {
       console.error("Failed to add post:", error);
@@ -147,7 +149,7 @@ const FormDialog = ({ open, onClose }: FormDialogProps) => {
                 display: ["none", "flex", "flex"],
               }}
             >
-              (What's on your mind?)
+              (Upload Story..!!)
             </Typography>
           </span>
         </Typography>
@@ -159,7 +161,7 @@ const FormDialog = ({ open, onClose }: FormDialogProps) => {
             }}
             onSubmit={handleSubmit}
           >
-            {({ handleChange, errors }) => (
+            {({ errors }) => (
               <Form>
                 <Box>
                   <Field

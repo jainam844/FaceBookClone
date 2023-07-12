@@ -467,7 +467,6 @@ export const getUserMutual = async (
 export const getUserRequestSend = async (toUserId: number) => {
   try {
     const response = await axiosInstance.post(`/UserRequest/Send/${toUserId}`);
-    console.log(response.data);
     return response.data;
   } catch (err) {
     throw err;
@@ -502,7 +501,6 @@ export const getClearNotification = async (notificationId: number) => {
     const response = await axiosInstance.get(
       `/Notification/Clear/${notificationId}`
     );
-    console.log(response.data);
     return response.data;
   } catch (err) {
     throw err;
@@ -512,7 +510,6 @@ export const getClearNotification = async (notificationId: number) => {
 export const getClearAllNotification = async () => {
   try {
     const response = await axiosInstance.get(`/Notification/ClearAll`);
-    console.log(response.data);
     return response.data;
   } catch (err) {
     throw err;
@@ -532,11 +529,39 @@ export const getStoryByUserId = async (
       `/Story/GetByUserId`,
       requestData
     );
-    console.log(response.data);
     return response.data;
   } catch (err) {
     throw err;
   }
 };
 
-getStoryByUserId(1, 100);
+export const getStorySeen = async (storyId: number) => {
+  try {
+    const response = await axiosInstance.post(`/Story/Seen/${storyId}`);
+
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getStoryViews = async (
+  pageNumber: number,
+  pageSize: number,
+  storyId: number
+) => {
+  try {
+    const requestData = {
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+      storyId: storyId,
+    };
+
+    const response = await axiosInstance.post(`/Story/Views`, requestData);
+  
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+// getStoryViews(1, 100, 1);
