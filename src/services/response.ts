@@ -497,8 +497,8 @@ export const getReadNotification = async (notificationId: number) => {
 };
 export const getAddStoryNotification = async (storyId: number) => {
   try {
-    const response = await axiosInstance.post(`/Story/GetById/${storyId}`);
-    console.log(response.data);
+    const response = await axiosInstance.get(`/Story/GetById/${storyId}`);
+
     return response.data;
   } catch (err) {
     throw err;

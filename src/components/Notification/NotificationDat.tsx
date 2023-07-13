@@ -196,7 +196,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           console.log(getUserReqNotifi.userName);
           setUsername(getUserReqNotifi.userName);
 
-          avatarUrl = await getAvatarImage(getUserReqNotifi.toAvatar);
+          avatarUrl = await getAvatarImage(getUserReqNotifi.avatar);
         } catch (error) {
           console.log(error);
         }
