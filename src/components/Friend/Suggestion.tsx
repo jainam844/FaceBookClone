@@ -21,7 +21,7 @@ const Suggestion = () => {
     <>
       <Grid container spacing={2} justifyContent="start">
         {friends.map((friend) => (
-          <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={12} lg={4}>
             <Suggestionlist
               friend={friend}
               sx={{ width: "calc(33% - 1rem)" }}

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Typography, Box, Button, TextField } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import Grid from "@mui/material/Grid";
-import fbImgLogo from "../assets/BharatBook1.png";
 import { Formik, Form, Field, ErrorMessage, FormikValues } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Path } from "../components/Utils/Path";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { getAccountForgot, getVerifyToken } from "../services/Response";
+import BhartBook from "./BhartBook";
 
 const ForgotPage: React.FC = () => {
   const navigate = useNavigate();
@@ -54,30 +54,7 @@ const ForgotPage: React.FC = () => {
       <ToastContainer />
       <Box sx={{ height: "100vh", bgcolor: "#f0f2f5" }}>
         <Grid container sx={{ height: "100%" }}>
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                marginLeft: [0, 0, 0], // Responsive marginLeft
-              }}
-            >
-              <img
-                src={fbImgLogo}
-                alt=""
-                width={400}
-                style={{ mixBlendMode: "multiply" }}
-              />
-
-              <Typography sx={{ fontWeight: "bold", marginTop: "1rem" }}>
-                Enter Your Email we will send you a code to reset password{" "}
-                <br />
-              </Typography>
-            </Box>
-          </Grid>
+          <BhartBook />
           <Grid
             item
             xs={12}
@@ -162,7 +139,7 @@ const ForgotPage: React.FC = () => {
                       style={{
                         marginBottom: "0.5rem",
                         marginTop: "0.5rem",
-                        backgroundColor: "#FF4081",
+                        backgroundColor: "#20a726",
                         color: "white",
                         borderRadius: "50px",
                         fontWeight: "bold",
@@ -262,7 +239,7 @@ const ForgotPage: React.FC = () => {
                       style={{
                         marginBottom: "0.5rem",
                         marginTop: "0.5rem",
-                        backgroundColor: "#FF4081",
+                        backgroundColor: "#20a726",
                         color: "white",
                         borderRadius: "50px",
                         fontWeight: "bold",

@@ -86,7 +86,7 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend, sx }) => {
 
   return (
     <React.Fragment>
-      <Card sx={{ marginBottom: "1rem", maxWidth: 345 }}>
+      <Card sx={{ marginBottom: "1rem", maxWidth: 345 ,minHeight:'400px' }}>
         <CardMedia
           component="img"
           height="194"

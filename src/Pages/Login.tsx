@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Typography, Box, Button, TextField } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import Grid from "@mui/material/Grid";
-import fbImgLogo from "../assets/BharatBook1.png";
+
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -15,6 +15,7 @@ import jwtDecode from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Path } from "../components/Utils/Path";
+import BhartBook from "./BhartBook";
 
 const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -64,30 +65,8 @@ const LoginPage: React.FC = () => {
       <ToastContainer />
       <Box sx={{ height: "100vh", bgcolor: "#f0f2f5" }}>
         <Grid container sx={{ height: "100%" }}>
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                marginLeft: [0, 0, 0], // Responsive marginLeft
-              }}
-            >
-              <img
-                src={fbImgLogo}
-                alt=""
-                width={400}
-                style={{ mixBlendMode: "multiply" }}
-              />
+          <BhartBook />
 
-              <Typography sx={{ fontWeight: "bold", marginTop: "1rem" }}>
-                Connect with Friends and the world <br /> around you on
-                BharatBook
-              </Typography>
-            </Box>
-          </Grid>
           <Grid
             item
             xs={12}
@@ -188,7 +167,6 @@ const LoginPage: React.FC = () => {
                   <Button
                     type="submit"
                     variant="contained"
-                  
                     fullWidth
                     sx={{
                       marginBottom: "0.5rem",
@@ -199,7 +177,7 @@ const LoginPage: React.FC = () => {
                       fontWeight: "bold",
                       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
                       padding: "8px 16px", // Decreased padding value
-    fontSize: "16px", // Decreased font size value
+                      fontSize: "16px", // Decreased font size value
                       textTransform: "uppercase",
                       letterSpacing: "2px",
                       border: "none",
@@ -228,12 +206,11 @@ const LoginPage: React.FC = () => {
                     component={RouterLink}
                     to={Path.Register}
                     variant="contained"
-           
                     fullWidth
                     style={{
                       marginBottom: "0.5rem",
                       marginTop: "0.5rem",
-                      backgroundColor: "#FF4081",
+                      backgroundColor: "#20a726",
                       color: "white",
                       borderRadius: "50px",
                       fontWeight: "bold",

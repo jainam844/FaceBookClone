@@ -103,10 +103,11 @@ export const FriendBox = () => {
     <>
       <Box
         sx={{
-          paddingTop: 0,
-          marginTop: 0,
-          margin: "0 30px",
-          width: "67vw",
+          padding: 0,
+
+          margin: "0",
+          width: ["100%", "100%", "67vw"],
+          maxWidth: ["100%", "100%", "100%"],
         }}
       >
         <Box sx={{ width: "100%" }}>

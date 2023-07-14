@@ -28,6 +28,7 @@ import SendIcon from "@mui/icons-material/Send";
 import { PostLike, getLikesByPost } from "../../../services/Response";
 import RecommendIcon from "@mui/icons-material/Recommend";
 import { addComment } from "../../../services/Response";
+import { Grid } from "@mui/material";
 import {
   getAvatarImage,
   getPostByUserId,
@@ -216,7 +217,16 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
 
   return (
     <React.Fragment>
-      <Card ref={reference} sx={{ width: "60%", margin: "3rem auto" }}>
+      <Card
+        ref={reference}
+        sx={{
+          width: "60%",
+          margin: "3rem auto",
+          "@media (max-width: 500px)": {
+            width: "100%",
+          },
+        }}
+      >
         <CardHeader
           avatar={<Avatar src={avatarUrl} />}
           action={

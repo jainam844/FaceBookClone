@@ -56,15 +56,19 @@ const HomeApp = () => {
         <Box
           sx={{
             marginLeft: ["0%", "0%", "300px"],
-            width: ["100%", "100%", "85%"],
-            maxWidth: ["100%", "100%", "calc(85% - 300px)"],
+            width: ["100%", "100%", "calc(80% - 300px)"], // Adjust the width here
+            maxWidth: ["100%", "100%", "calc(80% - 300px)"], // Adjust the maxWidth here
             backgroundColor: "#f0f2f5",
             zIndex: 0,
           }}
         >
           <Box sx={{ width: "100%" }}>
-            {widgetVisible ? <Outlet /> : <Widget />}
+            <Outlet />
           </Box>
+        </Box>
+        <Box sx={{ width: "20%", display: ["none", "none","none", "block"] }}>
+          <Widget sx={{ width: "100%", maxWidth: "100%" }} />{" "}
+          {/* Update widget width and maxWidth */}
         </Box>
       </Box>
     </React.Fragment>

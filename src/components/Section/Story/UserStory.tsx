@@ -1,3 +1,4 @@
+
 import {
   getAvatarImage,
   getStoryImage,
@@ -27,33 +28,19 @@ interface StoryProps {
 }
 
 const UserStory: React.FC<StoryProps> = ({ story }) => {
-  // console.log(story);
-  const [storyImage, setPostImage] = useState<string[]>([]);
+  // console.log(story)
+  const [postImage, setPostImage] = useState<string[]>([]);
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [progress, setProgress] = React.useState(0);
   const [boxOpen, setBoxOpen] = useState(false);
-  const [storyViews, setStoryViews] = useState([]);
+  const [storyViews, setStoryViews] = useState<string[]>([]);
 
   const handleVisibilityClick = () => {
     setBoxOpen((prevOpen) => !prevOpen);
   };
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((oldProgress) => {
-        if (oldProgress === 100) {
-          return 0;
-        }
-        const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 100);
-      });
-    }, 500);
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
   useEffect(() => {
     const fetchAvatar = async () => {
       try {
@@ -70,30 +57,24 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
   useEffect(() => {
     const fetchStoryImages = async () => {
       if (story.stories) {
-        story.stories.map((storyItem) => storyItem.path);
+        const storyImagePaths = story.stories
+          // .filter((storyItem) => storyItem.path !== null)
+          .map((storyItem) => storyItem.path);
 
-        const postImagePromises = story.stories.map(async (storyItem) => {
+        const postImagePromises = storyImagePaths.map(async (imageName) => {
           try {
-            if (storyItem.path) {
-              const imageUrl = await getStoryImage(storyItem.path);
-              return {
-                image: imageUrl,
-                isSeen: storyItem.isSeen,
-                text: storyItem.text,
-                storyId: storyItem.storyId,
-                seenData: [],
-              };
-            }
+            const imageUrl = await getStoryImage(imageName);
+            return imageUrl;
           } catch (error) {
-            console.error(`Error fetching image :`, error);
-
+            console.error(`Error fetching image "${imageName}":`, error);
+            // Return the path of the static image if fetch fails
             return "/path/to/static/image.jpg";
           }
         });
 
         try {
-          const data = await Promise.all(postImagePromises);
-          setStoryViews(data);
+          const images = await Promise.all(postImagePromises);
+          setPostImage(images);
         } catch (error) {
           console.error("Error fetching post images:", error);
         }
@@ -103,30 +84,27 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
     fetchStoryImages();
   }, [story.stories]);
 
-  const handleImageClick = (index: number, event: React.MouseEvent) => {
-    event.preventDefault();
-    setSelectedImageIndex(index);
-    setDialogOpen(true);
-    handleStoryView(index);
-  };
-  const handleStoryView = async (index: number) => {
-    try {
-      const StoryViewData = await getStoryViews(
-        1,
-        100,
-        story.stories[index].storyId
-      );
-      if (StoryViewData) {
-        console.log(StoryViewData);
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((oldProgress) => {
+        if (oldProgress === 100) {
+          return 0;
+        }
+        const diff = Math.random() * 10;
+        return Math.min(oldProgress + diff, 100);
+      });
+    }, 500);
 
-        setStoryViews[index].seenData = StoryViewData.record.responseModel;
-      }
-      console.log("Story views fetched successfully");
-    } catch (error) {
-      console.error("Error fetching story views:", error);
-    }
-    console.log(setStoryViews[selectedImageIndex].seenData);
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+  const handleImageClick = (image: string, event: React.MouseEvent) => {
+    event.preventDefault();
+    setSelectedImageIndex(postImage.indexOf(image));
+    setDialogOpen(true);
   };
+
   const handleDialogClose = async () => {
     setDialogOpen(false);
 
@@ -153,34 +131,27 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
     }
   };
 
-  const handlePrevStory = () => {
-    setSelectedImageIndex((prevIndex) => {
-      const newIndex = prevIndex - 1;
-      if (newIndex >= 0) {
-        handleStoryView(newIndex);
-        return newIndex;
-      }
-      return prevIndex;
-    });
-  };
-
-  const handleNextStory = () => {
-    setSelectedImageIndex((prevIndex) => {
-      const newIndex = prevIndex + 1;
-      if (newIndex > storyImage.length) {
-        handleStoryView(newIndex);
-        return newIndex;
-      }
-      return prevIndex;
-    });
-  };
-
-  // if (storyImage.length === 0) {
-  //   return null;
-  // }
   const handleSliderChange = (event: Event, newValue: number | number[]) => {
     setSelectedImageIndex(newValue as number);
   };
+
+  const handlePrevStory = () => {
+    const newIndex = selectedImageIndex - 1;
+    if (newIndex >= 0) {
+      setSelectedImageIndex(newIndex);
+    }
+  };
+
+  const handleNextStory = () => {
+    const newIndex = selectedImageIndex + 1;
+    if (newIndex < postImage.length) {
+      setSelectedImageIndex(newIndex);
+    }
+  };
+
+  if (postImage.length === 0) {
+    return null;
+  }
 
   return (
     <>
@@ -190,16 +161,14 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
             height: 180,
             width: 100,
             margin: "10px",
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("data:image/png;base64,${
-              storyViews.length > 0 && storyViews[0].image
-            }")`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("data:image/png;base64,${postImage[0]}")`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
             padding: "15px 15px",
             borderRadius: "20px",
             position: "relative",
           }}
-          onClick={(event) => handleImageClick(0, event)}
+          onClick={(event) => handleImageClick(postImage[0], event)}
         >
           <Avatar
             src={avatarUrl}
@@ -227,14 +196,13 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
           </Typography>
         </Paper>
       </Grid>
-
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
         <DialogContent
           sx={{
             position: "relative",
             padding: "1rem 0",
-            maxWidth: "600px",
-            minHeight: "80vh",
+            maxWidth: "600px", // Set your desired width
+            minHeight: "80vh", // Set your desired height
           }}
         >
           <Box sx={{ marginBottom: "0.5rem" }}>
@@ -281,12 +249,12 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
               width: "100%",
             }}
           >
-            {storyImage.length > 1 && (
+            {postImage.length > 1 && (
               <>
                 <Slider
                   value={selectedImageIndex}
                   min={0}
-                  max={storyImage.length - 1}
+                  max={postImage.length - 1}
                   onChange={handleSliderChange}
                 />
               </>
@@ -305,10 +273,7 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
               )}
               <div style={{ width: "30vw", height: "60vh" }}>
                 <img
-                  src={`data:image/png;base64,${
-                    storyViews.length > 0 &&
-                    storyViews[selectedImageIndex].image
-                  }`}
+                  src={`data:image/png;base64,${postImage[selectedImageIndex]}`}
                   alt="Story"
                   style={{ width: "100%", height: "100%" }}
                 />
@@ -328,9 +293,9 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
               >
                 {story.stories[selectedImageIndex].text}
               </Typography>
-              {selectedImageIndex !== storyImage.length - 1 && (
+              {selectedImageIndex !== postImage.length - 1 && (
                 <Button
-                  disabled={selectedImageIndex === storyImage.length - 1}
+                  disabled={selectedImageIndex === postImage.length - 1}
                   onClick={handleNextStory}
                   style={{ position: "absolute", top: "90%", right: 0 }}
                 >
@@ -356,22 +321,22 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
               padding: "1rem",
             }}
           >
-            {storyViews[selectedImageIndex].seenData.length > 0 &&
-              storyViews[selectedImageIndex].seenData.map((view, index) => (
-                <React.Fragment key={index}>
-                  <Avatar sx={{ marginRight: "10px" }} />
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    {view.userName}
-                  </Typography>
-                </React.Fragment>
-              ))}
+            {/* <Avatar src={avatarUrl} sx={{ marginRight: "10px" }} /> */}
+            {storyViews.map((view, index) => (
+              <React.Fragment key={index}>
+                {/* <Avatar src={view.avatarUrl} sx={{ marginRight: "10px" }} /> */}
+                <Typography
+                  variant="body1"
+                  sx={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {view.userName}
+                </Typography>
+              </React.Fragment>
+            ))}
           </Box>
         )}
         <VisibilityIcon onClick={handleVisibilityClick} />

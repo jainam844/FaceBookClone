@@ -5,13 +5,13 @@ const Widget = (): JSX.Element => {
       <Box
         sx={{
           // width: "20%",
-          boxShadow: "0px 5px 10px -7px rgba(255, 254, 254, 0.75)",
+          // boxShadow: "0px 5px 10px -7px rgba(255, 254, 254, 0.75)",
           // height: "80vh",
           // display: ["none", "none", "block"],
           marginTop:'5rem'
         }}
       >
-        iiiiiiiiiiiiiiii
+        
       </Box>
     </>
   );

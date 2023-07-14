@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Typography, Box, Button, TextField } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import fbImgLogo from "../assets/BharatBook1.png";
 import IconButton from "@mui/material/IconButton";
@@ -16,6 +15,7 @@ import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlin
 import { useFormik } from "formik";
 import { useLocation } from "react-router-dom";
 import { getResetPassword } from "../services/Response";
+import BhartBook from "./BhartBook";
 
 interface FormValues {
   email: string;
@@ -85,30 +85,7 @@ const ResetPass: React.FC = () => {
       <ToastContainer />
       <Box sx={{ height: "100vh", bgcolor: "#f0f2f5" }}>
         <Grid container sx={{ height: "100%" }}>
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                marginLeft: [0, 0, 0], // Responsive marginLeft
-              }}
-            >
-              <img
-                src={fbImgLogo}
-                alt=""
-                width={400}
-                style={{ mixBlendMode: "multiply" }}
-              />
-
-              <Typography sx={{ fontWeight: "bold", marginTop: "1rem" }}>
-                Connect with Friends and the world <br /> around you on
-                BharatBook
-              </Typography>
-            </Box>
-          </Grid>
+          <BhartBook />
           <Grid
             item
             xs={12}
@@ -198,7 +175,7 @@ const ResetPass: React.FC = () => {
                   style={{
                     marginBottom: "0.5rem",
                     marginTop: "0.5rem",
-                    backgroundColor: "#FF4081",
+                    backgroundColor: "#20a726",
                     color: "white",
                     borderRadius: "50px",
                     fontWeight: "bold",

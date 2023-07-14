@@ -16,6 +16,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Path } from "../components/Utils/Path";
 import { UserRegistration } from "../services/Response";
+import BhartBook from "./BhartBook";
 
 interface FormValues {
   firstName: string;
@@ -92,30 +93,7 @@ const RegisterPage = () => {
     <React.Fragment>
       <Box sx={{ height: "900px", bgcolor: "#f0f2f5" }}>
         <Grid container sx={{ height: "100%" }}>
-          <Grid item xs={12} md={6}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                marginLeft: [0, 0, 0],
-              }}
-            >
-              <img
-                src={fbImgLogo}
-                alt=""
-                width={400}
-                style={{ mixBlendMode: "multiply" }}
-              />
-
-              <Typography sx={{ fontWeight: "bold", marginTop: "1rem" }}>
-                Connect with Friends and the world <br /> around you on
-                BharatBook
-              </Typography>
-            </Box>
-          </Grid>
+       <BhartBook/>
           <Grid
             item
             xs={12}
