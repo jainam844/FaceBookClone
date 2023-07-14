@@ -5,6 +5,7 @@ import { useState } from "react";
 import FormDialog from "./FormDialog";
 import Box from "@mui/material/Box";
 import { IStory } from "../../../Models/Story";
+
 interface CreateStoryProps {
   handlenewStory: (storyData: IStory) => void;
 }
@@ -31,36 +32,42 @@ const CreateStory: React.FC<CreateStoryProps> = ({ handlenewStory }) => {
             backgroundImage: `url("https://cdn.pixabay.com/photo/2023/06/14/09/18/trees-8062668_1280.jpg")`,
             backgroundSize: "cover",
             backgroundRepeat: "no-repeat",
-            padding: "15px 15px",
-            borderRadius: "20px",
+            padding: "15px",
+            borderRadius: "10px",
             position: "relative",
+            cursor: "pointer",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
           <AddIcon
             sx={{
               color: "white",
+              fontSize: 48,
+              marginBottom: "8px",
+              border:'2px solid white',
               borderRadius: "50%",
-              border: "2px solid white",
-              padding: "5px",
-              cursor: "pointer",
             }}
           />
 
           <Typography
             variant="subtitle2"
             sx={{
-              position: "absolute",
-              bottom: 10,
-              left: 10,
               fontWeight: "600",
-              color: "#ffffff",
+              color: "white",
             }}
           >
-            Add to Story
+            Create Story
           </Typography>
         </Paper>
       </Box>
-      <FormDialog open={open} onClose={handleClose} handlenewStory={handlenewStory} />
+      <FormDialog
+        open={open}
+        onClose={handleClose}
+        handlenewStory={handlenewStory}
+      />
     </>
   );
 };

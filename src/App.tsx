@@ -1,42 +1,44 @@
-import React from 'react'
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate
-} from 'react-router-dom'
-import Flag from './components/Flag/flag'
-import Section from './components/Section/Section'
-import Subscription from './components/Subscription/Subscription'
-import MarketPlace from './components/MarketPlace/MarketPlace'
-import UserFriend from './components/Group/Groups'
-import Friend from './components/Friend/Friends'
-import LoginPage from './Pages/Login'
-import HomeApp from './Pages/Home'
-import Profile from './Pages/Profile'
-import HomeLayout from './Pages/Layout'
-import Notification from './components/Notification/Notification'
-import RegisterPage from './Pages/Register'
-import { Path } from './components/Utils/Path'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+  Navigate,
+} from "react-router-dom";
+import Flag from "./components/Flag/flag";
+import Section from "./components/Section/Section";
+import Subscription from "./components/Subscription/Subscription";
+import MarketPlace from "./components/MarketPlace/MarketPlace";
+import UserFriend from "./components/Group/Groups";
+import Friend from "./components/Friend/Friends";
+import LoginPage from "./Pages/Login";
+import HomeApp from "./Pages/Home";
+import Profile from "./Pages/Profile";
+import HomeLayout from "./Pages/Layout";
+import Notification from "./components/Notification/Notification";
+import RegisterPage from "./Pages/Register";
+import { Path } from "./components/Utils/Path";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 // import { Suggestion } from './components/Friend/Suggestion'
-import { FriendBox, } from './components/Friend/FriendBox'
-import YourFriend from './components/Friend/YourFriend'
-import Suggestion from './components/Friend/Suggestion'
+import { FriendBox } from "./components/Friend/FriendBox";
+import YourFriend from "./components/Friend/YourFriend";
+import Suggestion from "./components/Friend/Suggestion";
+import ForgotPage from "./Pages/ForgotPass";
+import ResetPass from "./Pages/ResetPass";
 
 interface ProtectedRouteProps {
-  render: () => JSX.Element
+  render: () => JSX.Element;
 }
 
 const ProtectedRoute = ({
-  element: Element
+  element: Element,
 }: {
-  element: React.ElementType
+  element: React.ElementType;
 }) => {
-  const isAuthenticated = localStorage.getItem('userInfo') !== null
-  return isAuthenticated ? <Element /> : <Navigate to={Path.Login} />
-}
+  const isAuthenticated = localStorage.getItem("userInfo") !== null;
+  return isAuthenticated ? <Element /> : <Navigate to={Path.Login} />;
+};
 
 const App: React.FC = () => {
   return (
@@ -45,6 +47,8 @@ const App: React.FC = () => {
         <Routes>
           <Route path={Path.Login} element={<LoginPage />} />
           <Route path={Path.Register} element={<RegisterPage />} />
+          <Route path={Path.Forgot} element={<ForgotPage />} />
+          <Route path={Path.Reset} element={<ResetPass />} />
           <Route
             path={Path.Layout}
             element={<ProtectedRoute element={() => <HomeLayout />} />}
@@ -74,7 +78,7 @@ const App: React.FC = () => {
       </Router>
       <ToastContainer />
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default App
+export default App;

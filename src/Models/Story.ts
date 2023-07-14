@@ -4,6 +4,7 @@ export interface IStory {
   text: string;
   userId: number;
   userName: string;
+  
 }
 
 interface IStoryMedia {

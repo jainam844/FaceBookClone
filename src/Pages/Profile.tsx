@@ -10,7 +10,6 @@ const Profile = () => {
   const { userData, userimageUrl } = useContext(UserContext);
 
   return (
-
     <React.Fragment>
       <Grid
         container

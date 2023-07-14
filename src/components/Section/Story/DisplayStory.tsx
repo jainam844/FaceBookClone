@@ -24,7 +24,7 @@ const Story: React.FC = () => {
 
   const [story, setStory] = useState<IStory[]>([]);
 
-  console.log(story);
+
   useEffect(() => {
     const fetchStory = async () => {
       try {

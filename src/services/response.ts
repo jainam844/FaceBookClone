@@ -573,4 +573,57 @@ export const getStoryViews = async (
     throw err;
   }
 };
+
+export const getAccountForgot = async (email: string) => {
+  try {
+    const response = await axiosInstance.post("/Account/Forgot", email);
+    console.log(response);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getVerifyToken = async (email: string, token: string) => {
+  try {
+    const requestData = {
+      email: email,
+      token: token,
+    };
+
+    const response = await axiosInstance.post(
+      "/Account/VerifyToken",
+      requestData
+    );
+    // console.log(response);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// export const UserRegistration = async (formData: FormData) => {
+//   try {
+//     const response = await axiosInstance.post("/User/Upsert", formData, {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     });
+
+//     return response.data;
+//   } catch (err) {
+//     throw err;
+//   }
+// };
+export const getResetPassword = async (formData: FormData) => {
+  try {
+    const response = await axiosInstance.post("/Account/Reset", formData);
+    console.log(response);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+// getResetPassword("learndev0509@gmail.com", "ZXcv!@34", "ZXcv!@99");
+
 // getStoryViews(1, 100, 1);
