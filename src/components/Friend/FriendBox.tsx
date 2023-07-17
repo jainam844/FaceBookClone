@@ -1,15 +1,13 @@
-import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
-import FriendList from "./FriendList";
-import { getUserRequest } from "../../services/Response";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-// import * as React from 'react';
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import FriendListSent from "./FriendListSent";
-// import Typography from '@mui/material/Typography';
-// import Box from '@mui/material/Box';
+import FriendList from "./FriendList";
+import { getUserRequest } from "../../services/Response";
+import { FilterStatus } from "../Utils/Path";
+import { RequestType } from "../Utils/Path";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -39,22 +37,11 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
-export enum FilterStatus {
-  ACCEPTED = 1,
-  REJECTED = 2,
-  PENDING = 3,
-}
-
-export enum RequestType {
-  Sent = 1,
-  Received = 2,
-}
 
 export const FriendBox = () => {
   const [friends, setFriends] = useState([]);
   const [sentFriends, setSentFriends] = useState([]);
   const [value, setValue] = React.useState(0);
-
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -104,7 +91,6 @@ export const FriendBox = () => {
       <Box
         sx={{
           padding: 0,
-
           margin: "0",
           width: ["100%", "100%", "67vw"],
           maxWidth: ["100%", "100%", "100%"],

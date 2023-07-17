@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Path } from "../components/Utils/Path";
+import { Path, ToastSuccessMessages } from "../components/Utils/Path";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { getAccountForgot, getVerifyToken } from "../services/Response";
 import BhartBook from "./BhartBook";
@@ -23,8 +23,8 @@ const ForgotPage: React.FC = () => {
     if (values.email) {
       try {
         const response = await getAccountForgot(values.email);
-        console.log(response);
         setShowSecondForm(true);
+        toast.success(ToastSuccessMessages.CONFIRMATIN_CODE_SENT);
       } catch (err) {
         console.log(err);
         toast.error("Invalid email.!!😐");
@@ -39,7 +39,6 @@ const ForgotPage: React.FC = () => {
   ) => {
     try {
       const response = await getVerifyToken(values.email, values.token);
-
       console.log("hey user", response);
       navigate(Path.Reset, { state: { email: values.email } });
       setSubmitting(false);

@@ -10,7 +10,11 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Path } from "../components/Utils/Path";
+import {
+  Path,
+  ToastErrorMessages,
+  ToastSuccessMessages,
+} from "../components/Utils/Path";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import { useFormik } from "formik";
 import { useLocation } from "react-router-dom";
@@ -63,16 +67,12 @@ const ResetPass: React.FC = () => {
         formData.append("email", values.email || email);
         formData.append("oldPassword", "");
         formData.append("newPassword", values.confirmPassword);
-
-        // Call the API function
         const response = await getResetPassword(formData);
         console.log("User API Response:", response);
         navigate(Path.Login);
-
-        toast.success("You Password Successfully Reset..!!  😃  ");
+        toast.success(ToastSuccessMessages.PASSWORD_RESET);
       } catch (err) {
-        console.error("API Error:", err);
-        toast.error("Invalid Password.!!😐");
+        toast.error(ToastErrorMessages.INVALID_PASSWORD);
       }
     },
   });

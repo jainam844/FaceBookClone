@@ -1,29 +1,25 @@
 import { useState, useContext } from "react";
 import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Formik, Field, Form } from "formik";
-import LinearProgress from "@mui/material/LinearProgress";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-
 import SendIcon from "@mui/icons-material/Send";
 import UserContext from "../../Context/UserContext";
-import { addPost, addStory } from "../../../services/Response";
-import { Grid } from "@mui/material";
+import { addStory } from "../../../services/Response";
 import { IStory } from "../../../Models/Story";
 interface FormValues {
   description: string;
 }
-
+interface FormDialogProps {
+  open: boolean;
+  onClose: () => void;
+  handlenewStory: (storyData: IStory) => void;
+}
 const validateDescription1 = (value: string) => {
   let error: string | undefined;
   if (!value) {
@@ -32,11 +28,7 @@ const validateDescription1 = (value: string) => {
   return error;
 };
 
-interface FormDialogProps {
-  open: boolean;
-  onClose: () => void;
-  handlenewStory: (storyData: IStory) => void;
-}
+
 
 const FormDialog = ({ open, onClose, handlenewStory }: FormDialogProps) => {
   const [file, setFile] = useState<File | null>(null);

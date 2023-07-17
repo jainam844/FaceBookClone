@@ -4,11 +4,8 @@ import {
   getUserNotification,
 } from "../../services/Response";
 import UserContext from "../Context/UserContext";
-// import NotificationItem from "./NotificationDat";
 import Grid from "@mui/material/Grid";
 import { Box, Typography } from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
-import IconButton from "@mui/material/IconButton";
 import NotificationItem from "./NotificationDat";
 import { Button } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -22,40 +19,18 @@ interface NotificationData {
   activityId: number;
   activityTypeName: string;
   isRead: number;
+  createdAt: string;
 }
 
 const Notification = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
-
   const { userData } = useContext(UserContext);
-  const subGridStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottom: "1px solid black",
-  };
-
-  const mainGridStyle = {
-    // background: "white",
-    borderRadius: 2,
-    padding: 2,
-    marginBottom: 3,
-  };
-
-  const handleClearNotification = (notificationId: number) => {
-    setNotifications((prevNotifications) =>
-      prevNotifications.filter(
-        (notification) => notification.notificationId !== notificationId
-      )
-    );
-  };
 
   useEffect(() => {
     const getAllNotification = async () => {
       try {
         const notificationData = await getUserNotification(1, 30);
 
-        // Reorder the notifications based on the "isRead" property
         const sortedNotifications = [...notificationData.records];
         sortedNotifications.sort((a, b) => a.isRead - b.isRead);
 
@@ -68,6 +43,14 @@ const Notification = () => {
       getAllNotification();
     }
   }, [userData.userId]);
+  const handleClearNotification = (notificationId: number) => {
+    setNotifications((prevNotifications) =>
+      prevNotifications.filter(
+        (notification) => notification.notificationId !== notificationId
+      )
+    );
+  };
+
   const handleClearAllNotification = async () => {
     try {
       await getClearAllNotification();
@@ -90,7 +73,7 @@ const Notification = () => {
             borderRadius: 2,
             padding: 2,
             marginBottom: 3,
-            background: "white", // Uncomment this line if you want a white background
+            background: "white",
           }}
         >
           <Grid
@@ -99,14 +82,10 @@ const Notification = () => {
               justifyContent: "space-between",
               alignItems: "center",
               borderBottom: "1px solid black",
-              px: 2, // Adjust the left and right padding here
+              px: 2,
             }}
           >
-            <Typography
-              variant="h4"
-              color="initial"
-              sx={{ ml: "1rem" }} // Use shorthand property for margin left
-            >
+            <Typography variant="h4" color="initial" sx={{ ml: "1rem" }}>
               Notifications
             </Typography>
             <Button
@@ -115,8 +94,8 @@ const Notification = () => {
                 display: "flex",
                 alignItems: "center",
                 "&:hover": {
-                  backgroundColor: "#F0F8FF", // Remove the background color on hover
-                  borderBottom: "none", // Remove the border on hover
+                  backgroundColor: "#F0F8FF",
+                  borderBottom: "none",
                 },
               }}
             >
@@ -157,7 +136,7 @@ const Notification = () => {
               <NotificationItem
                 onClearNotification={handleClearNotification}
                 notification={notification}
-                setNotifications={setNotifications} // Pass the setNotifications function as a prop
+                setNotifications={setNotifications}
               />
             </Grid>
           </div>

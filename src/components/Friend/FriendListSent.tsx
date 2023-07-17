@@ -13,9 +13,9 @@ import {
   getUserCancelReq,
   getUserMutual,
 } from "../../services/Response";
-import { getUserRequestRespond } from "../../services/Response";
 import CardMedia from "@mui/material/CardMedia";
 import defaultimg from "../../assets/images.jpg";
+
 interface Friend {
   toUserName: string;
   toAvatar: string;
@@ -30,7 +30,7 @@ type FriendListProps = {
   friend: Friend;
   sx?: React.CSSProperties;
 };
-const FriendListSent: React.FC<FriendListProps> = ({ friend, sx }) => {
+const FriendListSent: React.FC<FriendListProps> = ({ friend,}) => {
   const [avatar, setAvatar] = useState<string | null>(null);
   const [friends, setFriends] = useState<Friend[]>([]);
 
@@ -98,7 +98,6 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend, sx }) => {
               : defaultimg
           }
         />
-
         <Divider />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">

@@ -1,122 +1,63 @@
-import * as React from 'react'
-import Avatar from '@mui/material/Avatar'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
-import { Button } from '@mui/material'
-import GroupAddRoundedIcon from '@mui/icons-material/GroupAddRounded'
-import Grid from '@mui/material/Grid'
-import { IconButton } from '@mui/material'
-import SearchIcon from '@material-ui/icons/Search'
-import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded'
-import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined'
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { Button } from "@mui/material";
+import GroupAddRoundedIcon from "@mui/icons-material/GroupAddRounded";
+import Grid from "@mui/material/Grid";
+import { IconButton } from "@mui/material";
+import SearchIcon from "@material-ui/icons/Search";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import RecentPages from "./RecentPage";
-import SuggestPage from './SuggestedPage'
-const friendData = [
-  {
-    id: 1,
-    name: 'Jainam Shah',
-    avatar: 'https://source.unsplash.com/bh4LQHcOcxE/600x300',
-    memberAvatars: [
-      'https://source.unsplash.com/bh4LQHcOcxE/600x300',
-      'https://source.unsplash.com/cqtw4QCfbQg/600x300',
-      'https://source.unsplash.com/QhR78CbFPoE/600x300'
-    ]
-  },
-  {
-    id: 1,
-    name: 'Jainam Shah',
-    avatar: 'https://source.unsplash.com/bh4LQHcOcxE/600x300',
-    memberAvatars: [
-      'https://source.unsplash.com/bh4LQHcOcxE/600x300',
-      'https://source.unsplash.com/cqtw4QCfbQg/600x300',
-      'https://source.unsplash.com/QhR78CbFPoE/600x300'
-    ]
-  },
-  {
-    id: 1,
-    name: 'Jainam Shah',
-    avatar: 'https://source.unsplash.com/bh4LQHcOcxE/600x300',
-    memberAvatars: [
-      'https://source.unsplash.com/bh4LQHcOcxE/600x300',
-      'https://source.unsplash.com/cqtw4QCfbQg/600x300',
-      'https://source.unsplash.com/QhR78CbFPoE/600x300'
-    ]
-  },
-  {
-    id: 1,
-    name: 'Jainam Shah',
-    avatar: 'https://source.unsplash.com/bh4LQHcOcxE/600x300',
-    memberAvatars: [
-      'https://source.unsplash.com/bh4LQHcOcxE/600x300',
-      'https://source.unsplash.com/cqtw4QCfbQg/600x300',
-      'https://source.unsplash.com/QhR78CbFPoE/600x300'
-    ]
-  },
-  {
-    id: 1,
-    name: 'Jainam Shah',
-    avatar: 'https://source.unsplash.com/bh4LQHcOcxE/600x300',
-    memberAvatars: [
-      'https://source.unsplash.com/bh4LQHcOcxE/600x300',
-      'https://source.unsplash.com/cqtw4QCfbQg/600x300',
-      'https://source.unsplash.com/QhR78CbFPoE/600x300'
-    ]
-  }
-]
+import SuggestPage from "./SuggestedPage";
 
-export default function Flag () {
+export default function Flag() {
   const subGridStyle = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottom: '1px solid lightgray'
-  }
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottom: "1px solid lightgray",
+  };
 
   const mainGridStyle = {
-    background: 'white',
+    background: "white",
     borderRadius: 2,
     padding: 2,
-    marginBottom: 3
-  }
+    marginBottom: 3,
+  };
   const buttonStyle = {
-    background: '#e5e5e5',
-    color: 'black',
+    background: "#e5e5e5",
+    color: "black",
     borderRadius: 5,
-    '&:hover': {
-      background: '#c9c7c7'
+    "&:hover": {
+      background: "#c9c7c7",
     },
     margin: 2,
-    padding: '5px 10px'
-  }
+    padding: "5px 10px",
+  };
 
-  const [displayedFriends, setDisplayedFriends] = React.useState(4)
+  const [displayedFriends, setDisplayedFriends] = React.useState(4);
 
-  const handleConfirm = (friendId: number) => {
-    console.log('Confirmed friend with id:', friendId)
-  }
 
-  const handleDelete = (friendId: number) => {
-    console.log('Deleted friend with id:', friendId)
-  }
   return (
     <Box
       sx={{
-        // maxHeight: '100vh'  ,
         paddingTop: [0, 2],
-        margin: ['0', '0 30px']
+        margin: ["0", "0 30px"],
       }}
     >
-      {' '}
+      {" "}
       <Box
         sx={{
-          background: ['white', 'transparent'],
+          background: ["white", "transparent"],
           borderRadius: [0, 3],
-          padding: '20px 0'
+          padding: "20px 0",
         }}
       >
         <Grid sx={mainGridStyle}>
           <Grid sx={subGridStyle}>
-            <Typography variant='h5' color='initial'>
+            <Typography variant="h5" color="initial">
               Pages
             </Typography>
             <IconButton>
@@ -128,17 +69,17 @@ export default function Flag () {
           <Grid>
             <Button sx={buttonStyle}>
               <AddCircleRoundedIcon sx={{ marginRight: 0.5 }} />
-              <Typography sx={{ textTransform: 'none' }}>Creates</Typography>
+              <Typography sx={{ textTransform: "none" }}>Creates</Typography>
             </Button>
             <Button sx={buttonStyle}>
               <ThumbUpOutlinedIcon sx={{ marginRight: 0.5 }} />
-              <Typography sx={{ textTransform: 'none' }}>
+              <Typography sx={{ textTransform: "none" }}>
                 Liked Pages
               </Typography>
-            </Button>{' '}
+            </Button>{" "}
             <Button sx={buttonStyle}>
               <GroupAddRoundedIcon sx={{ marginRight: 0.5 }} />
-              <Typography sx={{ textTransform: 'none' }}>Invites</Typography>
+              <Typography sx={{ textTransform: "none" }}>Invites</Typography>
             </Button>
           </Grid>
         </Grid>
@@ -158,11 +99,9 @@ export default function Flag () {
           <RecentPages />
         </Grid>
         <Grid sx={mainGridStyle}>
-       
           <SuggestPage />
         </Grid>
-       
       </Box>
     </Box>
-  )
+  );
 }

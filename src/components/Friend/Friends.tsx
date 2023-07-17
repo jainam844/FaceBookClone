@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -8,8 +7,6 @@ import { Outlet, Link as RouterLink } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import { IconButton } from "@mui/material";
 import SearchIcon from "@material-ui/icons/Search";
-import FriendList from "./FriendList";
-import { getUserRequest } from "../../services/Response";
 import { Path } from "../Utils/Path";
 
 const Friend = () => {
@@ -41,7 +38,6 @@ const Friend = () => {
   return (
     <Box
       sx={{
-        // maxHeight: '100vh'  ,
         paddingTop: [0, 2],
         margin: ["0", "0 30px"],
       }}
@@ -93,7 +89,6 @@ const Friend = () => {
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            // padding: '2rem 2rem',
             flexDirection: "row",
             alignItems: "center",
             flexWrap: "wrap",

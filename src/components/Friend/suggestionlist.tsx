@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
@@ -65,7 +64,7 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
 
      
           setFriends(updatedData)
-          // setAvatar(avatarUrl);
+        
         }
       } catch (error) {
         console.error('Error fetching friends:', error)
@@ -120,29 +119,7 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
           >
             {friend.firstName} {friend.lastName}
           </Typography>
-          {/* <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              marginTop: "0.8rem",
-            }}
-          >
-            <Avatar
-              sx={{
-                border: "2px solid white",
-                zIndex: 100,
-                width: 30,
-                height: 30,
-                marginLeft: "-15px",
-              }}
-            />
-    
-            <Typography
-              sx={{ fontSize: "15px", color: "gray", marginLeft: "0.5rem" }}
-            >
-              Friends are Members
-            </Typography>
-          </Box> */}
+         
           {friends.length > 0 ? (
             <Box sx={{ display: 'flex', marginTop: '0.3rem' }}>
               {friends.slice(0, 3).map((friend, index) => (

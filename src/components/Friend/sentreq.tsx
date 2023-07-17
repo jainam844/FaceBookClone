@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import List from "@mui/material/List";
 import { getAvatarImage, getUserMutual } from "../../services/Response";
-import { getUserRequestRespond } from "../../services/Response";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { UserData } from "../../Models/User";
+
 interface Friend {
   toUserName: string;
   toAvatar: string;
@@ -30,8 +28,8 @@ const SentReq: React.FC<FriendListProps> = ({ friend, sx }) => {
   useEffect(() => {
     const getAvatar = async () => {
       const avatarUrl = await getAvatarImage(friend.toAvatar);
-      if(avatarUrl){
-      setAvatar(avatarUrl);
+      if (avatarUrl) {
+        setAvatar(avatarUrl);
       }
     };
     getAvatar();
@@ -41,23 +39,21 @@ const SentReq: React.FC<FriendListProps> = ({ friend, sx }) => {
     const fetchData = async () => {
       try {
         const response = await getUserMutual(1, 100, friend.toUserId);
-      
+
         if (Array.isArray(response.records)) {
           const data = response.records;
-       
+
           const updatedData = await Promise.all(
             data.map(async (friend: Friend) => {
               console.log(friend);
               let avatarUrl = null;
               if (friend.avatar) {
                 avatarUrl = await getAvatarImage(friend.avatar);
-          
               }
               return { ...friend, avatarUrl };
             })
           );
 
-   
           setFriends(updatedData);
           // setAvatar(avatarUrl);
         }

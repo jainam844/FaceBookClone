@@ -22,6 +22,7 @@ import UserContext from "../Context/UserContext";
 import HeaderIcons from "./HeaderIcons";
 import { getUserNotification } from "../../services/Response";
 import { Button } from "@mui/material";
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -123,9 +124,6 @@ export default function PrimarySearchAppBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleIconClick = (iconName: string) => {
-    setActiveIcon(iconName);
-  };
 
   const renderMenu = (
     <Menu
@@ -266,15 +264,7 @@ export default function PrimarySearchAppBar() {
                   <AddIcon />
                 </Badge>
               </Button>
-              {/* <Button
-                size="large"
-                aria-label="show 17 new notifications"
-                color="inherit"
-              >
-                <Badge badgeContent={notificationsCount} color="error">
-                  <NotificationsIcon />
-                </Badge>
-              </Button> */}
+          
               <IconButton
                 size="large"
                 edge="end"

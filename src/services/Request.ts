@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-const API_BASE_URL = "https://7c23-14-99-103-154.ngrok-free.app";
+const API_BASE_URL = "https://9bf2-14-99-103-154.ngrok-free.app";
 
 const axiosConfig: AxiosRequestConfig = {
   baseURL: API_BASE_URL,

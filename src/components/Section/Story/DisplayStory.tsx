@@ -1,21 +1,9 @@
 import Grid from "@mui/material/Grid";
-import { Avatar, Box, Typography, Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 import CreateStory from "./CreateStory";
-import {
-  getAvatarImage,
-  getPostImage,
-  getStoryByUserId,
-  getStoryImage,
-} from "../../../services/Response"; // Import the getAvatarImage function
-import React, {
-  useState,
-  ChangeEvent,
-  useEffect,
-  useContext,
-  useRef,
-  useCallback,
-} from "react";
+import { getStoryByUserId } from "../../../services/Response";
+import React, { useState, useEffect, useRef } from "react";
 import UserStory from "./UserStory";
 import { IStory } from "../../../Models/Story";
 
@@ -23,7 +11,6 @@ const Story: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   const [story, setStory] = useState<IStory[]>([]);
-
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -57,7 +44,7 @@ const Story: React.FC = () => {
   const scrollLeft = () => {
     scrollContainerRef.current?.scrollBy({
       top: -100,
-      left: -200, // adjust the scroll amount as per your needs
+      left: -200, 
       behavior: "smooth",
     });
   };
@@ -65,7 +52,7 @@ const Story: React.FC = () => {
   const scrollRight = () => {
     scrollContainerRef.current?.scrollBy({
       top: 0,
-      left: 200, // adjust the scroll amount as per your needs
+      left: 200, 
       behavior: "smooth",
     });
   };

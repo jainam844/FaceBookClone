@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import List from "@mui/material/List";
 import { getAvatarImage, getUserMutual } from "../../services/Response";
-import { getUserRequestRespond } from "../../services/Response";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+
 interface Friend {
   fromUserName: string;
   fromAvatar: string;
@@ -26,7 +26,6 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
     { friend: Friend; length: number }[]
   >([]);
 
-  console.log("hii", receivcefriends);
   useEffect(() => {
     const getAvatar = async () => {
       const avatarUrl = await getAvatarImage(receivcefriends.fromAvatar);

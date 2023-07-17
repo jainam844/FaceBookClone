@@ -7,13 +7,10 @@ import {
   getLikeNotification,
   getNewPostNotification,
   getAvatarImage,
-  getCommentByPostId,
   getPostImage,
-  getUserNotification,
   getUserReqNotification,
   getReadNotification,
   getClearNotification,
-  getClearAllNotification,
   getAddStoryNotification,
 } from "../../services/Response";
 import Avatar from "@mui/material/Avatar";
@@ -23,21 +20,11 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ClearIcon from "@mui/icons-material/Clear";
-
+import { NotificationType } from "../Utils/Path";
 interface NotificationItemProps {
   notification: Notification;
   onClearNotification: (notificationId: number) => void;
   setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
-}
-
-enum NotificationType {
-  Comment = "CommentOnPost",
-  PostLike = "PostLike",
-  NewPost = "AddNewPost",
-  Acceptreq = "AcceptRequest",
-  RejectReq = "RejectRequest",
-  SendReq = "SendRequest",
-  AddStory = "AddNewStory",
 }
 
 interface Notification extends NotificationData {
@@ -63,8 +50,22 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   const [avatar, setAvatar] = useState<string | null>(null);
   const [postImage, setPostImage] = useState<string[]>([]);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [currentDateTime, setCurrentDateTime] = useState<Date>(new Date()); // New state for current datetime
+  const [currentDateTime, setCurrentDateTime] = useState<Date>(new Date());
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    fetchData();
+  }, [notification.activityType, notification.activityId]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDateTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -108,13 +109,9 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           const getNotifData = await getCommentNotification(
             notification.activityId
           );
-
           setUsername(getNotifData.userName);
-
           avatarUrl = await getAvatarImage(getNotifData.avatar);
-
           postData = await getNewPostNotification(getNotifData.postId);
-
           const ImageData = await getPostImage(postData.path);
           setPostImage([ImageData]);
         } catch (error) {
@@ -223,20 +220,6 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
       setAvatar(avatarUrl);
     }
   };
-
-  useEffect(() => {
-    fetchData();
-  }, [notification.activityType, notification.activityId]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentDateTime(new Date());
-    }, 1000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
 
   const renderNotificationItem = () => {
     let notificationText = "";

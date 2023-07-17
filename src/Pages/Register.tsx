@@ -10,14 +10,18 @@ import {
 import Grid from "@mui/material/Grid";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import fbImgLogo from "../assets/BharatBook1.png";
 import { Link as RouterLink } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Path } from "../components/Utils/Path";
+import {
+  Path,
+  ToastErrorMessages,
+  ToastSuccessMessages,
+} from "../components/Utils/Path";
 import { UserRegistration } from "../services/Response";
 import BhartBook from "./BhartBook";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface FormValues {
   firstName: string;
   lastName: string;
@@ -74,14 +78,10 @@ const RegisterPage = () => {
         formData.append("Email", values.email);
         formData.append("PhoneNumber", values.mobile);
         formData.append("Password", values.password);
-        // formData.append('confirmPassword', values.confirmPassword)
-
-        // Call the API function
         const response = await UserRegistration(formData);
-
-        console.log("API Response:", response);
+        toast.success(ToastSuccessMessages.REGISTRATION_SUCCESSFUL);
       } catch (err) {
-        console.error("API Error:", err);
+        toast.error(ToastErrorMessages.INVALID_EMAIL_OR_PASSWORD);
       }
     },
   });
@@ -91,9 +91,10 @@ const RegisterPage = () => {
 
   return (
     <React.Fragment>
+      <ToastContainer />
       <Box sx={{ height: "900px", bgcolor: "#f0f2f5" }}>
         <Grid container sx={{ height: "100%" }}>
-       <BhartBook/>
+          <BhartBook />
           <Grid
             item
             xs={12}

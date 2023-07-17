@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Typography, Box, Button, TextField } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 import Grid from "@mui/material/Grid";
-
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import Visibility from "@mui/icons-material/Visibility";
@@ -14,7 +13,11 @@ import { ForUserLogin } from "../services/Response";
 import jwtDecode from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Path } from "../components/Utils/Path";
+import {
+  Path,
+  ToastErrorMessages,
+  ToastSuccessMessages,
+} from "../components/Utils/Path";
 import BhartBook from "./BhartBook";
 
 const LoginPage: React.FC = () => {
@@ -52,11 +55,11 @@ const LoginPage: React.FC = () => {
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
 
         navigate(Path.Home);
-        toast.success("You Are LoggedIn..!  😃  ");
+        toast.success(ToastSuccessMessages.LOGGED_IN);
       }
     } catch (error) {
       console.log(error);
-      toast.error("Invalid email Or Password...!!!😐");
+      toast.error(ToastErrorMessages.INVALID_EMAIL_OR_PASSWORD);
     }
   };
 
@@ -176,8 +179,8 @@ const LoginPage: React.FC = () => {
                       borderRadius: "8px",
                       fontWeight: "bold",
                       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-                      padding: "8px 16px", // Decreased padding value
-                      fontSize: "16px", // Decreased font size value
+                      padding: "8px 16px",
+                      fontSize: "16px",
                       textTransform: "uppercase",
                       letterSpacing: "2px",
                       border: "none",
@@ -185,9 +188,7 @@ const LoginPage: React.FC = () => {
                   >
                     Log In
                   </Button>
-                  {/* <Box
-                    sx={{ marginBottom: '0.5rem', marginTop: '0.5rem' }}
-                  > */}
+
                   <Typography
                     color="primary"
                     sx={{
@@ -215,8 +216,8 @@ const LoginPage: React.FC = () => {
                       borderRadius: "50px",
                       fontWeight: "bold",
                       boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
-                      padding: "8px 16px", // Decreased padding value
-                      fontSize: "16px", // Decreased font size value
+                      padding: "8px 16px",
+                      fontSize: "16px",
                       textTransform: "uppercase",
                       letterSpacing: "2px",
                       border: "none",

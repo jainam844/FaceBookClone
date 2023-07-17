@@ -28,7 +28,6 @@ interface StoryProps {
 }
 
 const UserStory: React.FC<StoryProps> = ({ story }) => {
-  // console.log(story)
   const [postImage, setPostImage] = useState<string[]>([]);
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -99,6 +98,7 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
       clearInterval(timer);
     };
   }, []);
+  
   const handleImageClick = (image: string, event: React.MouseEvent) => {
     event.preventDefault();
     setSelectedImageIndex(postImage.indexOf(image));

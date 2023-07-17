@@ -158,7 +158,7 @@ const AddDescription = ({
             }}
             onSubmit={handleSubmit}
           >
-            {({ handleChange, errors }) => (
+            {({ errors }) => (
               <Form>
                 <Box>
                   <Field

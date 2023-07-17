@@ -28,10 +28,9 @@ import SendIcon from "@mui/icons-material/Send";
 import { PostLike, getLikesByPost } from "../../../services/Response";
 import RecommendIcon from "@mui/icons-material/Recommend";
 import { addComment } from "../../../services/Response";
-import { Grid } from "@mui/material";
+
 import {
   getAvatarImage,
-  getPostByUserId,
   getPostImage,
 } from "../../../services/Response";
 import CommentCollapse from "./CommentCollapse";
@@ -76,6 +75,79 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
     },
     [loadingComments, hasMoreComments]
   );
+  useEffect(() => {
+    const fetchAvatar = async () => {
+      try {
+        const avatarUrl = (await getAvatarImage(post.avatar)) ?? "";
+        setAvatarUrl(avatarUrl);
+      } catch (error) {
+        console.error("Error fetching avatar image:", error);
+      }
+    };
+
+    fetchAvatar();
+  }, [post.avatar]);
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const likesData = await getLikesByPost(post.postId);
+        setLikeCount(likesData);
+        const loginUserLiked = likesData.some(
+          (like: { userId: number }) => like.userId === userData.userId
+        );
+        setIsLiked(loginUserLiked);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchLikes();
+  }, [isLiked]);
+  useEffect(() => {
+    const fetchPostImages = async () => {
+      if (post.path) {
+        const postImagePromises = post.path.map(async (imageName) => {
+          const image = await getPostImage(imageName);
+          return image;
+        });
+
+        try {
+          const imageData = await Promise.all(postImagePromises);
+          setPostImage(imageData);
+          setLoadedImages(Array(imageData.length).fill(1));
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+
+    fetchPostImages();
+  }, [post.path]);
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const commentsData = await getCommentByPostId(
+          pageNumber,
+          1,
+          post.postId
+        );
+        const data = commentsData.record.responseModel;
+        if (Array.isArray(data)) {
+          setCommentsList((prevComments) => [...prevComments, ...data]);
+          setHasMoreComments(data.length > 0);
+          setLoadingComments(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchComments();
+  }, [post.postId, pageNumber]);
+  {
+    loadingComments;
+  }
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -93,18 +165,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
       setIsLiked(response);
     }
   };
-  useEffect(() => {
-    const fetchAvatar = async () => {
-      try {
-        const avatarUrl = (await getAvatarImage(post.avatar)) ?? "";
-        setAvatarUrl(avatarUrl);
-      } catch (error) {
-        console.error("Error fetching avatar image:", error);
-      }
-    };
 
-    fetchAvatar();
-  }, [post.avatar]);
   const handleShareClick = () => {
     if (navigator.share) {
       navigator
@@ -152,77 +213,16 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
   const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewComment(event.target.value);
   };
-  useEffect(() => {
-    const fetchLikes = async () => {
-      try {
-        const likesData = await getLikesByPost(post.postId);
-        setLikeCount(likesData);
-        const loginUserLiked = likesData.some(
-          (like: { userId: number }) => like.userId === userData.userId
-        );
-        setIsLiked(loginUserLiked);
-      } catch (error) {
-        console.log(error);
-      }
-    };
 
-    fetchLikes();
-  }, [isLiked]);
-  useEffect(() => {
-    const fetchPostImages = async () => {
-      if (post.path) {
-        const postImagePromises = post.path.map(async (imageName) => {
-          const image = await getPostImage(imageName);
-          return image;
-        });
-
-        try {
-          const imageData = await Promise.all(postImagePromises);
-          setPostImage(imageData);
-
-          setLoadedImages(Array(imageData.length).fill(1));
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    };
-
-    fetchPostImages();
-  }, [post.path]);
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const commentsData = await getCommentByPostId(
-          pageNumber,
-          1,
-          post.postId
-        );
-        const data = commentsData.record.responseModel;
-        if (Array.isArray(data)) {
-          setCommentsList((prevComments) => [...prevComments, ...data]);
-          setHasMoreComments(data.length > 0);
-          setLoadingComments(false);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchComments();
-  }, [post.postId, pageNumber]);
-  {
-    loadingComments;
-  }
 
   return (
     <React.Fragment>
       <Card
         ref={reference}
         sx={{
-          width: "60%",
+          width: "80%",
           margin: "3rem auto",
-          "@media (max-width: 500px)": {
+          "@media (max-width: 800px)": {
             width: "100%",
           },
         }}

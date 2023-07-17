@@ -11,8 +11,9 @@ import { getAvatarImage, getUserMutual } from "../../services/Response";
 import { getUserRequestRespond } from "../../services/Response";
 import CardMedia from "@mui/material/CardMedia";
 import defaultimg from "../../assets/images.jpg";
-import DoneIcon from '@mui/icons-material/Done';
+import DoneIcon from "@mui/icons-material/Done";
 import DeleteIcon from "@mui/icons-material/Delete";
+
 interface Friend {
   fromUserName: string;
   fromAvatar: string;
@@ -24,22 +25,21 @@ interface Friend {
   toUserId: number;
   fromUserId: number;
 }
+
 type FriendListProps = {
   friend: Friend;
   sx?: React.CSSProperties;
 };
 const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
-
   const [friends, setFriends] = useState<Friend[]>([]);
 
   useEffect(() => {
     const getAvatar = async () => {
       const avatarUrl = await getAvatarImage(friend.fromAvatar);
-if(avatarUrl){
-  setAvatar(avatarUrl);
-}
-      
+      if (avatarUrl) {
+        setAvatar(avatarUrl);
+      }
     };
     getAvatar();
   }, []);
@@ -47,23 +47,20 @@ if(avatarUrl){
     const fetchData = async () => {
       try {
         const response = await getUserMutual(1, 100, friend.fromUserId);
-     
+
         if (Array.isArray(response.records)) {
           const data = response.records;
-     
+
           const updatedData = await Promise.all(
             data.map(async (friend: Friend) => {
-          
               let avatarUrl = null;
               if (friend.avatar) {
                 avatarUrl = await getAvatarImage(friend.avatar);
-           
               }
               return { ...friend, avatarUrl };
             })
           );
 
-        
           setFriends(updatedData);
           // setAvatar(avatarUrl);
         }
@@ -77,8 +74,6 @@ if(avatarUrl){
   const handleConfirm = async () => {
     try {
       const response = await getUserRequestRespond(friend.requestId, true);
-
-   
     } catch (error) {
       console.error("API error:", error);
     }
@@ -87,8 +82,6 @@ if(avatarUrl){
   const handleDelete = async () => {
     try {
       const response = await getUserRequestRespond(friend.requestId, false);
-
-
     } catch (error) {
       console.error("API error:", error);
     }
@@ -158,47 +151,6 @@ if(avatarUrl){
               No mutual friends
             </Typography>
           )}
-          {/* <Box
-            sx={{
-              display: "flex",
-              marginTop: "0.8rem",
-              alignItems: "center",
-            }}
-          >
-            <Avatar
-              src={avatar ? avatar : undefined}
-              sx={{
-                border: "2px solid white",
-                zIndex: 100,
-                width: 30,
-                height: 30,
-                marginLeft: "-15px",
-              }}
-            />{" "}
-            <Avatar
-              src={avatar ? avatar : undefined}
-              sx={{
-                border: "2px solid white",
-                zIndex: 100,
-                width: 30,
-                height: 30,
-                marginLeft: "-15px",
-              }}
-            />{" "}
-            <Avatar
-              src={avatar ? avatar : undefined}
-              sx={{
-                border: "2px solid white",
-                zIndex: 100,
-                width: 30,
-                height: 30,
-                marginLeft: "-15px",
-              }}
-            />
-            <Typography sx={{ fontSize: "15px", color: "gray" }}>
-              Friend are Members
-            </Typography>
-          </Box> */}
           <Box sx={{ marginTop: "0.8rem" }}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
@@ -208,7 +160,7 @@ if(avatarUrl){
                   onClick={() => handleConfirm()}
                 >
                   Confirm
-                  <DoneIcon sx={{ marginLeft: "1rem" ,color:'white'}} />
+                  <DoneIcon sx={{ marginLeft: "1rem", color: "white" }} />
                 </Button>
               </Grid>
               <Grid item xs={12}>
