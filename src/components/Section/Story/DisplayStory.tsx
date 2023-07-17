@@ -2,7 +2,8 @@ import Grid from "@mui/material/Grid";
 import { Box, Button } from "@mui/material";
 
 import CreateStory from "./CreateStory";
-import { getStoryByUserId } from "../../../services/Response";
+
+import { getStoryByUserId } from "../../../services/API/StoryApi";
 import React, { useState, useEffect, useRef } from "react";
 import UserStory from "./UserStory";
 import { IStory } from "../../../Models/Story";
@@ -44,7 +45,7 @@ const Story: React.FC = () => {
   const scrollLeft = () => {
     scrollContainerRef.current?.scrollBy({
       top: -100,
-      left: -200, 
+      left: -200,
       behavior: "smooth",
     });
   };
@@ -52,7 +53,7 @@ const Story: React.FC = () => {
   const scrollRight = () => {
     scrollContainerRef.current?.scrollBy({
       top: 0,
-      left: 200, 
+      left: 200,
       behavior: "smooth",
     });
   };

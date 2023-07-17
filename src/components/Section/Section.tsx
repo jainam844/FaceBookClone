@@ -1,19 +1,9 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  useCallback,
-} from "react";
-import {
-  getAvatarImage,
-  getPostByUserId,
-  getStoryByUserId,
-} from "../../services/Response";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { getPostByUserId } from "../../services/API/SocialActivityApi";
 import Box from "@mui/material/Box";
 import Story from "./Story/DisplayStory";
 import Post from "./DisplayPost/DisplayPost";
-import UserContext from "../Context/UserContext";
+
 import AddDescription from "./SharePost/SharePost";
 import CircularProgress from "@mui/material/CircularProgress";
 

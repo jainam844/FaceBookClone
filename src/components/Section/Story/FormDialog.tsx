@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import SendIcon from "@mui/icons-material/Send";
 import UserContext from "../../Context/UserContext";
-import { addStory } from "../../../services/Response";
+import { addStory } from "../../../services/API/StoryApi";
 import { IStory } from "../../../Models/Story";
 interface FormValues {
   description: string;
@@ -27,8 +27,6 @@ const validateDescription1 = (value: string) => {
   }
   return error;
 };
-
-
 
 const FormDialog = ({ open, onClose, handlenewStory }: FormDialogProps) => {
   const [file, setFile] = useState<File | null>(null);

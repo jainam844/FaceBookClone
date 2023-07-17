@@ -8,11 +8,9 @@ import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import ClearIcon from "@mui/icons-material/Clear";
-import {
-  getAvatarImage,
-  getUserCancelReq,
-  getUserMutual,
-} from "../../services/Response";
+import { getUserMutual } from "../../services/API/UserDataApi";
+import { getUserCancelReq } from "../../services/API/UserREquestApi";
+import { getAvatarImage } from "../../services/API/AccountApi";
 import CardMedia from "@mui/material/CardMedia";
 import defaultimg from "../../assets/images.jpg";
 import { RequestStatus } from "../Utils/Path";

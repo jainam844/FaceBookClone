@@ -6,13 +6,15 @@ import {
   getCommentNotification,
   getLikeNotification,
   getNewPostNotification,
-  getAvatarImage,
-  getPostImage,
-  getUserReqNotification,
+} from "../../services/API/SocialActivityApi";
+import { getAddStoryNotification } from "../../services/API/StoryApi";
+import { getUserReqNotification } from "../../services/API/UserREquestApi";
+import { getAvatarImage } from "../../services/API/AccountApi";
+import {
   getReadNotification,
   getClearNotification,
-  getAddStoryNotification,
-} from "../../services/Response";
+} from "../../services/API/NotificationApi";
+import { getPostImage } from "../../services/API/AccountApi";
 import Avatar from "@mui/material/Avatar";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Button from "@mui/material/Button";

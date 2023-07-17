@@ -5,9 +5,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import React, { useState, ChangeEvent, useEffect } from "react";
 import Grid from "@mui/material/Grid";
-import { getAvatarImage } from "../../../services/Response";
 import { IComment } from "../../../Models/Comment";
-
+import { getAvatarImage } from "../../../services/API/AccountApi"; 
 interface CommentCollapseProps {
   comment: IComment["text"];
   userName: IComment["userName"];
@@ -39,7 +38,7 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
 
     fetchAvatarImage();
   }, [avatarUrl]);
-  
+
   const commentStyle: React.CSSProperties = {
     display: "flex",
     background: "#e4e4e4",

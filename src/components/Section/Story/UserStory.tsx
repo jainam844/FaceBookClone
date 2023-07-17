@@ -1,12 +1,8 @@
-
-import {
-  getAvatarImage,
-  getStoryImage,
-  getStorySeen,
-  getStoryViews,
-} from "../../../services/Response";
+import { getStoryViews } from "../../../services/API/StoryApi";
+import { getStorySeen } from "../../../services/API/StoryApi";
+import { getStoryImage } from "../../../services/API/AccountApi";
+import { getAvatarImage } from "../../../services/API/AccountApi";
 import React, { useState, useEffect } from "react";
-import LinearProgress from "@mui/material/LinearProgress";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -98,7 +94,7 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
       clearInterval(timer);
     };
   }, []);
-  
+
   const handleImageClick = (image: string, event: React.MouseEvent) => {
     event.preventDefault();
     setSelectedImageIndex(postImage.indexOf(image));
@@ -333,7 +329,7 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
                     textOverflow: "ellipsis",
                   }}
                 >
-                  {view.userName}
+                  {/* {view.userName} */}
                 </Typography>
               </React.Fragment>
             ))}

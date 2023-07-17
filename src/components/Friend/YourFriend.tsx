@@ -3,7 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { getUserRequest } from "../../services/Response";
+import { getUserRequest } from "../../services/API/UserREquestApi"; 
 import SentReq from "./sentreq";
 import ReceiveReq from "./ReceiveReq";
 import { FilterStatus } from "../Utils/Path";

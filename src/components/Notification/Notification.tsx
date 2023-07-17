@@ -1,8 +1,6 @@
 import { useEffect, useState, useContext } from "react";
-import {
-  getClearAllNotification,
-  getUserNotification,
-} from "../../services/Response";
+import { getClearAllNotification } from "../../services/API/NotificationApi";
+import { getUserNotification } from "../../services/API/NotificationApi";
 import UserContext from "../Context/UserContext";
 import Grid from "@mui/material/Grid";
 import { Box, Typography } from "@mui/material";

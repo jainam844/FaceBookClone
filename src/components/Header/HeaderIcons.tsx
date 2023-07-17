@@ -10,7 +10,7 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import { Path } from "../Utils/Path";
 import PeopleIcon from "@mui/icons-material/People";
 import Badge from "@mui/material/Badge";
-import { getUserNotification } from "../../services/Response";
+import { getUserNotification } from "../../services/API/NotificationApi";
 import UserContext from "../Context/UserContext";
 const commonButtonStyles = {
   color: "gray",
@@ -114,31 +114,31 @@ const HeaderIcons: React.FC = (): JSX.Element => {
         <PeopleIcon sx={{ fontSize: "1.8rem" }} />
       </Button>
 
-    
-        <Button
-          sx={{
-            ...commonButtonStyles,
-            ...(location.pathname === Path.Notification
-              ? activeButtonStyles
-              : {}),
-          }}
-          component={Link}
-          to={Path.Notification}
-        >  <Badge
-        badgeContent={notificationsCount}
-        color="error"
+      <Button
         sx={{
-          position: "relative",
-          top: "0px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
+          ...commonButtonStyles,
+          ...(location.pathname === Path.Notification
+            ? activeButtonStyles
+            : {}),
         }}
+        component={Link}
+        to={Path.Notification}
       >
+        {" "}
+        <Badge
+          badgeContent={notificationsCount}
+          color="error"
+          sx={{
+            position: "relative",
+            top: "0px",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <NotificationsActiveIcon sx={{ fontSize: "1.8rem" }} />
-          </Badge>
-        </Button>
-  
+        </Badge>
+      </Button>
     </React.Fragment>
   );
 };

@@ -20,7 +20,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import Avatar from "@mui/material/Avatar";
 import UserContext from "../Context/UserContext";
 import HeaderIcons from "./HeaderIcons";
-import { getUserNotification } from "../../services/Response";
+import { getUserNotification } from "../../services/API/NotificationApi";
 import { Button } from "@mui/material";
 
 const Search = styled("div")(({ theme }) => ({
@@ -123,7 +123,6 @@ export default function PrimarySearchAppBar() {
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
 
   const renderMenu = (
     <Menu
@@ -264,7 +263,7 @@ export default function PrimarySearchAppBar() {
                   <AddIcon />
                 </Badge>
               </Button>
-          
+
               <IconButton
                 size="large"
                 edge="end"

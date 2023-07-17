@@ -25,18 +25,18 @@ import ShareIcon from "@mui/icons-material/Share";
 import UserContext from "../../Context/UserContext";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
-import { PostLike, getLikesByPost } from "../../../services/Response";
-import RecommendIcon from "@mui/icons-material/Recommend";
-import { addComment } from "../../../services/Response";
-
 import {
-  getAvatarImage,
-  getPostImage,
-} from "../../../services/Response";
+  PostLike,
+  getLikesByPost,
+} from "../../../services/API/SocialActivityApi";
+import RecommendIcon from "@mui/icons-material/Recommend";
+import { addComment } from "../../../services/API/SocialActivityApi";
+import { getAvatarImage } from "../../../services/API/AccountApi";
+import { getPostImage } from "../../../services/API/AccountApi";
 import CommentCollapse from "./CommentCollapse";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import { getCommentByPostId } from "../../../services/Response";
+import { getCommentByPostId } from "../../../services/API/SocialActivityApi";
 import { IComment } from "../../../Models/Comment";
 
 import { Ipost } from "../../../Models/Post";
@@ -213,7 +213,6 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
   const handleCommentChange = (event: ChangeEvent<HTMLInputElement>) => {
     setNewComment(event.target.value);
   };
-
 
   return (
     <React.Fragment>

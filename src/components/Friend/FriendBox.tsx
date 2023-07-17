@@ -5,7 +5,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import FriendListSent from "./FriendListSent";
 import FriendList from "./FriendList";
-import { getUserRequest } from "../../services/Response";
+import { getUserRequest } from "../../services/API/UserREquestApi"; 
 import { FilterStatus, RequestStatus } from "../Utils/Path";
 import { RequestType } from "../Utils/Path";
 

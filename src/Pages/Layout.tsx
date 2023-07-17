@@ -1,46 +1,47 @@
-import React, { useEffect, useState } from 'react'
-import { Routes, Route, Outlet } from 'react-router-dom'
-import { getUserData, getAvatarImage } from '../services/Response'
-import UserContext from '../components/Context/UserContext'
-import { IUserData, UserData } from '../Models/User'
+import React, { useEffect, useState } from "react";
+import { Routes, Route, Outlet } from "react-router-dom";
 
+import { getUserData } from "../services/API/UserDataApi";
+import UserContext from "../components/Context/UserContext";
+import { IUserData, UserData } from "../Models/User";
+import { getAvatarImage } from "../services/API/AccountApi";
 const HomeLayout = () => {
-  const [userData, setUserData] = useState<IUserData>(new UserData())
-  const [userimageUrl, setImageUrl] = useState('')
+  const [userData, setUserData] = useState<IUserData>(new UserData());
+  const [userimageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const userData = JSON.parse(localStorage.getItem('userInfo') ?? '')
+        const userData = JSON.parse(localStorage.getItem("userInfo") ?? "");
 
-        const userId = userData.userId
-        const token = userData.token
-        const data = await getUserData(parseInt(userId), token)
-        setUserData(data)
+        const userId = userData.userId;
+        const token = userData.token;
+        const data = await getUserData(parseInt(userId), token);
+        setUserData(data);
       } catch (error) {
-        console.log('Error fetching user data:', error)
+        console.log("Error fetching user data:", error);
       }
-    }
+    };
 
-    fetchUserData()
-  }, [])
+    fetchUserData();
+  }, []);
 
   useEffect(() => {
     if (userData) {
       const fetchProfileImage = async () => {
         try {
-          const imgUrl = await getAvatarImage(userData.avatar)
+          const imgUrl = await getAvatarImage(userData.avatar);
           if (imgUrl) {
-            setImageUrl(imgUrl)
+            setImageUrl(imgUrl);
           }
         } catch (error) {
-          console.error('Error fetching avatar image:', error)
+          console.error("Error fetching avatar image:", error);
         }
-      }
+      };
 
-      fetchProfileImage()
+      fetchProfileImage();
     }
-  }, [userData])
+  }, [userData]);
 
   return (
     <React.Fragment>
@@ -48,7 +49,7 @@ const HomeLayout = () => {
         <Outlet />
       </UserContext.Provider>
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default HomeLayout
+export default HomeLayout;

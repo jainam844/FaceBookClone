@@ -18,7 +18,7 @@ import {
   ToastErrorMessages,
   ToastSuccessMessages,
 } from "../components/Utils/Path";
-import { UserRegistration } from "../services/Response";
+import { UserRegistration } from "../services/API/UserDataApi"; 
 import BhartBook from "./BhartBook";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

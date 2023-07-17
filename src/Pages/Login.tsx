@@ -9,7 +9,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Formik, Form, Field, ErrorMessage, FormikValues } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { ForUserLogin } from "../services/Response";
+import { ForUserLogin } from "../services/API/AccountApi";
 import jwtDecode from "jwt-decode";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

@@ -9,7 +9,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Path, ToastSuccessMessages } from "../components/Utils/Path";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { getAccountForgot, getVerifyToken } from "../services/Response";
+import { getAccountForgot, getVerifyToken } from "../services/API/AccountApi";
 import BhartBook from "./BhartBook";
 
 const ForgotPage: React.FC = () => {

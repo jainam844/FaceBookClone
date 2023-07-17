@@ -18,7 +18,7 @@ import {
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import { useFormik } from "formik";
 import { useLocation } from "react-router-dom";
-import { getResetPassword } from "../services/Response";
+import { getResetPassword } from "../services/API/AccountApi";
 import BhartBook from "./BhartBook";
 
 interface FormValues {
