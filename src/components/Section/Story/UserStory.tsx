@@ -17,6 +17,7 @@ import { getStoryViews } from "../../../services/API/StoryApi";
 import { getStorySeen } from "../../../services/API/StoryApi";
 import { getStoryImage } from "../../../services/API/AccountApi";
 import { getAvatarImage } from "../../../services/API/AccountApi";
+import { UserDataContext } from "../../../Models/UserContext";
 interface StoryProps {
   story: IStory;
 }

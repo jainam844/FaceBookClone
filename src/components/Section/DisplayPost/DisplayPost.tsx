@@ -17,7 +17,10 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Collapse from "@mui/material/Collapse";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ClearIcon from "@mui/icons-material/Clear";
 import CommentIcon from "@mui/icons-material/Comment";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Dialog from "@mui/material/Dialog";
@@ -27,7 +30,10 @@ import SendIcon from "@mui/icons-material/Send";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ShareIcon from "@mui/icons-material/Share";
 import UserContext from "../../Context/UserContext";
-import { PostLike } from "../../../services/API/SocialActivityApi";
+import {
+  PostLike,
+  getPostDelete,
+} from "../../../services/API/SocialActivityApi";
 import { getLikesByPost } from "../../../services/API/SocialActivityApi";
 import RecommendIcon from "@mui/icons-material/Recommend";
 import { addComment } from "../../../services/API/SocialActivityApi";
@@ -42,6 +48,7 @@ import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+
 interface PostProps {
   post: Ipost;
   reference?: (node: HTMLDivElement) => void;
@@ -63,6 +70,24 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
   const [loadingComments, setLoadingComments] = useState<boolean>(true);
   const observer = useRef<IntersectionObserver | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDelete = async (postId: number) => {
+    try {
+      const responseData = await getPostDelete(postId);
+      console.log("Your Post deleted:", responseData);
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
 
   const totalImages = postImage.length;
 
@@ -94,6 +119,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
     },
     [loadingComments, hasMoreComments]
   );
+
   useEffect(() => {
     const fetchAvatar = async () => {
       try {
@@ -164,9 +190,6 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
 
     fetchComments();
   }, [post.postId, pageNumber]);
-  {
-    loadingComments;
-  }
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -233,6 +256,8 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
     setNewComment(event.target.value);
   };
 
+  const isDeleteIconVisible = post.userId === userData.userId;
+
   return (
     <React.Fragment>
       <Card
@@ -248,9 +273,16 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
         <CardHeader
           avatar={<Avatar src={avatarUrl} />}
           action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
+            isDeleteIconVisible && (
+              <IconButton
+                aria-label="settings"
+                aria-controls="post-menu"
+                aria-haspopup="true"
+                onClick={handleMenuClick}
+              >
+                <MoreVertIcon />
+              </IconButton>
+            )
           }
           title={post.userName}
           subheader={new Date(post.createdAt).toLocaleDateString("en-US", {
@@ -259,6 +291,63 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
             day: "numeric",
           })}
         />
+        <Menu
+          id="post-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+          sx={{
+            "& .MuiPaper-root": {
+              minWidth: "120px",
+              borderRadius: "8px",
+              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+              backgroundColor: "#f7f7f7",
+            },
+            "& .MuiList-root": {
+              padding: "0",
+            },
+            "& .MuiMenuItem-root": {
+              fontSize: "14px",
+              padding: "8px 16px",
+              color: "#333333",
+              "&:hover": {
+                backgroundColor: "#ebebeb",
+              },
+            },
+            "& .MuiMenuItem-root:last-child": {
+              borderBottomLeftRadius: "8px",
+              borderBottomRightRadius: "8px",
+            },
+          }}
+        >
+          <MenuItem
+            onClick={() => handleDelete(post.postId)}
+            sx={{
+              fontSize: "14px",
+              padding: "8px 16px",
+              color: "#ff0000",
+              fontWeight: "bold",
+              "&:hover": {
+                backgroundColor: "#ffdada",
+              },
+            }}
+          >
+            <span>Delete</span>
+          </MenuItem>
+          <MenuItem
+            onClick={handleMenuClose}
+            sx={{
+              fontSize: "14px",
+              padding: "8px 16px",
+              color: "#333333",
+              "&:hover": {
+                backgroundColor: "#ebebeb",
+              },
+            }}
+          >
+            <span>Cancel</span>
+          </MenuItem>
+        </Menu>
         <CardMedia
           component="img"
           height="300"

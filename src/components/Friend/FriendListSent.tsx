@@ -33,6 +33,7 @@ type FriendListProps = {
 const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
   const [friends, setFriends] = useState<Friend[]>([]);
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     const getAvatar = async () => {
@@ -43,6 +44,7 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
     };
     getAvatar();
   }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -70,14 +72,20 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
 
     fetchData();
   }, []);
+
   const handleDelete = async () => {
     try {
       const response = await getUserCancelReq(friend.requestId);
-      toast.error(RequestStatus.REJECTED);
+
+      setIsVisible(false);
     } catch (error) {
       console.error("API error:", error);
     }
   };
+
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <React.Fragment>

@@ -86,6 +86,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
   const handleDelete = async () => {
     try {
       const response = await getUserRequestRespond(friend.requestId, false);
+      toast.error(RequestStatus.REJECTED);
     } catch (error) {
       console.error("API error:", error);
     }
