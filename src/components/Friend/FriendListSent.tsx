@@ -13,6 +13,7 @@ import { getUserCancelReq } from "../../services/API/UserREquestApi";
 import { getAvatarImage } from "../../services/API/AccountApi";
 import CardMedia from "@mui/material/CardMedia";
 import defaultimg from "../../assets/images.jpg";
+import DoneIcon from "@mui/icons-material/Done";
 import { RequestStatus } from "../Utils/Path";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -34,7 +35,7 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
   const [friends, setFriends] = useState<Friend[]>([]);
   const [isVisible, setIsVisible] = useState(true);
-
+  const [isRequestCanceled, setIsRequestCanceled] = useState(false);
   useEffect(() => {
     const getAvatar = async () => {
       const avatarUrl = await getAvatarImage(friend.toAvatar);
@@ -76,8 +77,12 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
   const handleDelete = async () => {
     try {
       const response = await getUserCancelReq(friend.requestId);
+      setIsRequestCanceled(true); // Set the request canceled state to display the success message
 
-      setIsVisible(false);
+      // Delay the execution of setIsVisible(false) by 3 seconds
+      setTimeout(() => {
+        setIsVisible(false);
+      }, 800);
     } catch (error) {
       console.error("API error:", error);
     }
@@ -90,10 +95,20 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
   return (
     <React.Fragment>
       <ToastContainer />
-      <Card sx={{ marginBottom: "1rem", maxWidth: 345, minHeight: "400px" }}>
+      <Card
+        sx={{
+          background: "#f9f9f9",
+          borderRadius: "10px",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+          maxWidth: 345,
+          margin: "1rem",
+          padding: "1rem",
+        }}
+      >
         <CardMedia
           component="img"
-          height="194"
+           height="220"
+          sx={{ borderRadius: "10px" }}
           image={
             avatar
               ? avatar
@@ -156,22 +171,37 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
             <Grid container spacing={1}>
               <Grid item xs={12}>
                 <Button
-                  variant="outlined"
+                  variant="contained"
                   sx={{
-                    borderRadius: "5px",
-                    borderColor: "gray",
+                    borderRadius: "8px",
+                    backgroundColor: "#f3212fbd;",
                     color: "white",
-                    backgroundColor: "gray",
                     "&:hover": {
-                      backgroundColor: "darkgray",
-                      borderColor: "gray",
+                      backgroundColor: "#fcc5c9ba",
+                      color: "black",
                     },
                     width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "0.7rem",
+                    boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.2)",
                   }}
                   onClick={() => handleDelete()}
                 >
-                  Cancel Request
-                  <ClearIcon sx={{ marginLeft: "1rem" }} />
+                  <Typography
+                    sx={{
+                      flexGrow: 1,
+                      fontWeight: 500,
+                      textTransform: "capitalize",
+                      marginRight: "1rem",
+                    }}
+                  >
+                    {isRequestCanceled
+                      ? "Request canceled successfully"
+                      : "Cancel Request"}
+                  </Typography>
+                  {isRequestCanceled ? <DoneIcon /> : <ClearIcon />}
                 </Button>
               </Grid>
             </Grid>

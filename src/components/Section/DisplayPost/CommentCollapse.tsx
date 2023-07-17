@@ -1,12 +1,11 @@
-import React, { useState, ChangeEvent, useEffect } from "react";
+import React, { useState,  useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
 import { IComment } from "../../../Models/Comment";
-import { getAvatarImage } from "../../../services/API/AccountApi"; 
+import { getAvatarImage } from "../../../services/API/AccountApi";
 
 interface CommentCollapseProps {
   comment: IComment["text"];
@@ -45,13 +44,6 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
     background: "#e4e4e4",
     padding: "0.5rem",
     borderRadius: 3,
-  };
-
-  const commentActionStyle: React.CSSProperties = {
-    color: "#1877f2",
-    fontSize: 14,
-    cursor: "pointer",
-    margin: "0 10px",
   };
 
   return (
@@ -93,14 +85,6 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
             </Box>
           </span>
         </Typography>
-        <Grid container sx={{ padding: "0px 40px" }}>
-          <Grid item sx={commentActionStyle}>
-            Like
-          </Grid>
-          <Grid item sx={commentActionStyle}>
-            Share
-          </Grid>
-        </Grid>
       </CardContent>
     </Card>
   );

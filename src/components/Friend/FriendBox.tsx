@@ -94,6 +94,8 @@ export const FriendBox = () => {
               <Tab label={`Received (${requestCount})`} {...a11yProps(1)} />
             </Tabs>
           </Box>
+
+          
           <CustomTabPanel value={value} index={0}>
             <Grid container spacing={2} justifyContent="start">
               {sentFriends.map((sentfriends) => (
@@ -106,6 +108,8 @@ export const FriendBox = () => {
               ))}
             </Grid>
           </CustomTabPanel>
+
+
           <CustomTabPanel value={value} index={1}>
             <Grid container spacing={2} justifyContent="start">
               {friends.map((friend) => (

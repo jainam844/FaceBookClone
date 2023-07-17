@@ -13,6 +13,8 @@ import { getAvatarImage } from "../../services/API/AccountApi";
 import { getUserRequestSend } from "../../services/API/UserREquestApi";
 import { getUserMutual } from "../../services/API/UserDataApi";
 import defaultimg from "../../assets/images.jpg";
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 interface Friend {
   firstName: string;
   lastName: string;
@@ -185,7 +187,7 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
                 onClick={() => handleConfirm()}
               >
                 Add Friend
-                <AddIcon sx={{ marginLeft: "1rem" }} />
+                <PersonAddAlt1Icon sx={{ marginLeft: "1rem" }} />
               </Button>
             </Grid>
             <Grid item xs={12}>
@@ -204,7 +206,7 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
                 onClick={() => handleDelete()}
               >
                 Remove
-                <DeleteIcon sx={{ marginLeft: "2rem" }} />
+                <PersonRemoveIcon sx={{ marginLeft: "2rem" }} />
               </Button>
             </Grid>
           </Grid>

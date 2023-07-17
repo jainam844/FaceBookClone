@@ -20,7 +20,6 @@ import { getReadNotification } from "../../services/API/NotificationApi";
 import { getClearNotification } from "../../services/API/NotificationApi";
 import { getPostImage } from "../../services/API/AccountApi";
 
-
 interface NotificationItemProps {
   notification: Notification;
   onClearNotification: (notificationId: number) => void;
@@ -92,7 +91,6 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
     try {
       await getClearNotification(notification.notificationId);
       onClearNotification(notification.notificationId);
-
       handleClose();
     } catch (error) {
       console.log(error);
