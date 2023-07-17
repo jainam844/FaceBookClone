@@ -66,9 +66,8 @@ const HomeApp = () => {
             <Outlet />
           </Box>
         </Box>
-        <Box sx={{ width: "20%", display: ["none", "none","none", "block"] }}>
-          <Widget sx={{ width: "100%", maxWidth: "100%" }} />{" "}
-          {/* Update widget width and maxWidth */}
+        <Box sx={{ width: "20%", display: ["none", "none", "none", "block"] }}>
+          <Widget />
         </Box>
       </Box>
     </React.Fragment>
