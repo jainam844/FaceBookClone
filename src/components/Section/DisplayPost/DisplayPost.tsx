@@ -37,7 +37,11 @@ import CommentCollapse from "./CommentCollapse";
 import { getCommentByPostId } from "../../../services/API/SocialActivityApi";
 import { IComment } from "../../../Models/Comment";
 import { Ipost } from "../../../Models/Post";
-
+import { useTheme } from "@mui/material/styles";
+import MobileStepper from "@mui/material/MobileStepper";
+import Button from "@mui/material/Button";
+import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 interface PostProps {
   post: Ipost;
   reference?: (node: HTMLDivElement) => void;
@@ -58,6 +62,25 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
   const [hasMoreComments, setHasMoreComments] = useState<boolean>(false);
   const [loadingComments, setLoadingComments] = useState<boolean>(true);
   const observer = useRef<IntersectionObserver | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const totalImages = postImage.length;
+
+  const theme = useTheme();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const maxSteps = postImage.length;
+  const handleNext = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % totalImages);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex - 1 + totalImages) % totalImages
+    );
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
   const lastCommentRef = useCallback(
     (node: HTMLDivElement) => {
       if (loadingComments) return;
@@ -236,16 +259,56 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
             day: "numeric",
           })}
         />
-        {loadedImages[0] ? (
-          <CardMedia
-            component="img"
-            height="300"
-            image={postImage[0]}
-            alt="Post Image"
-            onClick={() => handleImageClick(0)}
-            onLoad={() => handleImageLoad(0)}
-          />
-        ) : null}
+        <CardMedia
+          component="img"
+          height="300"
+          image={postImage[currentImageIndex]}
+          alt="Post Image"
+          onClick={() => handleImageClick(currentImageIndex)}
+          onLoad={() => handleImageLoad(currentImageIndex)}
+        />
+        {totalImages > 1 && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "0.5rem",
+            }}
+          ></Box>
+        )}
+        <MobileStepper
+          steps={maxSteps}
+          position="static"
+          activeStep={activeStep}
+          nextButton={
+            <Button
+              size="small"
+              onClick={handleNext}
+              disabled={activeStep === maxSteps - 1}
+            >
+              Next
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowLeft />
+              ) : (
+                <KeyboardArrowRight />
+              )}
+            </Button>
+          }
+          backButton={
+            <Button
+              size="small"
+              onClick={handleBack}
+              disabled={activeStep === 0}
+            >
+              {theme.direction === "rtl" ? (
+                <KeyboardArrowRight />
+              ) : (
+                <KeyboardArrowLeft />
+              )}
+              Back
+            </Button>
+          }
+        />
         <CardContent>
           <Typography
             variant="body2"

@@ -32,19 +32,28 @@ const AddDescription = ({
   const [file, setFile] = useState<File | null>(null);
   const [imageSizeError, setImageSizeError] = useState(false);
   const { userData, userimageUrl } = useContext(UserContext);
+  const [files, setFiles] = useState<File[]>([]);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const uploadedFile = event.target.files?.[0];
+    const uploadedFiles = event.target.files;
+    const newFiles: File[] = [];
 
-    if (uploadedFile && uploadedFile.size <= 2 * 1024 * 1024) {
-      const compressedImage = await compressImage(uploadedFile);
-      setFile(compressedImage);
+    if (uploadedFiles) {
+      for (let i = 0; i < uploadedFiles.length; i++) {
+        const uploadedFile = uploadedFiles[i];
+
+        if (uploadedFile.size <= 2 * 1024 * 1024) {
+          const compressedImage = await compressImage(uploadedFile);
+          newFiles.push(compressedImage);
+        } else {
+          setImageSizeError(true);
+        }
+      }
+
+      setFiles(newFiles);
       setImageSizeError(false);
-    } else {
-      setFile(null);
-      setImageSizeError(true);
     }
   };
 
@@ -96,9 +105,11 @@ const AddDescription = ({
     try {
       const formData = new FormData();
       formData.append("Description", description);
-      if (file) {
-        formData.append("Images", file);
+
+      for (let i = 0; i < files.length; i++) {
+        formData.append("Images", files[i]);
       }
+
       const response = await addPost(formData);
       handleNewPost(response);
       console.log("Post added successfully!");
@@ -189,15 +200,19 @@ const AddDescription = ({
                       id="file-input"
                       onChange={handleFileChange}
                       style={{ display: "none" }}
+                      multiple // Allow multiple file selection
                     />
                     <Button variant="outlined" component="span">
-                      Upload Image
+                      Upload Image(s)
                     </Button>
-                    {file && (
-                      <span style={{ marginLeft: "0.5rem" }}>{file.name}</span>
+                    {files.length > 0 && (
+                      <span style={{ marginLeft: "0.5rem" }}>
+                        {files.map((file) => file.name).join(", ")}
+                      </span>
                     )}
                   </label>
                 </Box>
+
                 {imageSizeError && (
                   <div style={{ color: "red" }}>
                     Image size limit exceeded (max: 2MB)

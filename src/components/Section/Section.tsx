@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Story from "./Story/DisplayStory";
 import Post from "./DisplayPost/DisplayPost";
 
-import AddDescription from "./SharePost/SharePost";
+import AddDescription from "./AddPost/AddPost";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import { Ipost, PostClass } from "../../Models/Post";

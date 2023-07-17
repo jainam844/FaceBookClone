@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { IComment } from "../../../Models/Comment";
 import { getAvatarImage } from "../../../services/API/AccountApi"; 
+
 interface CommentCollapseProps {
   comment: IComment["text"];
   userName: IComment["userName"];
