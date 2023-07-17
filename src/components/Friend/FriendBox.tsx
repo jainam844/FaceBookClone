@@ -6,7 +6,7 @@ import Tab from "@mui/material/Tab";
 import FriendListSent from "./FriendListSent";
 import FriendList from "./FriendList";
 import { getUserRequest } from "../../services/Response";
-import { FilterStatus } from "../Utils/Path";
+import { FilterStatus, RequestStatus } from "../Utils/Path";
 import { RequestType } from "../Utils/Path";
 
 interface TabPanelProps {
@@ -42,6 +42,8 @@ export const FriendBox = () => {
   const [friends, setFriends] = useState([]);
   const [sentFriends, setSentFriends] = useState([]);
   const [value, setValue] = React.useState(0);
+  const sentCount = sentFriends.length;
+  const requestCount = friends.length;
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -53,41 +55,26 @@ export const FriendBox = () => {
           1,
           100,
           FilterStatus.PENDING,
-          RequestType.Sent
+          value === 0 ? RequestType.Sent : RequestType.Received
         );
 
-        setSentFriends(response.records);
+        if (value === 0) {
+          setSentFriends(response.records);
+     
+        } else {
+          setFriends(response.records);
+        }
       } catch (error) {
         console.error("Error fetching friends:", error);
       }
     };
 
     fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await getUserRequest(
-          1,
-          100,
-          FilterStatus.PENDING,
-          RequestType.Received
-        );
-
-        setFriends(response.records);
-      } catch (error) {
-        console.error("Error fetching friends:", error);
-      }
-    };
-
-    fetchData();
-  }, []);
-  const sentCount = sentFriends.length;
-  const requestCount = friends.length;
+  }, [value]);
 
   return (
     <>
+
       <Box
         sx={{
           padding: 0,

@@ -1,4 +1,3 @@
-//Request.ts
 import axiosInstance from "./Request";
 
 export const ForUserLogin = async (data: {
@@ -191,7 +190,6 @@ export const getPostByUserId = async (
     throw err;
   }
 };
-getPostByUserId(1, 2, false);
 
 export const addComment = async (
   UserId: number,
@@ -602,19 +600,6 @@ export const getVerifyToken = async (email: string, token: string) => {
   }
 };
 
-// export const UserRegistration = async (formData: FormData) => {
-//   try {
-//     const response = await axiosInstance.post("/User/Upsert", formData, {
-//       headers: {
-//         "Content-Type": "multipart/form-data",
-//       },
-//     });
-
-//     return response.data;
-//   } catch (err) {
-//     throw err;
-//   }
-// };
 export const getResetPassword = async (formData: FormData) => {
   try {
     const response = await axiosInstance.post("/Account/Reset", formData);
@@ -624,6 +609,3 @@ export const getResetPassword = async (formData: FormData) => {
     throw err;
   }
 };
-// getResetPassword("learndev0509@gmail.com", "ZXcv!@34", "ZXcv!@99");
-
-// getStoryViews(1, 100, 1);

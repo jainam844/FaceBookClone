@@ -35,6 +35,10 @@ export enum RequestType {
   Sent = 1,
   Received = 2,
 }
+export enum RequestStatus {
+  ACCEPTED = "You Accept The Request",
+  REJECTED = "You Reject The Request",
+}
 
 export enum ToastSuccessMessages {
   LOGGED_IN = "You Are LoggedIn..!  😃",

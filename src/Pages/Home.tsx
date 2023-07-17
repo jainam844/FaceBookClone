@@ -56,8 +56,8 @@ const HomeApp = () => {
         <Box
           sx={{
             marginLeft: ["0%", "0%", "300px"],
-            width: ["100%", "100%", "calc(80% - 300px)"], // Adjust the width here
-            maxWidth: ["100%", "100%", "calc(80% - 300px)"], // Adjust the maxWidth here
+            width: ["100%", "100%", "calc(85% - 300px)"],
+            maxWidth: ["100%", "100%", "calc(85% - 300px)"],
             backgroundColor: "#f0f2f5",
             zIndex: 0,
           }}
@@ -66,7 +66,7 @@ const HomeApp = () => {
             <Outlet />
           </Box>
         </Box>
-        <Box sx={{ width: "20%", display: ["none", "none", "none", "block"] }}>
+        <Box sx={{ width: "15%", display: ["none", "none", "none", "block"] }}>
           <Widget />
         </Box>
       </Box>

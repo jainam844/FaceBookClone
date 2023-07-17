@@ -15,7 +15,9 @@ import {
 } from "../../services/Response";
 import CardMedia from "@mui/material/CardMedia";
 import defaultimg from "../../assets/images.jpg";
-
+import { RequestStatus } from "../Utils/Path";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface Friend {
   toUserName: string;
   toAvatar: string;
@@ -30,15 +32,15 @@ type FriendListProps = {
   friend: Friend;
   sx?: React.CSSProperties;
 };
-const FriendListSent: React.FC<FriendListProps> = ({ friend,}) => {
+const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
   const [friends, setFriends] = useState<Friend[]>([]);
 
   useEffect(() => {
     const getAvatar = async () => {
       const avatarUrl = await getAvatarImage(friend.toAvatar);
-      if(avatarUrl){
-      setAvatar(avatarUrl);
+      if (avatarUrl) {
+        setAvatar(avatarUrl);
       }
     };
     getAvatar();
@@ -47,25 +49,21 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend,}) => {
     const fetchData = async () => {
       try {
         const response = await getUserMutual(1, 100, friend.toUserId);
-  
+
         if (Array.isArray(response.records)) {
           const data = response.records;
-     
+
           const updatedData = await Promise.all(
             data.map(async (friend: Friend) => {
-          
               let avatarUrl = null;
               if (friend.avatar) {
                 avatarUrl = await getAvatarImage(friend.avatar);
-              
               }
               return { ...friend, avatarUrl };
             })
           );
 
-     
           setFriends(updatedData);
-       
         }
       } catch (error) {
         console.error("Error fetching friends:", error);
@@ -77,8 +75,7 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend,}) => {
   const handleDelete = async () => {
     try {
       const response = await getUserCancelReq(friend.requestId);
-
-
+      toast.error(RequestStatus.REJECTED);
     } catch (error) {
       console.error("API error:", error);
     }
@@ -86,7 +83,8 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend,}) => {
 
   return (
     <React.Fragment>
-      <Card sx={{ marginBottom: "1rem", maxWidth: 345 ,minHeight:'400px' }}>
+      <ToastContainer />
+      <Card sx={{ marginBottom: "1rem", maxWidth: 345, minHeight: "400px" }}>
         <CardMedia
           component="img"
           height="194"
@@ -147,10 +145,9 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend,}) => {
               No mutual friends
             </Typography>
           )}
-      
+
           <Box sx={{ marginTop: "0.8rem" }}>
             <Grid container spacing={1}>
-           
               <Grid item xs={12}>
                 <Button
                   variant="outlined"

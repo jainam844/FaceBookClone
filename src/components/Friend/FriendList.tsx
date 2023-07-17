@@ -13,7 +13,9 @@ import CardMedia from "@mui/material/CardMedia";
 import defaultimg from "../../assets/images.jpg";
 import DoneIcon from "@mui/icons-material/Done";
 import DeleteIcon from "@mui/icons-material/Delete";
-
+import { RequestStatus } from "../Utils/Path";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface Friend {
   fromUserName: string;
   fromAvatar: string;
@@ -74,6 +76,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
   const handleConfirm = async () => {
     try {
       const response = await getUserRequestRespond(friend.requestId, true);
+      toast.success(RequestStatus.ACCEPTED);
     } catch (error) {
       console.error("API error:", error);
     }
@@ -89,6 +92,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
 
   return (
     <React.Fragment>
+      <ToastContainer />
       <Card sx={{ marginBottom: "1rem", maxWidth: 345 }}>
         <CardMedia
           component="img"
