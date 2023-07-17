@@ -1,18 +1,15 @@
-import Grid from "@mui/material/Grid";
-import { Box, Button } from "@mui/material";
-
-import CreateStory from "./CreateStory";
-
-import { getStoryByUserId } from "../../../services/API/StoryApi";
 import React, { useState, useEffect, useRef } from "react";
+import Grid from "@mui/material/Grid";
+import { Box } from "@mui/material";
+import { Button } from "@mui/material";
+import CreateStory from "./CreateStory";
+import { getStoryByUserId } from "../../../services/API/StoryApi";
 import UserStory from "./UserStory";
 import { IStory } from "../../../Models/Story";
 
 const Story: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-
   const [story, setStory] = useState<IStory[]>([]);
-
   useEffect(() => {
     const fetchStory = async () => {
       try {

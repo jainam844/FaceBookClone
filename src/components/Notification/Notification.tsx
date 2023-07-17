@@ -1,12 +1,13 @@
 import { useEffect, useState, useContext } from "react";
+import Grid from "@mui/material/Grid";
+import { Box } from "@mui/material";
+import { Button } from "@mui/material";
+import { Typography } from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import UserContext from "../Context/UserContext";
+import NotificationItem from "./NotificationDat";
 import { getClearAllNotification } from "../../services/API/NotificationApi";
 import { getUserNotification } from "../../services/API/NotificationApi";
-import UserContext from "../Context/UserContext";
-import Grid from "@mui/material/Grid";
-import { Box, Typography } from "@mui/material";
-import NotificationItem from "./NotificationDat";
-import { Button } from "@mui/material";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 interface Notification extends NotificationData {
   byUser?: string;
 }

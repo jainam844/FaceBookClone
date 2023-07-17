@@ -1,11 +1,10 @@
 import React from "react";
+import { BrowserRouter as Router, Outlet } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import Box from "@mui/material/Box";
 import Header from "../components/Header/Header";
 import Widget from "../components/Widget/Widget";
-import Box from "@mui/material/Box";
-import { BrowserRouter as Router, Outlet } from "react-router-dom";
 import HeaderIcons from "../components/Header/HeaderIcons";
-
-import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../components/Sidebar/side";
 
 const HomeApp = () => {

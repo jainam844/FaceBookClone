@@ -2,27 +2,25 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import {
-  getCommentNotification,
-  getLikeNotification,
-  getNewPostNotification,
-} from "../../services/API/SocialActivityApi";
-import { getAddStoryNotification } from "../../services/API/StoryApi";
-import { getUserReqNotification } from "../../services/API/UserREquestApi";
-import { getAvatarImage } from "../../services/API/AccountApi";
-import {
-  getReadNotification,
-  getClearNotification,
-} from "../../services/API/NotificationApi";
-import { getPostImage } from "../../services/API/AccountApi";
 import Avatar from "@mui/material/Avatar";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ClearIcon from "@mui/icons-material/Clear";
+import { getCommentNotification } from "../../services/API/SocialActivityApi";
+import { getLikeNotification } from "../../services/API/SocialActivityApi";
+import { getNewPostNotification } from "../../services/API/SocialActivityApi";
+import { getAddStoryNotification } from "../../services/API/StoryApi";
+import { getUserReqNotification } from "../../services/API/UserREquestApi";
+import { getAvatarImage } from "../../services/API/AccountApi";
 import { NotificationType } from "../Utils/Path";
+import { getReadNotification } from "../../services/API/NotificationApi";
+import { getClearNotification } from "../../services/API/NotificationApi";
+import { getPostImage } from "../../services/API/AccountApi";
+
+
 interface NotificationItemProps {
   notification: Notification;
   onClearNotification: (notificationId: number) => void;

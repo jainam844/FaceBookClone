@@ -1,9 +1,9 @@
+import { useState } from "react";
 import { Typography } from "@mui/material";
+import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
 import FormDialog from "./FormDialog";
-import Box from "@mui/material/Box";
 import { IStory } from "../../../Models/Story";
 
 interface CreateStoryProps {
@@ -47,7 +47,7 @@ const CreateStory: React.FC<CreateStoryProps> = ({ handlenewStory }) => {
               color: "white",
               fontSize: 48,
               marginBottom: "8px",
-              border:'2px solid white',
+              border: "2px solid white",
               borderRadius: "50%",
             }}
           />

@@ -1,27 +1,23 @@
 import React, { useState } from "react";
-import {
-  Typography,
-  Box,
-  Button,
-  TextField,
-  IconButton,
-  InputAdornment,
-} from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
 import Grid from "@mui/material/Grid";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Link as RouterLink } from "react-router-dom";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import {
-  Path,
-  ToastErrorMessages,
-  ToastSuccessMessages,
-} from "../components/Utils/Path";
-import { UserRegistration } from "../services/API/UserDataApi"; 
+import { Path } from "../components/Utils/Path";
+import { ToastErrorMessages } from "../components/Utils/Path";
+import { ToastSuccessMessages } from "../components/Utils/Path";
+import { UserRegistration } from "../services/API/UserDataApi";
 import BhartBook from "./BhartBook";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 interface FormValues {
   firstName: string;
   lastName: string;

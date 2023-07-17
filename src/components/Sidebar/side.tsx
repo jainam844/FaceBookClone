@@ -1,7 +1,5 @@
 import { Box } from '@mui/material'
-
 import SidebarIcons from './sidebaricon'
-
 const Sidebar = (): JSX.Element => {
   return (
     <Box

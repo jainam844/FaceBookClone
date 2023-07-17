@@ -1,24 +1,22 @@
+import React, { useState, useEffect } from "react";
+import { Grid } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Paper from "@mui/material/Paper";
+import Slider from "@mui/material/Slider";
+import CloseIcon from "@mui/icons-material/Close";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { IStory } from "../../../Models/Story";
 import { getStoryViews } from "../../../services/API/StoryApi";
 import { getStorySeen } from "../../../services/API/StoryApi";
 import { getStoryImage } from "../../../services/API/AccountApi";
 import { getAvatarImage } from "../../../services/API/AccountApi";
-import React, { useState, useEffect } from "react";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import {
-  Avatar,
-  Box,
-  Typography,
-  Button,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Paper,
-  Slider,
-} from "@mui/material";
-import { Grid } from "@mui/material";
-import { IStory } from "../../../Models/Story";
 interface StoryProps {
   story: IStory;
 }
@@ -31,10 +29,6 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
   const [progress, setProgress] = React.useState(0);
   const [boxOpen, setBoxOpen] = useState(false);
   const [storyViews, setStoryViews] = useState<string[]>([]);
-
-  const handleVisibilityClick = () => {
-    setBoxOpen((prevOpen) => !prevOpen);
-  };
 
   useEffect(() => {
     const fetchAvatar = async () => {
@@ -95,6 +89,9 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
     };
   }, []);
 
+  const handleVisibilityClick = () => {
+    setBoxOpen((prevOpen) => !prevOpen);
+  };
   const handleImageClick = (image: string, event: React.MouseEvent) => {
     event.preventDefault();
     setSelectedImageIndex(postImage.indexOf(image));

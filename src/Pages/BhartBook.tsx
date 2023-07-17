@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import fbImgLogo from "../assets/BharatBook1.png";
+import React from "react";
 import Grid from "@mui/material/Grid";
-import { Typography, Box, Button, TextField } from "@mui/material";
-const BhartBook=()=>{
-    return(
-        <React.Fragment>
-
-  
-        <Grid item xs={12} md={6}>
+import { Typography } from "@mui/material";
+import { Box } from "@mui/material";
+import fbImgLogo from "../assets/BharatBook1.png";
+const BhartBook = () => {
+  return (
+    <React.Fragment>
+      <Grid item xs={12} md={6}>
         <Box
           sx={{
             display: "flex",
@@ -15,7 +14,7 @@ const BhartBook=()=>{
             justifyContent: "center",
             alignItems: "center",
             height: "100%",
-            marginLeft: [0, 0, 0], // Responsive marginLeft
+            marginLeft: [0, 0, 0], 
           }}
         >
           <img
@@ -26,13 +25,11 @@ const BhartBook=()=>{
           />
 
           <Typography sx={{ fontWeight: "bold", marginTop: "1rem" }}>
-            Connect with Friends and the world <br /> around you on
-            BharatBook
+            Connect with Friends and the world <br /> around you on BharatBook
           </Typography>
         </Box>
       </Grid>
-      </React.Fragment>
-
-    )
-}
+    </React.Fragment>
+  );
+};
 export default BhartBook;

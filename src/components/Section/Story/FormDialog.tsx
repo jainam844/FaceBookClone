@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
+import { Formik, Field, Form } from "formik";
 import Dialog from "@mui/material/Dialog";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { Formik, Field, Form } from "formik";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -20,18 +20,18 @@ interface FormDialogProps {
   onClose: () => void;
   handlenewStory: (storyData: IStory) => void;
 }
-const validateDescription1 = (value: string) => {
-  let error: string | undefined;
-  if (!value) {
-    error = "Description is required";
-  }
-  return error;
-};
 
 const FormDialog = ({ open, onClose, handlenewStory }: FormDialogProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [imageSizeError1, setImageSizeError1] = useState(false);
   const { userData, userimageUrl } = useContext(UserContext);
+  const validateDescription1 = (value: string) => {
+    let error: string | undefined;
+    if (!value) {
+      error = "Description is required";
+    }
+    return error;
+  };
 
   const handleFileChange1 = async (
     event: React.ChangeEvent<HTMLInputElement>

@@ -15,30 +15,27 @@ import CardActions from "@mui/material/CardActions";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Collapse from "@mui/material/Collapse";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import CommentIcon from "@mui/icons-material/Comment";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Collapse from "@mui/material/Collapse";
+import SendIcon from "@mui/icons-material/Send";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ShareIcon from "@mui/icons-material/Share";
 import UserContext from "../../Context/UserContext";
-import TextField from "@mui/material/TextField";
-import SendIcon from "@mui/icons-material/Send";
-import {
-  PostLike,
-  getLikesByPost,
-} from "../../../services/API/SocialActivityApi";
+import { PostLike } from "../../../services/API/SocialActivityApi";
+import { getLikesByPost } from "../../../services/API/SocialActivityApi";
 import RecommendIcon from "@mui/icons-material/Recommend";
 import { addComment } from "../../../services/API/SocialActivityApi";
 import { getAvatarImage } from "../../../services/API/AccountApi";
 import { getPostImage } from "../../../services/API/AccountApi";
 import CommentCollapse from "./CommentCollapse";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
 import { getCommentByPostId } from "../../../services/API/SocialActivityApi";
 import { IComment } from "../../../Models/Comment";
-
 import { Ipost } from "../../../Models/Post";
 
 interface PostProps {
@@ -49,7 +46,6 @@ interface PostProps {
 const Post: React.FC<PostProps> = ({ post, reference }) => {
   const [newComment, setNewComment] = useState("");
   const [expanded, setExpanded] = useState(false);
-
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [likeCount, setLikeCount] = useState("");
   const { userData } = useContext(UserContext);

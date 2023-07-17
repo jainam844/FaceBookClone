@@ -9,7 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import UserContext from "../../Context/UserContext";
-import { addPost } from "../../../services/Response";
+import { addPost } from "../../../services/API/SocialActivityApi";
 import { Ipost } from "../../../Models/Post";
 
 interface FormValues {
