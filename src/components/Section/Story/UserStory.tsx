@@ -22,9 +22,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import UserContext from "../../Context/UserContext";
 interface StoryProps {
   story: IStory;
+  onClearStory: (storyId: number) => void;
 }
 
-const UserStory: React.FC<StoryProps> = ({ story }) => {
+const UserStory: React.FC<StoryProps> = ({ story, onClearStory }) => {
   const [postImage, setPostImage] = useState<string[]>([]);
   const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -152,13 +153,13 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
   const handleDelete = async (storyId: number) => {
     try {
       const responseData = await getStoryDelete(storyId);
-
+      onClearStory(storyId);
       console.log("Your story deleted:", responseData);
     } catch (error) {
       console.error(" hiii Error deleting story:", error);
     }
   };
-
+  const selectedStory = story.stories[selectedImageIndex];
   return (
     <>
       <Grid item>
@@ -267,7 +268,7 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
             )}
           </div>
 
-          {selectedImageIndex !== null && (
+          {selectedStory && (
             <>
               {selectedImageIndex !== 0 && (
                 <Button
@@ -351,7 +352,11 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
           <VisibilityIcon onClick={handleVisibilityClick} />
 
           {isCurrentUser && (
-            <DeleteIcon onClick={() => handleDelete(story.stories[selectedImageIndex].storyId)} />
+            <DeleteIcon
+              onClick={() =>
+                handleDelete(story.stories[selectedImageIndex].storyId)
+              }
+            />
           )}
         </div>
       </Dialog>

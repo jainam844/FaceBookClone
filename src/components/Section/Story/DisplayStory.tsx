@@ -10,7 +10,7 @@ import { IStory } from "../../../Models/Story";
 const Story: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [story, setStory] = useState<IStory[]>([]);
-  console.log(story)
+
   useEffect(() => {
     const fetchStory = async () => {
       try {
@@ -40,6 +40,23 @@ const Story: React.FC = () => {
       })
     );
   };
+  const handleClearStory = (storyId: number) => {
+    setStory((StoriesList) =>
+      StoriesList.map((story) => {
+        if (story.stories.some((s) => s.storyId === storyId)) {
+          const updatedStories = story.stories.filter((s) => s.storyId !== storyId);
+          return {
+            ...story,
+            stories: updatedStories,
+            prevStory: updatedStories.length > 0 ? updatedStories[0] : null,
+          };
+        }
+        return story;
+      })
+    );
+  };
+  
+
   const scrollLeft = () => {
     scrollContainerRef.current?.scrollBy({
       top: -100,
@@ -69,7 +86,11 @@ const Story: React.FC = () => {
             </Grid>
 
             {story.map((item, index) => (
-              <UserStory key={index} story={item} />
+              <UserStory
+                key={index}
+                story={item}
+                onClearStory={handleClearStory}
+              />
             ))}
           </Grid>
           <Box
