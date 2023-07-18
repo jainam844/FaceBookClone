@@ -110,7 +110,24 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
                 {isCurrentUser && (
                   <DeleteIcon
                     onClick={() => handleDelete(commentId)}
-                    sx={{ color: "red" }}
+                    sx={{
+                      color: "red",
+                      cursor: "pointer",
+                      marginLeft: "0.5rem",
+                      fontSize: "1.2rem",
+                      borderRadius: "50%",
+                      backgroundColor: "white",
+                      border: "none",
+                      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                      transition: "transform 0.3s",
+                    }}
+                    style={{ transform: "scale(1)" }}
+                    onMouseEnter={(e) =>
+                      (e.currentTarget.style.transform = "scale(1.2)")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.currentTarget.style.transform = "scale(1)")
+                    }
                   />
                 )}
               </div>
