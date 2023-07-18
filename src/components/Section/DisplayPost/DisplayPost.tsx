@@ -52,9 +52,10 @@ import ClearIcon from "@mui/icons-material/Clear";
 interface PostProps {
   post: Ipost;
   reference?: (node: HTMLDivElement) => void;
+  onClearPost: (postId: number) => void;
 }
 
-const Post: React.FC<PostProps> = ({ post, reference }) => {
+const Post: React.FC<PostProps> = ({ post, reference, onClearPost }) => {
   const [newComment, setNewComment] = useState("");
   const [expanded, setExpanded] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string>("");
@@ -72,7 +73,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isRemoved, setIsRemoved] = useState(false);
- 
+
   const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -84,6 +85,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
   const handleDelete = async (postId: number) => {
     try {
       const responseData = await getPostDelete(postId);
+      onClearPost(postId);
       console.log("Your Post deleted:", responseData);
     } catch (error) {
       console.error("Error deleting post:", error);

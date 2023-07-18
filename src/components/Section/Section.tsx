@@ -66,6 +66,12 @@ const Section = (): JSX.Element => {
     fetchPosts();
   }, [pageNumber]);
 
+  const removeDeletedPost = (postId: number) => {
+    setPostData((prevData) =>
+      prevData.filter((post) => post.postId !== postId)
+    );
+  };
+
   useEffect(() => {
     if (newPost.postId) {
       setPostData((prevData) => [newPost, ...prevData]);
@@ -80,9 +86,22 @@ const Section = (): JSX.Element => {
 
       {postData.map((post, index) => {
         if (postData.length === index + 1) {
-          return <Post key={post.postId} post={post} reference={lastPostRef} />;
+          return (
+            <Post
+              key={post.postId}
+              post={post}
+              reference={lastPostRef}
+              onClearPost={removeDeletedPost}
+            />
+          );
         } else {
-          return <Post key={post.postId} post={post} />;
+          return (
+            <Post
+              key={post.postId}
+              post={post}
+              onClearPost={removeDeletedPost}
+            />
+          );
         }
       })}
 
