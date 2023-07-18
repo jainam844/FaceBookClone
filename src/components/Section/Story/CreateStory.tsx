@@ -26,41 +26,56 @@ const CreateStory: React.FC<CreateStoryProps> = ({ handlenewStory }) => {
       <Box onClick={handleClickOpen}>
         <Paper
           sx={{
-            height: 180,
-            width: 100,
+            height: 210,
+            width: 130,
             margin: "10px",
-            backgroundImage: `url("https://cdn.pixabay.com/photo/2023/06/14/09/18/trees-8062668_1280.jpg")`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            padding: "15px",
             borderRadius: "10px",
             position: "relative",
+            overflow: "hidden",
+
             cursor: "pointer",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
           }}
         >
-          <AddIcon
-            sx={{
-              color: "white",
-              fontSize: 48,
-              marginBottom: "8px",
-              border: "2px solid white",
-              borderRadius: "50%",
+          <div
+            style={{
+              height: "50%",
+              backgroundImage:
+                'url("https://images.pexels.com/photos/994605/pexels-photo-994605.jpeg?auto=compress&cs=tinysrgb&w=1600")',
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
             }}
           />
-
-          <Typography
-            variant="subtitle2"
-            sx={{
-              fontWeight: "600",
-              color: "white",
+          <div
+            style={{
+              height: "50%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#f3f3f3",
+              padding: "10px",
             }}
           >
-            Create Story
-          </Typography>
+            <AddIcon
+              sx={{
+                color: "white",
+                fontSize: 32,
+                marginBottom: "8px",
+                border: "2px solid white",
+                borderRadius: "50%",
+                backgroundColor: "#1F75FE",
+              }}
+            />
+            <Typography
+              variant="subtitle2"
+              sx={{
+                fontWeight: "600",
+                color: "black",
+              }}
+            >
+              Create Story
+            </Typography>
+          </div>
         </Paper>
       </Box>
       <FormDialog
