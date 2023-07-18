@@ -196,4 +196,16 @@ export const getPostDelete = async (postId: number) => {
   }
 };
 
-// getPostDelete(1111);
+export const getCommentDelete = async (commentId: number) => {
+  try {
+    const response = await axiosInstance.post(
+      `/SocialActivity/DeleteComment/${commentId}`
+    );
+    // console.log("jainam", response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+// getPostDelete(10073);

@@ -1,17 +1,23 @@
-import React, { useState,  useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { IComment } from "../../../Models/Comment";
 import { getAvatarImage } from "../../../services/API/AccountApi";
 
+import UserContext from "../../Context/UserContext";
+import { getCommentDelete } from "../../../services/API/SocialActivityApi";
 interface CommentCollapseProps {
   comment: IComment["text"];
   userName: IComment["userName"];
   avatarUrl: IComment["avatar"];
   createdAt: IComment["createdAt"];
+  userId: IComment["userId"];
+  commentId: IComment["commentId"];
+
   reference?: (node: HTMLDivElement) => void;
 }
 
@@ -21,9 +27,13 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
   avatarUrl,
   createdAt,
   reference,
+  userId,
+  commentId,
 }) => {
   const [avatarImageUrl, setAvatarImageUrl] = useState("");
 
+  const { userData } = useContext(UserContext);
+  const isCurrentUser = userId === userData.userId;
   useEffect(() => {
     const fetchAvatarImage = async () => {
       try {
@@ -39,11 +49,25 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
     fetchAvatarImage();
   }, [avatarUrl]);
 
+  const handleDelete = async (commentId: number) => {
+    try {
+      const responseData = await getCommentDelete(commentId);
+      console.log("Your comment deleted:", responseData);
+    } catch (error) {
+      console.error(" hiii Error deleting comment:", error);
+    }
+  };
+
   const commentStyle: React.CSSProperties = {
     display: "flex",
     background: "#e4e4e4",
     padding: "0.5rem",
     borderRadius: 3,
+  };
+  const commentContainerStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "0.3rem",
   };
 
   return (
@@ -79,9 +103,17 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
               <Typography sx={{ fontSize: "0.8em", marginTop: "0.3rem" }}>
                 {new Date(createdAt).toLocaleString()}
               </Typography>
-              <Typography color="initial" sx={commentStyle}>
-                {comment}
-              </Typography>
+              <div style={commentContainerStyle}>
+                <Typography color="initial" sx={commentStyle}>
+                  {comment}
+                </Typography>
+                {isCurrentUser && (
+                  <DeleteIcon
+                    onClick={() => handleDelete(commentId)}
+                    sx={{ color: "red" }}
+                  />
+                )}
+              </div>
             </Box>
           </span>
         </Typography>

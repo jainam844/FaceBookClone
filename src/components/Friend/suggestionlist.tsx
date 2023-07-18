@@ -7,14 +7,12 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { getAvatarImage } from "../../services/API/AccountApi";
 import { getUserRequestSend } from "../../services/API/UserREquestApi";
 import { getUserMutual } from "../../services/API/UserDataApi";
 import defaultimg from "../../assets/images.jpg";
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 interface Friend {
   firstName: string;
   lastName: string;

@@ -47,6 +47,7 @@ import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
+
 import ClearIcon from "@mui/icons-material/Clear";
 interface PostProps {
   post: Ipost;
@@ -507,6 +508,8 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
                       avatarUrl={comment.avatar}
                       createdAt={comment.createdAt}
                       reference={lastCommentRef}
+                      userId={comment.userId}
+                      commentId={comment.commentId}
                     />
                   );
                 } else {
@@ -517,6 +520,8 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
                       userName={comment.userName}
                       avatarUrl={comment.avatar}
                       createdAt={comment.createdAt}
+                      userId={comment.userId}
+                      commentId={comment.commentId}
                     />
                   );
                 }
