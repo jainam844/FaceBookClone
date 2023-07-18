@@ -23,6 +23,7 @@ import { getPostImage } from "../../services/API/AccountApi";
 interface NotificationItemProps {
   notification: Notification;
   onClearNotification: (notificationId: number) => void;
+  onDeleteNotification: (notificationId: number) => void;
   setNotifications: React.Dispatch<React.SetStateAction<Notification[]>>;
 }
 
@@ -44,6 +45,7 @@ const defaultAvatar = "/path/to/default/avatar.png";
 const NotificationItem: React.FC<NotificationItemProps> = ({
   notification,
   onClearNotification,
+  onDeleteNotification,
 }) => {
   const [username, setUsername] = useState("");
   const [avatar, setAvatar] = useState<string | null>(null);
@@ -90,7 +92,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   const handleClearNotification = async () => {
     try {
       await getClearNotification(notification.notificationId);
-      onClearNotification(notification.notificationId);
+      onDeleteNotification(notification.notificationId);
       handleClose();
     } catch (error) {
       console.log(error);

@@ -71,6 +71,28 @@ const Notification = () => {
   }, [pageNumber, userData.userId]);
 
   const handleClearNotification = (notificationId: number) => {
+    setNotifications((prevNotifications) => {
+      const index = prevNotifications.findIndex(
+        (notification) => notification.notificationId === notificationId
+      );
+
+      if (index !== -1) {
+        const updatedNotifications = prevNotifications.filter(
+          (_, i) => i !== index
+        );
+
+        updatedNotifications.push(prevNotifications[index]);
+
+        return updatedNotifications;
+      }
+
+      return prevNotifications;
+    });
+  };  
+  
+
+
+  const handleDeleteNotification = (notificationId: number) => {
     setNotifications((prevNotifications) =>
       prevNotifications.filter(
         (notification) => notification.notificationId !== notificationId
@@ -168,6 +190,8 @@ const Notification = () => {
                 >
                   <NotificationItem
                     onClearNotification={handleClearNotification}
+
+                    onDeleteNotification={handleDeleteNotification}
                     notification={notification}
                     setNotifications={setNotifications}
                   />
@@ -208,6 +232,7 @@ const Notification = () => {
                     onClearNotification={handleClearNotification}
                     notification={notification}
                     setNotifications={setNotifications}
+                    onDeleteNotification={handleDeleteNotification}
                   />
                 </Grid>
               </div>
