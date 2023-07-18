@@ -10,6 +10,7 @@ import { IStory } from "../../../Models/Story";
 const Story: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [story, setStory] = useState<IStory[]>([]);
+  console.log(story)
   useEffect(() => {
     const fetchStory = async () => {
       try {

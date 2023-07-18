@@ -107,7 +107,7 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
       >
         <CardMedia
           component="img"
-           height="220"
+          height="220"
           sx={{ borderRadius: "10px" }}
           image={
             avatar

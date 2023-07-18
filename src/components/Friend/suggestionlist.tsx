@@ -26,12 +26,13 @@ interface Friend {
 type FriendListProps = {
   friend: Friend;
   sx?: React.CSSProperties;
+  reference?: (node: HTMLDivElement) => void;
 };
-const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
+const Suggestionlist: React.FC<FriendListProps> = ({ friend, reference }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
 
   const [friends, setFriends] = useState<Friend[]>([]);
-
+  const [isVisible, setIsVisible] = useState(true);
   useEffect(() => {
     const getAvatar = async () => {
       const avatarUrl = await getAvatarImage(friend.avatar);
@@ -74,6 +75,9 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
     try {
       const response = await getUserRequestSend(friend.userId);
       console.log("API response:");
+      setTimeout(() => {
+        setIsVisible(false);
+      }, 800);
     } catch (error) {
       console.error("API error:", error);
     }
@@ -86,10 +90,14 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, sx }) => {
       console.error("API error:", error);
     }
   };
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <React.Fragment>
       <Card
+        ref={reference}
         sx={{
           background: "#f9f9f9",
           borderRadius: "10px",

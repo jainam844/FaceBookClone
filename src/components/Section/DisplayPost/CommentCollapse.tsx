@@ -17,7 +17,7 @@ interface CommentCollapseProps {
   createdAt: IComment["createdAt"];
   userId: IComment["userId"];
   commentId: IComment["commentId"];
-
+  onClearComment: (commentId: number) => void;
   reference?: (node: HTMLDivElement) => void;
 }
 
@@ -29,6 +29,7 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
   reference,
   userId,
   commentId,
+  onClearComment,
 }) => {
   const [avatarImageUrl, setAvatarImageUrl] = useState("");
 
@@ -52,6 +53,7 @@ const CommentCollapse: React.FC<CommentCollapseProps> = ({
   const handleDelete = async (commentId: number) => {
     try {
       const responseData = await getCommentDelete(commentId);
+      onClearComment(commentId);
       console.log("Your comment deleted:", responseData);
     } catch (error) {
       console.error(" hiii Error deleting comment:", error);

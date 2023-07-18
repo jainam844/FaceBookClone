@@ -72,7 +72,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isRemoved, setIsRemoved] = useState(false);
-
+ 
   const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -172,28 +172,6 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
     fetchPostImages();
   }, [post.path]);
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const commentsData = await getCommentByPostId(
-          pageNumber,
-          1,
-          post.postId
-        );
-        const data = commentsData.record.responseModel;
-        if (Array.isArray(data)) {
-          setCommentsList((prevComments) => [...prevComments, ...data]);
-          setHasMoreComments(data.length > 0);
-          setLoadingComments(false);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchComments();
-  }, [post.postId, pageNumber]);
-
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -239,6 +217,34 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
 
   const handleCloseImage = () => {
     setOpenImageIndex(null);
+  };
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const commentsData = await getCommentByPostId(
+          pageNumber,
+          1,
+          post.postId
+        );
+        const data = commentsData.record.responseModel;
+        if (Array.isArray(data)) {
+          setCommentsList((prevComments) => [...prevComments, ...data]);
+          setHasMoreComments(data.length > 0);
+          setLoadingComments(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchComments();
+  }, [post.postId, pageNumber]);
+
+  const handleClearComment = (commentId: number) => {
+    console.log("hello boys");
+    setCommentsList((prevComments) =>
+      prevComments.filter((comment) => comment.commentId !== commentId)
+    );
   };
 
   const handlePost = async () => {
@@ -510,6 +516,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
                       reference={lastCommentRef}
                       userId={comment.userId}
                       commentId={comment.commentId}
+                      onClearComment={handleClearComment}
                     />
                   );
                 } else {
@@ -522,6 +529,7 @@ const Post: React.FC<PostProps> = ({ post, reference }) => {
                       createdAt={comment.createdAt}
                       userId={comment.userId}
                       commentId={comment.commentId}
+                      onClearComment={handleClearComment}
                     />
                   );
                 }

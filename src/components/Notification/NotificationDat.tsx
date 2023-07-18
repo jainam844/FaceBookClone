@@ -188,7 +188,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           const getUserReqNotifi = await getAddStoryNotification(
             notification.activityId
           );
-          console.log(getUserReqNotifi.userName);
+
           setUsername(getUserReqNotifi.userName);
 
           avatarUrl = await getAvatarImage(getUserReqNotifi.avatar);

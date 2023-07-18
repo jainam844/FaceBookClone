@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Grid } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
@@ -13,11 +13,13 @@ import Slider from "@mui/material/Slider";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { IStory } from "../../../Models/Story";
-import { getStoryViews } from "../../../services/API/StoryApi";
+import { getStoryDelete, getStoryViews } from "../../../services/API/StoryApi";
 import { getStorySeen } from "../../../services/API/StoryApi";
 import { getStoryImage } from "../../../services/API/AccountApi";
 import { getAvatarImage } from "../../../services/API/AccountApi";
 import { UserDataContext } from "../../../Models/UserContext";
+import DeleteIcon from "@mui/icons-material/Delete";
+import UserContext from "../../Context/UserContext";
 interface StoryProps {
   story: IStory;
 }
@@ -30,7 +32,8 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
   const [progress, setProgress] = React.useState(0);
   const [boxOpen, setBoxOpen] = useState(false);
   const [storyViews, setStoryViews] = useState<string[]>([]);
-
+  const { userData } = useContext(UserContext);
+  const isCurrentUser = story.userId === userData.userId;
   useEffect(() => {
     const fetchAvatar = async () => {
       try {
@@ -146,6 +149,15 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
   if (postImage.length === 0) {
     return null;
   }
+  const handleDelete = async (storyId: number) => {
+    try {
+      const responseData = await getStoryDelete(storyId);
+
+      console.log("Your story deleted:", responseData);
+    } catch (error) {
+      console.error(" hiii Error deleting story:", error);
+    }
+  };
 
   return (
     <>
@@ -254,6 +266,7 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
               </>
             )}
           </div>
+
           {selectedImageIndex !== null && (
             <>
               {selectedImageIndex !== 0 && (
@@ -333,7 +346,14 @@ const UserStory: React.FC<StoryProps> = ({ story }) => {
             ))}
           </Box>
         )}
-        <VisibilityIcon onClick={handleVisibilityClick} />
+
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <VisibilityIcon onClick={handleVisibilityClick} />
+
+          {isCurrentUser && (
+            <DeleteIcon onClick={() => handleDelete(story.stories[selectedImageIndex].storyId)} />
+          )}
+        </div>
       </Dialog>
     </>
   );

@@ -17,11 +17,11 @@ const HeaderIcons: React.FC = (): JSX.Element => {
   const location = useLocation();
   const [notificationsCount, setNotificationsCount] = useState(0);
   const { userData, userimageUrl } = useContext(UserContext);
-
+  const [pageNumber, setPageNumber] = useState<number>(1);
   useEffect(() => {
     const getAllNotification = async () => {
       try {
-        const notificationData = await getUserNotification(1, 30);
+        const notificationData = await getUserNotification(pageNumber, 100);
 
         setNotificationsCount(notificationData.records.length);
       } catch (e) {

@@ -201,7 +201,7 @@ export const getCommentDelete = async (commentId: number) => {
     const response = await axiosInstance.post(
       `/SocialActivity/DeleteComment/${commentId}`
     );
-    // console.log("jainam", response.data);
+    console.log("jainam", response.data);
     return response.data;
   } catch (err) {
     throw err;

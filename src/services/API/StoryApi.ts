@@ -71,4 +71,15 @@ export const addStory = async (formData: FormData) => {
   };
   
   
-    
+export const getStoryDelete = async (storyId : number) => {
+  try {
+    const response = await axiosInstance.post(
+      `/Story/Delete/${storyId }`
+    );
+    // console.log("jainam", response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+// getStoryDelete(10027);

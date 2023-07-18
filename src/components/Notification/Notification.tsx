@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef, useCallback } from "react";
 import Grid from "@mui/material/Grid";
 import { Box } from "@mui/material";
 import { Button } from "@mui/material";
@@ -8,11 +8,9 @@ import UserContext from "../Context/UserContext";
 import NotificationItem from "./NotificationDat";
 import { getClearAllNotification } from "../../services/API/NotificationApi";
 import { getUserNotification } from "../../services/API/NotificationApi";
-interface Notification extends NotificationData {
-  byUser?: string;
-}
+import CircularProgress from "@mui/material/CircularProgress";
 
-interface NotificationData {
+interface Notification {
   notificationId: number;
   activityType: number;
   activityId: number;
@@ -23,25 +21,55 @@ interface NotificationData {
 
 const Notification = () => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  const [loading, setLoading] = useState<boolean>(true);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(false);
   const { userData } = useContext(UserContext);
 
+  const observer = useRef<IntersectionObserver | null>(null);
+
+  const lastNotificationRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
+
   useEffect(() => {
+    setLoading(true);
+
     const getAllNotification = async () => {
       try {
-        const notificationData = await getUserNotification(1, 30);
+        const notificationData = await getUserNotification(pageNumber, 100);
 
         const sortedNotifications = [...notificationData.records];
         sortedNotifications.sort((a, b) => a.isRead - b.isRead);
 
-        setNotifications(sortedNotifications);
+        setNotifications((prevNotifications) => [
+          ...prevNotifications,
+          ...sortedNotifications,
+        ]);
+
+        setHasMore(sortedNotifications.length > 0);
+        setLoading(false);
       } catch (e) {
         console.log(e);
       }
     };
+
     if (userData.userId) {
       getAllNotification();
     }
-  }, [userData.userId]);
+  }, [pageNumber, userData.userId]);
+
   const handleClearNotification = (notificationId: number) => {
     setNotifications((prevNotifications) =>
       prevNotifications.filter(
@@ -58,6 +86,7 @@ const Notification = () => {
       console.log(error);
     }
   };
+
   return (
     <>
       <Box
@@ -105,42 +134,90 @@ const Notification = () => {
         </Grid>
       </Box>
       <Grid>
-        {notifications.map((notification) => (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Grid
-              container
-              key={notification.notificationId}
-              sx={{
-                border: "1px solid #e0e0e0",
-                borderRadius: "8px",
-                padding: "10px",
-                marginBottom: "16px",
-                backgroundColor: notification.isRead ? "#F0F8FF" : "#FFFFFF",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-                display: "flex",
-                gap: "12px",
-                transition: "background-color 0.3s",
-                "&:hover": {
-                  backgroundColor: "#F0F8FF",
-                },
-                width: "600px",
-              }}
-            >
-              <NotificationItem
-                onClearNotification={handleClearNotification}
-                notification={notification}
-                setNotifications={setNotifications}
-              />
-            </Grid>
-          </div>
-        ))}
+        {notifications.map((notification, index) => {
+          if (notifications.length === index + 1) {
+            return (
+              <div
+                ref={lastNotificationRef}
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Grid
+                  container
+                  key={notification.notificationId}
+                  sx={{
+                    border: "1px solid #e0e0e0",
+                    borderRadius: "8px",
+                    padding: "10px",
+                    marginBottom: "16px",
+                    backgroundColor: notification.isRead
+                      ? "#F0F8FF"
+                      : "#FFFFFF",
+                    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                    display: "flex",
+                    gap: "12px",
+                    transition: "background-color 0.3s",
+                    "&:hover": {
+                      backgroundColor: "#F0F8FF",
+                    },
+                    width: "600px",
+                  }}
+                >
+                  <NotificationItem
+                    onClearNotification={handleClearNotification}
+                    notification={notification}
+                    setNotifications={setNotifications}
+                  />
+                </Grid>
+              </div>
+            );
+          } else {
+            return (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Grid
+                  container
+                  key={notification.notificationId}
+                  sx={{
+                    border: "1px solid #e0e0e0",
+                    borderRadius: "8px",
+                    padding: "10px",
+                    marginBottom: "16px",
+                    backgroundColor: notification.isRead
+                      ? "#F0F8FF"
+                      : "#FFFFFF",
+                    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+                    display: "flex",
+                    gap: "12px",
+                    transition: "background-color 0.3s",
+                    "&:hover": {
+                      backgroundColor: "#F0F8FF",
+                    },
+                    width: "600px",
+                  }}
+                >
+                  <NotificationItem
+                    onClearNotification={handleClearNotification}
+                    notification={notification}
+                    setNotifications={setNotifications}
+                  />
+                </Grid>
+              </div>
+            );
+          }
+        })}
       </Grid>
+      {loading && (
+        <CircularProgress sx={{ display: "block", margin: "auto" }} />
+      )}
     </>
   );
 };
