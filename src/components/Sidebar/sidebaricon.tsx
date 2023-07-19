@@ -52,7 +52,7 @@ const SidebarIcons = () => {
 
   return (
     <React.Fragment>
-      <List sx={{ marginTop: "10px", }}>
+      <List sx={{ marginTop: "10px" }}>
         <ListItem sx={sidebarIconStyle} component={Link} to={Path.Profile}>
           <ListItemAvatar>
             <Avatar src={userimageUrl} />
@@ -67,7 +67,7 @@ const SidebarIcons = () => {
           <ListItem
             key={index}
             component={Link}
-            to={item.route} // Update the route using enum value
+            to={item.route}
             sx={{ ...sidebarIconStyle }}
             selected={selectedIndex === index}
             onClick={(event) => handleListItemClick(event, index)}
@@ -102,7 +102,7 @@ const SidebarIcons = () => {
               <ListItem
                 sx={{ ...sidebarIconStyle }}
                 component={Link}
-                to={Path.UserFriend} 
+                to={Path.UserFriend}
                 selected={selectedIndex === data.length}
                 onClick={(event) => handleListItemClick(event, data.length)}
               >

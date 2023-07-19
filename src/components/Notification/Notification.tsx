@@ -115,6 +115,7 @@ const Notification = () => {
           background: ["white", "transparent"],
           borderRadius: [0, 3],
           padding: "20px 0",
+          margin:'1rem'
         }}
       >
         <Grid

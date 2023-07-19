@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Drawer } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -22,6 +23,7 @@ import SidebarIcons from "../Sidebar/sidebaricon";
 import UserContext from "../Context/UserContext";
 import HeaderIcons from "./HeaderIcons";
 import { getUserNotification } from "../../services/API/NotificationApi";
+import { Path } from "../Utils/Path";
 
 export default function PrimarySearchAppBar() {
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
@@ -247,19 +249,19 @@ export default function PrimarySearchAppBar() {
               >
                 {" "}
                 <Avatar src={userimageUrl} />
-                <Box sx={{ fontSize: "16px", marginLeft: "0.5rem" }}>
-                  {" "}
+                <Box
+                  sx={{
+                    fontSize: "16px",
+                    marginLeft: "0.5rem",
+                    fontWeight: "600",
+                    color: "black",
+                    textDecoration: "none",
+                  }}
+                  component={Link}
+                  to={Path.Profile}
+                >
                   {userData.firstName + " " + userData.lastName}
                 </Box>
-              </Button>
-              <Button
-                size="large"
-                aria-label="show 4 new mails"
-                color="inherit"
-              >
-                <Badge color="error">
-                  <AddIcon />
-                </Badge>
               </Button>
 
               <IconButton
