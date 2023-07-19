@@ -12,7 +12,7 @@ import { getUserMutual } from "../../services/API/UserDataApi";
 import { getUserCancelReq } from "../../services/API/UserREquestApi";
 import { getAvatarImage } from "../../services/API/AccountApi";
 import defaultimg from "../../assets/images.jpg";
-
+import ClearIcon from "@mui/icons-material/Clear";
 interface Friend {
   toUserName: string;
   toAvatar: string;
@@ -104,11 +104,14 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
           image={avatar || friend?.toAvatar || defaultimg}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div" sx={
-            {
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{
               fontWeight: 550,
-            }
-          }>
+            }}
+          >
             {friend.toUserName}
           </Typography>
 
@@ -167,7 +170,7 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
                 <Button
                   variant="contained"
                   sx={{
-                    borderRadius: "50px",
+                  
                     backgroundColor: isRequestCanceled
                       ? "#1fb72a"
                       : "#f3212fbd",
@@ -179,7 +182,7 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
                       color: "black",
                     },
                     width: "100%",
-
+                    borderRadius: "50px",
                     boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.1)",
                     display: "flex",
                     alignItems: "center",
@@ -190,6 +193,8 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
                     fontSize: "16px",
                     position: "relative",
                     overflow: "hidden",
+                
+                
                   }}
                   onClick={() => handleDelete()}
                 >
@@ -230,6 +235,7 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
                           transition: "transform 0.3s ease",
                         }}
                       ></span>
+        
                     </span>
                   )}
                 </Button>

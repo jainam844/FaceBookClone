@@ -6,6 +6,8 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import Grid from "@mui/material/Grid";
 import { getUserMutual } from "../../services/API/UserDataApi";
 import { getAvatarImage } from "../../services/API/AccountApi";
@@ -95,60 +97,80 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
   return (
     <React.Fragment>
       <ToastContainer />
-      <Card sx={{ marginBottom: "1rem", maxWidth: 345 }}>
+      <Card
+        sx={{
+          borderRadius: "10px",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+          maxWidth: 345,
+          margin: "1rem",
+        }}
+      >
         <CardMedia
           component="img"
-          height="194"
+          height="220"
+          sx={{ borderRadius: "10px 10px 0 0" }}
           image={avatar || (friend && friend.fromAvatar) || defaultimg}
         />
-        <Divider />
+
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            sx={{
+              fontWeight: 550,
+            }}
+          >
             {friend.fromUserName}
           </Typography>
           {friends.length > 0 ? (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                marginTop: "0.3rem",
-              }}
-            >
-              {friends.slice(0, 3).map((friend, index) => (
-                <Avatar
-                  key={index}
-                  src={friend.avatarUrl}
-                  sx={{
-                    border: "2px solid white",
-                    zIndex: 100 - index,
-                    marginLeft: `${index * -12}px`,
-                    position: "relative",
-                  }}
-                />
-              ))}
-              {friends.length > 0 && (
-                <Typography
-                  sx={{
-                    fontSize: ["12px", "15px"],
-                    color: "gray",
-                    marginLeft: "0.5rem",
-                  }}
-                >
-                  {`${friends[0].firstName} ${friends[0].lastName}`}{" "}
-                  {friends.length > 1
-                    ? `and ${friends.length - 1} other mutual friend${
-                        friends.length !== 2 ? "s" : ""
-                      }`
-                    : "is a mutual friend"}
-                </Typography>
-              )}
-            </Box>
+            <>
+              <Divider sx={{ marginTop: "0.3rem", marginBottom: "0.5rem" }} />
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "0.3rem",
+                }}
+              >
+                {friends.slice(0, 3).map((friend, index) => (
+                  <Avatar
+                    key={index}
+                    src={friend.avatarUrl}
+                    sx={{
+                      border: "2px solid white",
+                      zIndex: 100 - index,
+                      marginLeft: `${index * -12}px`,
+                      position: "relative",
+                    }}
+                  />
+                ))}
+                {friends.length > 0 && (
+                  <Typography
+                    sx={{
+                      fontSize: ["12px", "15px"],
+                      color: "gray",
+                      marginLeft: "0.5rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {`${friends[0].firstName} ${friends[0].lastName}`}{" "}
+                    {friends.length > 1
+                      ? `and ${friends.length - 1} other mutual friend${
+                          friends.length !== 2 ? "s" : ""
+                        }`
+                      : "is a mutual friend"}
+                  </Typography>
+                )}
+              </Box>
+            </>
           ) : (
             <Typography
               sx={{
                 fontSize: ["12px", "15px"],
                 color: "gray",
                 marginTop: "0.5rem",
+                fontWeight: 700,
               }}
             >
               No mutual friends
@@ -159,31 +181,47 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
               <Grid item xs={12}>
                 <Button
                   variant="contained"
-                  sx={{ borderRadius: "5px", width: "100%" }}
+                  sx={{
+                    width: "100%",
+                    borderRadius: "50px",
+                    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.1)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "background-color 0.2s ease, color 0.2s ease",
+                    cursor: "pointer",
+                    fontWeight: 600,
+                    fontSize: "16px",
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
                   onClick={handleConfirm}
                 >
                   Confirm
-                  <DoneIcon sx={{ marginLeft: "1rem", color: "white" }} />
+                  <HowToRegIcon sx={{ marginLeft: "1rem", color: "white" }} />
                 </Button>
               </Grid>
               <Grid item xs={12}>
                 <Button
                   variant="outlined"
                   sx={{
-                    borderRadius: "5px",
-                    borderColor: "gray",
-                    color: "white",
-                    backgroundColor: "gray",
-                    "&:hover": {
-                      backgroundColor: "darkgray",
-                      borderColor: "gray",
-                    },
                     width: "100%",
+                    borderRadius: "50px",
+                    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.1)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    transition: "background-color 0.2s ease, color 0.2s ease",
+                    cursor: "pointer",
+                    fontWeight: 600,
+                    fontSize: "16px",
+                    position: "relative",
+                    overflow: "hidden",
                   }}
                   onClick={handleDelete}
                 >
                   Delete
-                  <DeleteIcon sx={{ marginLeft: "1rem" }} />
+                  <PersonRemoveIcon sx={{ marginLeft: "1rem" }} />
                 </Button>
               </Grid>
             </Grid>

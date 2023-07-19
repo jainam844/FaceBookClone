@@ -44,7 +44,9 @@ const Story: React.FC = () => {
     setStory((StoriesList) =>
       StoriesList.map((story) => {
         if (story.stories.some((s) => s.storyId === storyId)) {
-          const updatedStories = story.stories.filter((s) => s.storyId !== storyId);
+          const updatedStories = story.stories.filter(
+            (s) => s.storyId !== storyId
+          );
           return {
             ...story,
             stories: updatedStories,
@@ -55,7 +57,6 @@ const Story: React.FC = () => {
       })
     );
   };
-  
 
   const scrollLeft = () => {
     scrollContainerRef.current?.scrollBy({
