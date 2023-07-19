@@ -52,7 +52,7 @@ const SidebarIcons = () => {
 
   return (
     <React.Fragment>
-      <List sx={{ marginTop: "10px" }}>
+      <List sx={{ marginTop: "10px", }}>
         <ListItem sx={sidebarIconStyle} component={Link} to={Path.Profile}>
           <ListItemAvatar>
             <Avatar src={userimageUrl} />

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import { Formik, Field, Form } from "formik";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -33,12 +33,14 @@ const AddDescription = ({
   const [imageSizeError, setImageSizeError] = useState(false);
   const { userData, userimageUrl } = useContext(UserContext);
   const [files, setFiles] = useState<File[]>([]);
-
+  const [imageSizeExceeded, setImageSizeExceeded] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const uploadedFiles = event.target.files;
     const newFiles: File[] = [];
+    let sizeExceeded = false;
 
     if (uploadedFiles) {
       for (let i = 0; i < uploadedFiles.length; i++) {
@@ -48,12 +50,13 @@ const AddDescription = ({
           const compressedImage = await compressImage(uploadedFile);
           newFiles.push(compressedImage);
         } else {
-          setImageSizeError(true);
+          sizeExceeded = true;
         }
       }
 
       setFiles(newFiles);
       setImageSizeError(false);
+      setImageSizeExceeded(sizeExceeded);
     }
   };
 
@@ -92,7 +95,7 @@ const AddDescription = ({
               resolve(compressedFile);
             },
             file.type,
-            0.7 // Compression quality (adjust as needed)
+            0.7
           );
         };
       };
@@ -101,6 +104,11 @@ const AddDescription = ({
 
   const handleSubmit = async (values: FormValues) => {
     const { description } = values;
+
+    if (files.length === 0) {
+      setImageSizeError(true);
+      return;
+    }
 
     try {
       const formData = new FormData();
@@ -113,6 +121,11 @@ const AddDescription = ({
       const response = await addPost(formData);
       handleNewPost(response);
       console.log("Post added successfully!");
+
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+      setImageSizeError(false);
     } catch (error) {
       console.error("Failed to add post:", error);
     }
@@ -125,6 +138,7 @@ const AddDescription = ({
         justifyContent: "center",
         alignItems: "center",
         marginTop: "2rem",
+        margin: "1rem",
       }}
     >
       <Card sx={{ width: 800, minHeight: 300 }}>
@@ -185,6 +199,7 @@ const AddDescription = ({
                     <div style={{ color: "red" }}>{errors.description}</div>
                   )}
                 </Box>
+
                 <Box
                   sx={{
                     marginTop: "1.3rem",
@@ -199,9 +214,26 @@ const AddDescription = ({
                       type="file"
                       id="file-input"
                       onChange={handleFileChange}
+                      ref={fileInputRef}
                       style={{ display: "none" }}
-                      multiple // Allow multiple file selection
+                      multiple
+                      accept="image/*"
+                      onInput={(event) => {
+                        const target = event.target as HTMLInputElement;
+                        const uploadedFiles = target.files;
+                        if (uploadedFiles) {
+                          let sizeExceeded = false;
+                          for (let i = 0; i < uploadedFiles.length; i++) {
+                            if (uploadedFiles[i].size > 2 * 1024 * 1024) {
+                              sizeExceeded = true;
+                              break;
+                            }
+                          }
+                          setImageSizeError(sizeExceeded);
+                        }
+                      }}
                     />
+
                     <Button variant="outlined" component="span">
                       Upload Image(s)
                     </Button>
@@ -214,10 +246,17 @@ const AddDescription = ({
                 </Box>
 
                 {imageSizeError && (
-                  <div style={{ color: "red" }}>
-                    Image size limit exceeded (max: 2MB)
+                  <div style={{ color: "red", marginTop: "0.5rem" }}>
+                    Image is required. Please select at least one image.
                   </div>
                 )}
+
+                {imageSizeExceeded && (
+                  <div style={{ color: "red", marginTop: "0.5rem" }}>
+                    Image size limit exceeded (max: 2MB).
+                  </div>
+                )}
+
                 <Button
                   type="submit"
                   variant="contained"

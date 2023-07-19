@@ -3,20 +3,16 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
+import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import ClearIcon from "@mui/icons-material/Clear";
 import { getUserMutual } from "../../services/API/UserDataApi";
 import { getUserCancelReq } from "../../services/API/UserREquestApi";
 import { getAvatarImage } from "../../services/API/AccountApi";
-import CardMedia from "@mui/material/CardMedia";
 import defaultimg from "../../assets/images.jpg";
-import DoneIcon from "@mui/icons-material/Done";
-import { RequestStatus } from "../Utils/Path";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 interface Friend {
   toUserName: string;
   toAvatar: string;
@@ -77,9 +73,8 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
   const handleDelete = async () => {
     try {
       const response = await getUserCancelReq(friend.requestId);
-      setIsRequestCanceled(true); // Set the request canceled state to display the success message
+      setIsRequestCanceled(true);
 
-      // Delay the execution of setIsVisible(false) by 3 seconds
       setTimeout(() => {
         setIsVisible(false);
       }, 800);
@@ -94,114 +89,149 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
 
   return (
     <React.Fragment>
-      <ToastContainer />
       <Card
         sx={{
-          background: "#f9f9f9",
           borderRadius: "10px",
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
           maxWidth: 345,
           margin: "1rem",
-          padding: "1rem",
         }}
       >
         <CardMedia
           component="img"
           height="220"
-          sx={{ borderRadius: "10px" }}
-          image={
-            avatar
-              ? avatar
-              : friend && friend.toAvatar
-              ? friend.toAvatar
-              : defaultimg
-          }
+          sx={{ borderRadius: "10px 10px 0 0" }}
+          image={avatar || friend?.toAvatar || defaultimg}
         />
-        <Divider />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h5" component="div" sx={
+            {
+              fontWeight: 550,
+            }
+          }>
             {friend.toUserName}
           </Typography>
 
           {friends.length > 0 ? (
-            <Box sx={{ display: "flex", marginTop: "0.3rem" }}>
-              {friends.slice(0, 3).map((friend, index) => (
-                <Avatar
-                  key={index}
-                  src={friend.avatarUrl}
-                  sx={{
-                    border: "2px solid white",
-                    zIndex: 100 - index,
-                    marginLeft: `${index * -12}px`,
-                    position: "relative",
-                  }}
-                />
-              ))}
-
-              {friends.length > 0 && (
-                <Typography
-                  sx={{
-                    fontSize: ["12px", "15px"],
-                    color: "gray",
-                    marginTop: "0.5rem",
-                  }}
-                >
-                  {`${friends[0].firstName} ${friends[0].lastName}`}
-                  {friends.length > 1
-                    ? ` and ${friends.length - 1} other mutual friend${
-                        friends.length !== 2 ? "s" : ""
-                      }`
-                    : " is a mutual friend"}
-                </Typography>
-              )}
-            </Box>
+            <>
+              <Divider sx={{ marginTop: "0.3rem", marginBottom: "0.5rem" }} />
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                {friends.slice(0, 3).map((friend, index) => (
+                  <Avatar
+                    key={index}
+                    src={friend.avatarUrl}
+                    sx={{
+                      border: "2px solid white",
+                      zIndex: 100 - index,
+                      marginLeft: `${index * -12}px`,
+                      width: 32,
+                      height: 32,
+                    }}
+                  />
+                ))}
+                {friends.length > 0 && (
+                  <Typography
+                    sx={{
+                      fontSize: ["12px", "15px"],
+                      color: "gray",
+                      ml: 1,
+                      fontWeight: 700,
+                    }}
+                  >
+                    {`${friends[0].firstName} ${friends[0].lastName}`}
+                    {friends.length > 1
+                      ? ` and ${friends.length - 1} other mutual friend${
+                          friends.length !== 2 ? "s" : ""
+                        }`
+                      : " is a mutual friend"}
+                  </Typography>
+                )}
+              </Box>
+            </>
           ) : (
             <Typography
               sx={{
                 fontSize: ["12px", "15px"],
                 color: "gray",
                 marginTop: "0.5rem",
+                fontWeight: 700,
               }}
             >
               No mutual friends
             </Typography>
           )}
 
-          <Box sx={{ marginTop: "0.8rem" }}>
+          <Box sx={{ marginTop: "1rem" }}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
                 <Button
                   variant="contained"
                   sx={{
-                    borderRadius: "8px",
-                    backgroundColor: "#f3212fbd;",
+                    borderRadius: "50px",
+                    backgroundColor: isRequestCanceled
+                      ? "#1fb72a"
+                      : "#f3212fbd",
                     color: "white",
                     "&:hover": {
-                      backgroundColor: "#fcc5c9ba",
+                      backgroundColor: isRequestCanceled
+                        ? "#6edf80"
+                        : "#fcc5c9ba",
                       color: "black",
                     },
                     width: "100%",
+
+                    boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.1)",
                     display: "flex",
-                    justifyContent: "space-between",
                     alignItems: "center",
-                    padding: "0.7rem",
-                    boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.2)",
+                    justifyContent: "center",
+                    transition: "background-color 0.2s ease, color 0.2s ease",
+                    cursor: "pointer",
+                    fontWeight: 600,
+                    fontSize: "16px",
+                    position: "relative",
+                    overflow: "hidden",
                   }}
                   onClick={() => handleDelete()}
                 >
-                  <Typography
-                    sx={{
-                      flexGrow: 1,
-                      fontWeight: 500,
-                      textTransform: "capitalize",
-                      marginRight: "1rem",
-                    }}
-                  >
-                    {isRequestCanceled
-                      ? "Request canceled successfully"
-                      : "Cancel Request"}
-                  </Typography>
-                  {isRequestCanceled ? <DoneIcon /> : <ClearIcon />}
+                  {isRequestCanceled ? (
+                    <span>
+                      Request Canceled
+                      <span
+                        style={{
+                          position: "absolute",
+                          width: "100%",
+                          height: "100%",
+                          background:
+                            "linear-gradient(to right, #1fb72a, #6edf80)",
+                          top: 0,
+                          left: 0,
+                          zIndex: -1,
+                          opacity: 0.5,
+                          transform: "translateX(-100%)",
+                          transition: "transform 0.3s ease",
+                        }}
+                      ></span>
+                    </span>
+                  ) : (
+                    <span>
+                      Cancel Request
+                      <span
+                        style={{
+                          position: "absolute",
+                          width: "100%",
+                          height: "100%",
+                          background:
+                            "linear-gradient(to right, #f3212fbd, #fcc5c9ba)",
+                          top: 0,
+                          left: 0,
+                          zIndex: -1,
+                          opacity: 0.5,
+                          transform: "translateX(-100%)",
+                          transition: "transform 0.3s ease",
+                        }}
+                      ></span>
+                    </span>
+                  )}
                 </Button>
               </Grid>
             </Grid>

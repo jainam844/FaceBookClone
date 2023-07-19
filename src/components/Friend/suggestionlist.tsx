@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
 import Avatar from "@mui/material/Avatar";
 import { getAvatarImage } from "../../services/API/AccountApi";
 import { getUserRequestSend } from "../../services/API/UserREquestApi";
@@ -102,12 +103,10 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, reference }) => {
       <Card
         ref={reference}
         sx={{
-          background: "#f9f9f9",
           borderRadius: "10px",
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
           maxWidth: 345,
           margin: "1rem",
-          padding: "1rem",
         }}
       >
         <CardMedia
@@ -122,49 +121,55 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, reference }) => {
             gutterBottom
             variant="h6"
             component="div"
-            sx={{ color: "black", fontWeight: "bold" }}
+            sx={{ color: "black",   fontWeight: 700,}}
           >
             {friend.firstName} {friend.lastName}
           </Typography>
 
           {friends.length > 0 ? (
-            <Box sx={{ display: "flex", marginTop: "0.3rem" }}>
-              {friends.slice(0, 3).map((friend, index) => (
-                <Avatar
-                  key={index}
-                  src={friend.avatarUrl}
-                  sx={{
-                    border: "2px solid white",
-                    zIndex: 100 - index,
-                    marginLeft: `${index * -12}px`,
-                    position: "relative",
-                  }}
-                />
-              ))}
+            <>
+              <Divider sx={{ marginTop: "0.3rem", marginBottom: "0.5rem" }} />
+              <Box sx={{ display: "flex", marginTop: "0.3rem" }}>
+                {friends.slice(0, 3).map((friend, index) => (
+                  <Avatar
+                    key={index}
+                    src={friend.avatarUrl}
+                    sx={{
+                      border: "2px solid white",
+                      zIndex: 100 - index,
+                      marginLeft: `${index * -12}px`,
+                      position: "relative",
+                    }}
+                  />
+                ))}
 
-              {friends.length > 0 && (
-                <Typography
-                  sx={{
-                    fontSize: ["12px", "15px"],
-                    color: "gray",
-                    marginTop: "0.5rem",
-                  }}
-                >
-                  {`${friends[0].firstName} ${friends[0].lastName}`}
-                  {friends.length > 1
-                    ? ` and ${friends.length - 1} other mutual friend${
-                        friends.length !== 2 ? "s" : ""
-                      }`
-                    : " is a mutual friend"}
-                </Typography>
-              )}
-            </Box>
+                {friends.length > 0 && (
+                  <Typography
+                    sx={{
+                      fontSize: ["12px", "15px"],
+                      color: "gray",
+                      marginTop: "0.5rem",
+                      fontWeight: 700,
+
+                    }}
+                  >
+                    {`${friends[0].firstName} ${friends[0].lastName}`}
+                    {friends.length > 1
+                      ? ` and ${friends.length - 1} other mutual friend${
+                          friends.length !== 2 ? "s" : ""
+                        }`
+                      : " is a mutual friend"}
+                  </Typography>
+                )}
+              </Box>
+            </>
           ) : (
             <Typography
               sx={{
                 fontSize: ["12px", "15px"],
                 color: "gray",
                 marginTop: "0.5rem",
+                fontWeight: 700,
               }}
             >
               No mutual friends
@@ -178,6 +183,7 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, reference }) => {
             justifyContent: "center",
             marginTop: "0.8rem",
             marginBottom: "1rem",
+            marginX:'1rem'
           }}
         >
           <Grid container spacing={1}>
@@ -185,6 +191,7 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, reference }) => {
               <Button
                 variant="contained"
                 sx={{
+                  fontWeight: 600,
                   borderRadius: "5px",
                   width: "100%",
                   background: "linear-gradient(to right, #6C63FF, #5850EC)",
@@ -205,6 +212,7 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, reference }) => {
                 sx={{
                   borderRadius: "5px",
                   borderColor: "#DDDDDD",
+                  fontWeight: 600,
                   color: "#202020",
                   width: "100%",
                   "&:hover": {
@@ -214,7 +222,7 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, reference }) => {
                 }}
                 onClick={() => handleDelete()}
               >
-                Remove
+                Remove Friend
                 <PersonRemoveIcon sx={{ marginLeft: "2rem" }} />
               </Button>
             </Grid>
