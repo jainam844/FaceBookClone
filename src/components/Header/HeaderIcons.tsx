@@ -6,13 +6,12 @@ import HomeIcon from "@mui/icons-material/Home";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import PeopleIcon from "@mui/icons-material/People";
 import { Path } from "../Utils/Path";
-import { getUserNotification } from "../../services/API/NotificationApi";
 import UserContext from "../Context/UserContext";
 import FlagIcon from "@mui/icons-material/Flag";
 import SubscriptionsIcon from "@mui/icons-material/Subscriptions";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import GroupsRoundedIcon from "@mui/icons-material/GroupsRounded";
-
+import { getUserNotification } from "../../services/API/NotificationApi";
 const HeaderIcons: React.FC = (): JSX.Element => {
   const location = useLocation();
   const [notificationsCount, setNotificationsCount] = useState(0);

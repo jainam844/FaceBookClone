@@ -18,8 +18,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { ForUserLogin } from "../services/API/AccountApi";
 import "react-toastify/dist/ReactToastify.css";
 import { Path } from "../components/Utils/Path";
-import { ToastErrorMessages } from "../components/Utils/Path";
-import { ToastSuccessMessages } from "../components/Utils/Path";
+import {
+  ToastErrorMessages,
+  ToastSuccessMessages,
+} from "../components/Utils/Path";
 import BhartBook from "./BhartBook";
 
 const LoginPage: React.FC = () => {

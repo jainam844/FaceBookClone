@@ -16,8 +16,11 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import "react-toastify/dist/ReactToastify.css";
 import { Path } from "../components/Utils/Path";
-import { ToastErrorMessages } from "../components/Utils/Path";
-import { ToastSuccessMessages } from "../components/Utils/Path";
+import {
+  ToastErrorMessages,
+  ToastSuccessMessages,
+} from "../components/Utils/Path";
+
 import { getResetPassword } from "../services/API/AccountApi";
 import BhartBook from "./BhartBook";
 

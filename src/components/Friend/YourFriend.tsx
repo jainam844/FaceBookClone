@@ -8,7 +8,6 @@ import SentReq from "./sentreq";
 import ReceiveReq from "./ReceiveReq";
 import { FilterStatus } from "../Utils/Path";
 import { RequestType } from "../Utils/Path";
-
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;

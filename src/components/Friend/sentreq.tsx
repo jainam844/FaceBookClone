@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import List from "@mui/material/List";
-
-import { getUserMutual } from "../../services/API/UserDataApi";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { getAvatarImage } from "../../services/API/AccountApi"; 
+import { getUserMutual } from "../../services/API/UserDataApi";
 interface Friend {
   toUserName: string;
   toAvatar: string;

@@ -1,7 +1,6 @@
-import { useEffect, useState, useContext, useRef, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getUserSuggestion } from "../../services/API/UserDataApi";
-
 import Suggestionlist from "./suggestionlist";
 import Grid from "@mui/material/Grid";
 const Suggestion = () => {

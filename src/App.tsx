@@ -5,6 +5,8 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Flag from "./components/Flag/flag";
 import Section from "./components/Section/Section";
 import Subscription from "./components/Subscription/Subscription";
@@ -18,8 +20,6 @@ import HomeLayout from "./Pages/Layout";
 import Notification from "./components/Notification/Notification";
 import RegisterPage from "./Pages/Register";
 import { Path } from "./components/Utils/Path";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { FriendBox } from "./components/Friend/FriendBox";
 import YourFriend from "./components/Friend/YourFriend";
 import Suggestion from "./components/Friend/Suggestion";

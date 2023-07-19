@@ -13,8 +13,7 @@ import * as Yup from "yup";
 import { Path } from "../components/Utils/Path";
 import { ToastSuccessMessages } from "../components/Utils/Path";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-import { getAccountForgot } from "../services/API/AccountApi";
-import { getVerifyToken } from "../services/API/AccountApi";
+import { getAccountForgot ,getVerifyToken} from "../services/API/AccountApi";
 import BhartBook from "./BhartBook";
 
 const ForgotPage: React.FC = () => {

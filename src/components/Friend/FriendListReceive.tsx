@@ -14,8 +14,6 @@ import { getAvatarImage } from "../../services/API/AccountApi";
 import { getUserRequestRespond } from "../../services/API/UserREquestApi";
 import CardMedia from "@mui/material/CardMedia";
 import defaultimg from "../../assets/images.jpg";
-import DoneIcon from "@mui/icons-material/Done";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { RequestStatus } from "../Utils/Path";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

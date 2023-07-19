@@ -1,28 +1,21 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { getPostByUserId } from "../../services/API/SocialActivityApi";
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import Story from "./Story/DisplayStory";
 import Post from "./DisplayPost/DisplayPost";
-
 import AddDescription from "./AddPost/AddPost";
-import CircularProgress from "@mui/material/CircularProgress";
-
 import { Ipost, PostClass } from "../../Models/Post";
-
 const Section = (): JSX.Element => {
   const [postData, setPostData] = useState<Ipost[]>([]);
-
   const [newPost, setNewPost] = useState<Ipost>(new PostClass());
-
   const onChangePost = (post: Ipost) => {
     setNewPost(post);
   };
   const [loading, setLoading] = useState<boolean>(true);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
-
   const observer = useRef<IntersectionObserver | null>(null);
-
   const lastPostRef = useCallback(
     (node: HTMLDivElement) => {
       if (loading) return;
@@ -81,9 +74,7 @@ const Section = (): JSX.Element => {
   return (
     <Box sx={{ flex: "1", width: "100%" }}>
       <Story />
-
       <AddDescription handleNewPost={onChangePost} />
-
       {postData.map((post, index) => {
         if (postData.length === index + 1) {
           return (
@@ -104,7 +95,6 @@ const Section = (): JSX.Element => {
           );
         }
       })}
-
       {loading && (
         <CircularProgress sx={{ display: "block", margin: "auto" }} />
       )}

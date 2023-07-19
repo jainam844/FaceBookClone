@@ -13,7 +13,7 @@ import CardContent from "@mui/material/CardContent";
 import TextField from "@mui/material/TextField";
 import SendIcon from "@mui/icons-material/Send";
 import { IComment } from "../../../Models/Comment";
-import CommentCollapse from "./CommentCollapse";
+import CommentCollapse from "./PostCardComment";
 
 interface PostCardActionsProps {
   isLiked: boolean;

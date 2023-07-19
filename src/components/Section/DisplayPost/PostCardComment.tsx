@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IComment } from "../../../Models/Comment";
 import { getAvatarImage } from "../../../services/API/AccountApi";
-
 import UserContext from "../../Context/UserContext";
 import { getCommentDelete } from "../../../services/API/SocialActivityApi";
 interface CommentCollapseProps {

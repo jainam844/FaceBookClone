@@ -3,12 +3,11 @@ import Grid from "@mui/material/Grid";
 import { Box } from "@mui/material";
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import UserContext from "../Context/UserContext";
 import NotificationItem from "./NotificationDat";
-import { getClearAllNotification } from "../../services/API/NotificationApi";
-import { getUserNotification } from "../../services/API/NotificationApi";
-import CircularProgress from "@mui/material/CircularProgress";
+import { getClearAllNotification ,getUserNotification} from "../../services/API/NotificationApi";
 
 interface Notification {
   notificationId: number;

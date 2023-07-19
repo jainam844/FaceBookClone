@@ -12,13 +12,17 @@ import Paper from "@mui/material/Paper";
 import Slider from "@mui/material/Slider";
 import CloseIcon from "@mui/icons-material/Close";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import { IStory } from "../../../Models/Story";
-import { getStoryDelete, getStoryViews } from "../../../services/API/StoryApi";
-import { getStorySeen } from "../../../services/API/StoryApi";
-import { getStoryImage } from "../../../services/API/AccountApi";
-import { getAvatarImage } from "../../../services/API/AccountApi";
-import { UserDataContext } from "../../../Models/UserContext";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { IStory } from "../../../Models/Story";
+import {
+  getStoryDelete,
+  getStoryViews,
+  getStorySeen,
+} from "../../../services/API/StoryApi";
+import {
+  getStoryImage,
+  getAvatarImage,
+} from "../../../services/API/AccountApi";
 import UserContext from "../../Context/UserContext";
 interface StoryProps {
   story: IStory;
