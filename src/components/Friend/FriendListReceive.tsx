@@ -99,23 +99,21 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
         <CardMedia
           component="img"
           height="194"
-          image={
-            avatar
-              ? avatar
-              : friend && friend.fromAvatar
-              ? friend.fromAvatar
-              : defaultimg
-          }
+          image={avatar || (friend && friend.fromAvatar) || defaultimg}
         />
-
         <Divider />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {friend.fromUserName}
           </Typography>
-
           {friends.length > 0 ? (
-            <Box sx={{ display: "flex", marginTop: "0.3rem" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                marginTop: "0.3rem",
+              }}
+            >
               {friends.slice(0, 3).map((friend, index) => (
                 <Avatar
                   key={index}
@@ -128,21 +126,20 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
                   }}
                 />
               ))}
-
               {friends.length > 0 && (
                 <Typography
                   sx={{
                     fontSize: ["12px", "15px"],
                     color: "gray",
-                    marginTop: "0.5rem",
+                    marginLeft: "0.5rem",
                   }}
                 >
-                  {`${friends[0].firstName} ${friends[0].lastName}`}
+                  {`${friends[0].firstName} ${friends[0].lastName}`}{" "}
                   {friends.length > 1
-                    ? ` and ${friends.length - 1} other mutual friend${
+                    ? `and ${friends.length - 1} other mutual friend${
                         friends.length !== 2 ? "s" : ""
                       }`
-                    : " is a mutual friend"}
+                    : "is a mutual friend"}
                 </Typography>
               )}
             </Box>
@@ -163,7 +160,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
                 <Button
                   variant="contained"
                   sx={{ borderRadius: "5px", width: "100%" }}
-                  onClick={() => handleConfirm()}
+                  onClick={handleConfirm}
                 >
                   Confirm
                   <DoneIcon sx={{ marginLeft: "1rem", color: "white" }} />
@@ -183,7 +180,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
                     },
                     width: "100%",
                   }}
-                  onClick={() => handleDelete()}
+                  onClick={handleDelete}
                 >
                   Delete
                   <DeleteIcon sx={{ marginLeft: "1rem" }} />

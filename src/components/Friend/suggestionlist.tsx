@@ -86,6 +86,9 @@ const Suggestionlist: React.FC<FriendListProps> = ({ friend, reference }) => {
   const handleDelete = async () => {
     try {
       console.log("Deleted friend with id:");
+      setTimeout(() => {
+        setIsVisible(false);
+      }, 800);
     } catch (error) {
       console.error("API error:", error);
     }
