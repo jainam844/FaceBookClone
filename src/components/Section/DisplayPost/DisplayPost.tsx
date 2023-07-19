@@ -277,7 +277,7 @@ const Post: React.FC<PostProps> = ({ post, reference, onClearPost }) => {
         <Card
           ref={reference}
           sx={{
-            width: "54%",
+            width: "65%",
             margin: "3rem auto",
             "@media (max-width: 900px)": {
               width: "95%",
