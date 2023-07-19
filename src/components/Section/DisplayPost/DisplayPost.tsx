@@ -283,7 +283,7 @@ const Post: React.FC<PostProps> = ({ post, reference, onClearPost }) => {
               width: "95%",
             },
             "@media (min-width: 901px) and (max-width: 1100px)": {
-              width: "80%",
+              width: "95%",
             },
           }}
         >

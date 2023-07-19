@@ -12,7 +12,7 @@ import { getUserMutual } from "../../services/API/UserDataApi";
 import { getUserCancelReq } from "../../services/API/UserREquestApi";
 import { getAvatarImage } from "../../services/API/AccountApi";
 import defaultimg from "../../assets/images.jpg";
-import ClearIcon from "@mui/icons-material/Clear";
+
 interface Friend {
   toUserName: string;
   toAvatar: string;
@@ -170,10 +170,9 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
                 <Button
                   variant="contained"
                   sx={{
-                  
                     backgroundColor: isRequestCanceled
                       ? "#1fb72a"
-                      : "#f3212fbd",
+                      : "#f52525b9",
                     color: "white",
                     "&:hover": {
                       backgroundColor: isRequestCanceled
@@ -193,8 +192,6 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
                     fontSize: "16px",
                     position: "relative",
                     overflow: "hidden",
-                
-                
                   }}
                   onClick={() => handleDelete()}
                 >
@@ -235,7 +232,6 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
                           transition: "transform 0.3s ease",
                         }}
                       ></span>
-        
                     </span>
                   )}
                 </Button>
