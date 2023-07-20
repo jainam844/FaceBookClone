@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+
 import { Drawer } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -16,7 +17,6 @@ import { styled, alpha } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import AddIcon from "@material-ui/icons/Add";
 import SearchIcon from "@material-ui/icons/Search";
 import fbImgLogo from "../../assets/BharatBook.png";
 import SidebarIcons from "../Sidebar/sidebaricon";
@@ -38,6 +38,9 @@ export default function PrimarySearchAppBar() {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const { userData, userimageUrl } = useContext(UserContext);
   const [notificationsCount, setNotificationsCount] = useState(0);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [relatedSuggestions, setRelatedSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   useEffect(() => {
     const getAllNotification = async () => {
@@ -54,6 +57,81 @@ export default function PrimarySearchAppBar() {
       getAllNotification();
     }
   }, [userData.userId]);
+
+  useEffect(() => {
+    const predefinedSuggestions = [
+      "notifications",
+      "home",
+      "userfriend",
+      "friend",
+      "suggestion",
+      "yourfriend",
+    ];
+
+    const trimmedQuery = searchQuery.trim().toLowerCase();
+
+    if (trimmedQuery) {
+      const filteredSuggestions = predefinedSuggestions.filter((suggestion) =>
+        suggestion.includes(trimmedQuery)
+      );
+      setRelatedSuggestions(filteredSuggestions);
+    } else {
+      setRelatedSuggestions([]);
+    }
+  }, [searchQuery]);
+  const styles = {
+    suggestionList: {
+      listStyle: "none",
+      padding: "0",
+      margin: "0",
+      borderRadius: "8px",
+      boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+      background: "#ffffff",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "stretch",
+    },
+    suggestionItem: {
+      padding: "12px 16px",
+      borderBottom: "1px solid #f0f0f0",
+      color: "#333333",
+      fontSize: "18px",
+      cursor: "pointer",
+      transition: "background-color 0.2s ease",
+    },
+    suggestionItemHover: {
+      backgroundColor: "#f9f9f9",
+    },
+  } as const; 
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSearch(searchQuery);
+    }
+  };
+  const handleSearch = (selectedSuggestion: string) => {
+    const trimmedQuery = selectedSuggestion.trim().toLowerCase();
+    setSearchQuery(trimmedQuery);
+    setShowSuggestions(false);
+
+    if (trimmedQuery === "notifications") {
+      window.location.href = "/layout/home/Notification";
+    } else if (trimmedQuery === "home") {
+      window.location.href = "/";
+    } else if (trimmedQuery === "userfriend") {
+      window.location.href = "/layout/home/userfriend";
+    } else if (trimmedQuery === "friend") {
+      window.location.href = "/layout/home/friend";
+    } else if (trimmedQuery === "suggestion") {
+      window.location.href = "/layout/home/friend/suggestion";
+    } else if (trimmedQuery === "yourfriend") {
+      window.location.href = "/layout/home/friend/yourfriend";
+    } else {
+      console.log("Invalid search query!");
+    }
+
+    setSearchQuery("");
+  };
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
@@ -72,7 +150,6 @@ export default function PrimarySearchAppBar() {
       width: "auto",
     },
   }));
-
   const SearchIconWrapper = styled("div")(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: "100%",
@@ -217,12 +294,15 @@ export default function PrimarySearchAppBar() {
                 <img src={fbImgLogo} height={40} alt="fb logo" />
               </Box>
             </Typography>
+
             <Search
               sx={{
                 marginRight: "100px",
                 borderRadius: "20px",
                 border: "1px solid #000000",
               }}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setShowSuggestions(false)}
             >
               <SearchIconWrapper>
                 <SearchIcon />
@@ -230,8 +310,39 @@ export default function PrimarySearchAppBar() {
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleKeyDown} // Add keydown event listener
               />
             </Search>
+
+            {showSuggestions && relatedSuggestions.length > 0 && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "100%",
+                  left: 90,
+                  right: 0,
+                  marginTop: "0rem",
+                  padding: "0.5rem",
+
+                  width: "200px",
+                }}
+              >
+                <ul style={styles.suggestionList}>
+                  {relatedSuggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleSearch(suggestion)}
+                      style={styles.suggestionItem}
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
+              </Box>
+            )}
+
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: ["none", "none", "flex"] }}>
               <HeaderIcons />
