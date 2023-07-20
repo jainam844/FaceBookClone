@@ -4,7 +4,7 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { getAvatarImage } from "../../services/API/AccountApi"; 
+import { getAvatarImage } from "../../services/API/AccountApi";
 import { getUserMutual } from "../../services/API/UserDataApi";
 interface Friend {
   toUserName: string;
@@ -19,8 +19,9 @@ interface Friend {
 type FriendListProps = {
   friend: Friend;
   sx?: React.CSSProperties;
+  reference?: (node: HTMLDivElement) => void;
 };
-const SentReq: React.FC<FriendListProps> = ({ friend, sx }) => {
+const SentReq: React.FC<FriendListProps> = ({ friend ,reference}) => {
   const [friends, setFriends] = useState<Friend[]>([]);
 
   const [avatar, setAvatar] = useState<string | null>(null);
@@ -45,7 +46,7 @@ const SentReq: React.FC<FriendListProps> = ({ friend, sx }) => {
 
           const updatedData = await Promise.all(
             data.map(async (friend: Friend) => {
-              console.log(friend);
+          
               let avatarUrl = null;
               if (friend.avatar) {
                 avatarUrl = await getAvatarImage(friend.avatar);
@@ -72,6 +73,7 @@ const SentReq: React.FC<FriendListProps> = ({ friend, sx }) => {
           container
           spacing={2}
           columns={16}
+          ref={reference}
           sx={{ margin: "20px 0", padding: ["10px", 0] }}
         >
           <Grid

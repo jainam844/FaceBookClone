@@ -4,7 +4,7 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { getAvatarImage } from "../../services/API/AccountApi"; 
+import { getAvatarImage } from "../../services/API/AccountApi";
 import { getUserMutual } from "../../services/API/UserDataApi";
 interface Friend {
   fromUserName: string;
@@ -19,8 +19,12 @@ interface Friend {
 type FriendListProps = {
   receivcefriends: Friend;
   sx?: React.CSSProperties;
+  reference?: (node: HTMLDivElement) => void;
 };
-const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
+const ReceiveReq: React.FC<FriendListProps> = ({
+  receivcefriends,
+  reference,
+}) => {
   const [avatar, setAvatar] = useState<string | null>(null);
   const [receivcefriend, setreceiveFriend] = useState<
     { friend: Friend; length: number }[]
@@ -29,8 +33,8 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
   useEffect(() => {
     const getAvatar = async () => {
       const avatarUrl = await getAvatarImage(receivcefriends.fromAvatar);
-      if(avatarUrl){
-      setAvatar(avatarUrl);
+      if (avatarUrl) {
+        setAvatar(avatarUrl);
       }
     };
     getAvatar();
@@ -38,23 +42,25 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getUserMutual(1, 100, receivcefriends.fromUserId);
-      
+        const response = await getUserMutual(
+          1,
+          100,
+          receivcefriends.fromUserId
+        );
+
         if (Array.isArray(response.records)) {
           const data = response.records;
-      
+
           const updatedData = await Promise.all(
             data.map(async (receivcefriends: Friend) => {
-           
               let avatarUrl = null;
               if (receivcefriends.avatar) {
                 avatarUrl = await getAvatarImage(receivcefriends.avatar);
-             
               }
               return { ...receivcefriends, avatarUrl };
             })
           );
-        
+
           setreceiveFriend(
             updatedData.map((friend) => ({
               friend,
@@ -76,6 +82,7 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
     <React.Fragment>
       <List>
         <Grid
+          ref={reference}
           container
           spacing={2}
           columns={16}
@@ -163,6 +170,9 @@ const ReceiveReq: React.FC<FriendListProps> = ({ receivcefriends, sx }) => {
           </Grid>
         </Grid>
       </List>
+          {/* {loading && (
+        <CircularProgress sx={{ display: "block", margin: "auto" }} />
+      )} */}
     </React.Fragment>
   );
 };

@@ -13,7 +13,7 @@ import { getUserCancelReq } from "../../services/API/UserREquestApi";
 import { getAvatarImage } from "../../services/API/AccountApi";
 import defaultimg from "../../assets/images.jpg";
 
-interface Friend {
+interface FriendSent {
   toUserName: string;
   toAvatar: string;
   requestId: number;
@@ -24,12 +24,13 @@ interface Friend {
   toUserId: number;
 }
 type FriendListProps = {
-  friend: Friend;
+  friend: FriendSent;
   sx?: React.CSSProperties;
+  reference?: (node: HTMLDivElement) => void;
 };
-const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
+const FriendListSent: React.FC<FriendListProps> = ({ friend ,reference}) => {
   const [avatar, setAvatar] = useState<string | null>(null);
-  const [friends, setFriends] = useState<Friend[]>([]);
+  const [friends, setFriends] = useState<FriendSent[]>([]);
   const [isVisible, setIsVisible] = useState(true);
   const [isRequestCanceled, setIsRequestCanceled] = useState(false);
   useEffect(() => {
@@ -51,7 +52,7 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
           const data = response.records;
 
           const updatedData = await Promise.all(
-            data.map(async (friend: Friend) => {
+            data.map(async (friend: FriendSent) => {
               let avatarUrl = null;
               if (friend.avatar) {
                 avatarUrl = await getAvatarImage(friend.avatar);
@@ -96,6 +97,7 @@ const FriendListSent: React.FC<FriendListProps> = ({ friend }) => {
           maxWidth: 345,
           margin: "1rem",
         }}
+        ref={reference}
       >
         <CardMedia
           component="img"

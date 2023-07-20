@@ -17,7 +17,7 @@ import defaultimg from "../../assets/images.jpg";
 import { RequestStatus } from "../Utils/Path";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-interface Friend {
+interface FriendReceive {
   fromUserName: string;
   fromAvatar: string;
   requestId: number;
@@ -30,12 +30,13 @@ interface Friend {
 }
 
 type FriendListProps = {
-  friend: Friend;
+  friend: FriendReceive;
   sx?: React.CSSProperties;
+  reference?: (node: HTMLDivElement) => void;
 };
-const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
+const FriendList: React.FC<FriendListProps> = ({ friend, reference }) => {
   const [avatar, setAvatar] = useState<string | null>(null);
-  const [friends, setFriends] = useState<Friend[]>([]);
+  const [friends, setFriends] = useState<FriendReceive[]>([]);
 
   useEffect(() => {
     const getAvatar = async () => {
@@ -55,7 +56,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
           const data = response.records;
 
           const updatedData = await Promise.all(
-            data.map(async (friend: Friend) => {
+            data.map(async (friend: FriendReceive) => {
               let avatarUrl = null;
               if (friend.avatar) {
                 avatarUrl = await getAvatarImage(friend.avatar);
@@ -102,6 +103,7 @@ const FriendList: React.FC<FriendListProps> = ({ friend, sx }) => {
           maxWidth: 345,
           margin: "1rem",
         }}
+        ref={reference}
       >
         <CardMedia
           component="img"

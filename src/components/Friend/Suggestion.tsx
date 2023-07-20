@@ -3,13 +3,24 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { getUserSuggestion } from "../../services/API/UserDataApi";
 import Suggestionlist from "./suggestionlist";
 import Grid from "@mui/material/Grid";
+
+interface Friend {
+  firstName: string;
+  lastName: string;
+  avatar: string;
+  requestId: number;
+  userId: number;
+  avatarUrl: string;
+  toUserId: number;
+  fromUserId: number;
+}
 const Suggestion = () => {
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState<Friend[]>([]);
 
   const [loading, setLoading] = useState<boolean>(true);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
-
+  const pageSize = 10;
   const observer = useRef<IntersectionObserver | null>(null);
 
   const lastSuggestionListRef = useCallback(
@@ -30,9 +41,9 @@ const Suggestion = () => {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const response = await getUserSuggestion(pageNumber, 100);
+        const response = await getUserSuggestion(pageNumber, pageSize);
 
-        setFriends(response.records);
+        setFriends((prevRecords) => [...prevRecords, ...response.records]);
         setHasMore(response.records.length > 0);
         setLoading(false);
       } catch (error) {
@@ -40,7 +51,7 @@ const Suggestion = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [pageNumber]);
 
   return (
     <>
@@ -56,7 +67,9 @@ const Suggestion = () => {
         ))}
       </Grid>
       {loading && (
-        <CircularProgress sx={{ display: "block", margin: "auto" }} />
+        <CircularProgress
+          sx={{ display: "block", margin: "auto", height: "800px" }}
+        />
       )}
     </>
   );

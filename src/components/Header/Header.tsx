@@ -61,7 +61,6 @@ export default function PrimarySearchAppBar() {
   useEffect(() => {
     const predefinedSuggestions = [
       "notifications",
-      "home",
       "userfriend",
       "friend",
       "suggestion",
@@ -79,6 +78,7 @@ export default function PrimarySearchAppBar() {
       setRelatedSuggestions([]);
     }
   }, [searchQuery]);
+
   const styles = {
     suggestionList: {
       listStyle: "none",
@@ -102,7 +102,7 @@ export default function PrimarySearchAppBar() {
     suggestionItemHover: {
       backgroundColor: "#f9f9f9",
     },
-  } as const; 
+  } as const;
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
@@ -116,8 +116,6 @@ export default function PrimarySearchAppBar() {
 
     if (trimmedQuery === "notifications") {
       window.location.href = "/layout/home/Notification";
-    } else if (trimmedQuery === "home") {
-      window.location.href = "/";
     } else if (trimmedQuery === "userfriend") {
       window.location.href = "/layout/home/userfriend";
     } else if (trimmedQuery === "friend") {
