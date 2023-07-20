@@ -15,6 +15,7 @@ const Section = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(true);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
+  const pageSize = 10;
   const observer = useRef<IntersectionObserver | null>(null);
   const lastPostRef = useCallback(
     (node: HTMLDivElement) => {
@@ -34,7 +35,7 @@ const Section = (): JSX.Element => {
     setLoading(true);
     const fetchPosts = async () => {
       try {
-        const response = await getPostByUserId(pageNumber, 100, false);
+        const response = await getPostByUserId(pageNumber, pageSize, false);
 
         if (Array.isArray(response.records)) {
           const data: Ipost[] = response.records;

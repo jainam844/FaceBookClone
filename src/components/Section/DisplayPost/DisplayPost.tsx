@@ -47,7 +47,7 @@ const Post: React.FC<PostProps> = ({ post, reference, onClearPost }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isRemoved, setIsRemoved] = useState(false);
-
+  const pageSize = 10;
   const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -146,7 +146,7 @@ const Post: React.FC<PostProps> = ({ post, reference, onClearPost }) => {
       try {
         const commentsData = await getCommentByPostId(
           pageNumber,
-          1,
+          pageSize,
           post.postId
         );
         const data = commentsData.record.responseModel;
@@ -235,7 +235,7 @@ const Post: React.FC<PostProps> = ({ post, reference, onClearPost }) => {
     setNewComment(event.target.value);
   };
   const isDeleteIconVisible = post.userId === userData.userId;
-  
+
   return (
     <React.Fragment>
       {!isRemoved && (

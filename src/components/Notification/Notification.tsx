@@ -7,7 +7,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import UserContext from "../Context/UserContext";
 import NotificationItem from "./NotificationDat";
-import { getClearAllNotification ,getUserNotification} from "../../services/API/NotificationApi";
+import {
+  getClearAllNotification,
+  getUserNotification,
+} from "../../services/API/NotificationApi";
 
 interface Notification {
   notificationId: number;
@@ -25,7 +28,7 @@ const Notification = () => {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(false);
   const { userData } = useContext(UserContext);
-
+  const pageSize = 10;
   const observer = useRef<IntersectionObserver | null>(null);
 
   const lastNotificationRef = useCallback(
@@ -47,7 +50,10 @@ const Notification = () => {
 
     const getAllNotification = async () => {
       try {
-        const notificationData = await getUserNotification(pageNumber, 100);
+        const notificationData = await getUserNotification(
+          pageNumber,
+          pageSize
+        );
 
         const sortedNotifications = [...notificationData.records];
         sortedNotifications.sort((a, b) => a.isRead - b.isRead);
@@ -68,6 +74,7 @@ const Notification = () => {
       getAllNotification();
     }
   }, [pageNumber, userData.userId]);
+  console.log(pageNumber)
 
   const handleClearNotification = (notificationId: number) => {
     setNotifications((prevNotifications) => {
@@ -87,9 +94,7 @@ const Notification = () => {
 
       return prevNotifications;
     });
-  };  
-  
-
+  };
 
   const handleDeleteNotification = (notificationId: number) => {
     setNotifications((prevNotifications) =>
@@ -115,7 +120,7 @@ const Notification = () => {
           background: ["white", "transparent"],
           borderRadius: [0, 3],
           padding: "20px 0",
-          margin:'1rem'
+          margin: "1rem",
         }}
       >
         <Grid
@@ -190,7 +195,6 @@ const Notification = () => {
                 >
                   <NotificationItem
                     onClearNotification={handleClearNotification}
-
                     onDeleteNotification={handleDeleteNotification}
                     notification={notification}
                     setNotifications={setNotifications}
