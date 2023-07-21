@@ -60,6 +60,37 @@ export const getUserSuggestion = async (
   }
 };
 
+export const getUserCityList = async (pageNumber: number, pageSize: number) => {
+  try {
+    const requestData = {
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+    };
+    const response = await axiosInstance.post(`/User/CityList`, requestData);
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getUserCountryList = async (
+  pageNumber: number,
+  pageSize: number
+) => {
+  try {
+    const requestData = {
+      pageNumber: pageNumber,
+      pageSize: pageSize,
+    };
+    const response = await axiosInstance.post(`/User/CountryList`, requestData);
+
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const UserRegistration = async (formData: FormData) => {
   try {
     const response = await axiosInstance.post("/User/Upsert", formData, {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BrowserRouter as Router, Outlet } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import Box from "@mui/material/Box";
@@ -6,8 +6,11 @@ import Header from "../components/Header/Header";
 import Widget from "../components/Widget/Widget";
 import HeaderIcons from "../components/Header/HeaderIcons";
 import Sidebar from "../components/Sidebar/side";
+import UserContext from "../components/Context/UserContext";
 
 const HomeApp = () => {
+  const { userData, userimageUrl } = useContext(UserContext);
+  console.log(userData);
   const widgetVisible = true;
   return (
     <React.Fragment>
