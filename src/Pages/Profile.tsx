@@ -12,6 +12,7 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
 import UserContext from "../components/Context/UserContext";
+
 import {
   Dialog,
   DialogContent,
@@ -72,24 +73,33 @@ const Profile = () => {
   const [open, setOpen] = React.useState(false);
   const [totalFriend, settotalFriend] = useState<totalFriend[]>([]);
 
-  const [setUserData] = useState({
-    userId: 0,
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    address: "",
-    avatar: "",
-    profileText: "",
-    cityId: "",
-    countryId: userData.countryId || "",
-    birthDate: "",
-    userProfile: "",
-  });
+  const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
 
+  const handleFileChange = (files: FileList | null) => {
+    console.log(files);
+    if (files && files.length > 0) {
+      setSelectedAvatar(files[0]);
+    }
+  };
   const handleSubmit = async (values: any) => {
     try {
-      const response = await UserRegistration(values);
+      const formData = new FormData();
+      if (selectedAvatar) {
+        formData.append("userProfile", selectedAvatar);
+      }
+
+      formData.append("userId", values.userId);
+      formData.append("firstName", values.firstName);
+      formData.append("lastName", values.lastName);
+      formData.append("email", values.email);
+      formData.append("phoneNumber", values.phoneNumber);
+      formData.append("address", values.address);
+      formData.append("profileText", values.profileText);
+      formData.append("cityId", values.cityId);
+      formData.append("countryId", values.countryId);
+      formData.append("birthDate", values.birthDate);
+
+      const response = await UserRegistration(formData);
 
       console.log("API Response:", response);
 
@@ -98,12 +108,18 @@ const Profile = () => {
       console.error("API Error:", error);
     }
   };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleCameraIconClick = () => {
+    const fileInput = document.getElementById("fileInput");
+    fileInput?.click();
   };
 
   const [countries, setCountries] = useState<Country[]>([]);
@@ -138,7 +154,7 @@ const Profile = () => {
     const fetchData = async () => {
       try {
         const response = await getUserRequest(1, 100, 1, 0);
-        console.log(response);
+
         settotalFriend(response.totalCount);
       } catch (error) {
         console.error("Error fetching friends:", error);
@@ -351,18 +367,62 @@ const Profile = () => {
                               alignItems="center"
                             >
                               <Grid xs={12} sm={12} md={3} lg={3}>
-                                <Avatar
-                                  src={userimageUrl}
-                                  sx={{
-                                    height: [100, 100, 200, 200],
-                                    width: [100, 100, 200, 200],
-                                    border: "2px solid white",
-                                    margin: [
-                                      "-2rem auto 0 auto",
-                                      "-2rem auto 0 auto",
-                                    ],
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    padding: "20px",
+                                    // backgroundColor: "#f0f2f5",
                                   }}
-                                />
+                                >
+                                  <div
+                                    style={{
+                                      position: "relative",
+                                      marginBottom: "20px",
+                                    }}
+                                  >
+                                    <Avatar
+                                      src={
+                                        selectedAvatar
+                                          ? URL.createObjectURL(selectedAvatar)
+                                          : userimageUrl
+                                      }
+                                      sx={{
+                                        height: [100, 100, 200, 200],
+                                        width: [100, 100, 200, 200],
+                                        border: "2px solid white",
+                                        margin: [
+                                          "-2rem auto 0 auto",
+                                          "-2rem auto 0 auto",
+                                        ],
+                                      }}
+                                    />
+                                    <CameraAltIcon
+                                      style={{
+                                        position: "absolute",
+                                        bottom: "0.2rem",
+                                        right: "0.2rem",
+                                        fontSize: "1.5rem",
+                                        color: "white",
+                                        backgroundColor: "#4267B2",
+                                        borderRadius: "50%",
+                                        padding: "4px",
+                                      }}
+                                      onClick={handleCameraIconClick}
+                                    />
+                                  </div>
+
+                                  <input
+                                    type="file"
+                                    accept="image/*"
+                                    id="fileInput"
+                                    style={{ display: "none" }}
+                                    onChange={(e) =>
+                                      handleFileChange(e.target.files)
+                                    }
+                                  />
+                                </div>
                               </Grid>
                             </Grid>
                             <Grid container spacing={2}>
@@ -408,6 +468,7 @@ const Profile = () => {
                                   as={TextField}
                                   name="profileText"
                                   fullWidth
+                                  defaultValue=""
                                 />
                               </Grid>
                               <Grid item xs={12} md={6}>
