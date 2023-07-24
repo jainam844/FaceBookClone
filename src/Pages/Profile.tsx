@@ -33,6 +33,7 @@ import {
   getUserCityList,
   getUserCountryList,
 } from "../services/API/UserDataApi";
+import { getUserRequest } from "../services/API/UserREquestApi";
 
 interface Country {
   code: number;
@@ -46,7 +47,16 @@ interface City {
   iso: string;
   name: string;
 }
-
+interface totalFriend {
+  toUserName: string;
+  toAvatar: string;
+  requestId: number;
+  avatarUrl: string;
+  firstName: string;
+  lastName: string;
+  avatar: string;
+  toUserId: number;
+}
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -60,6 +70,7 @@ const Profile = () => {
   const { userData, userimageUrl } = useContext(UserContext);
 
   const [open, setOpen] = React.useState(false);
+  const [totalFriend, settotalFriend] = useState<totalFriend[]>([]);
 
   const [setUserData] = useState({
     userId: 0,
@@ -123,7 +134,19 @@ const Profile = () => {
 
     fetchCities();
   }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getUserRequest(1, 100, 1, 0);
+        console.log(response);
+        settotalFriend(response.totalCount);
+      } catch (error) {
+        console.error("Error fetching friends:", error);
+      }
+    };
 
+    fetchData();
+  });
   return (
     <React.Fragment>
       <Grid container sx={{ maxHeight: "100vh" }}>
@@ -201,8 +224,9 @@ const Profile = () => {
               <Typography
                 sx={{ fontSize: "0.8rem", fontWeight: 550, color: "gray" }}
               >
-                4.2k Friends
+                {` ${totalFriend} Friends`}
               </Typography>
+
               <Box sx={{ display: "flex", marginRight: 0.5 }}>
                 <Avatar
                   sx={{

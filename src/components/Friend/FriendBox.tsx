@@ -61,7 +61,7 @@ function a11yProps(index: number) {
 
 export const FriendBox = () => {
   const [friends, setFriends] = useState<FriendReceive[]>([]);
-  console.log(friends);
+
   const [sentFriends, setSentFriends] = useState<FriendSent[]>([]);
   const [value, setValue] = React.useState(0);
   const sentCount = sentFriends.length;
