@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Formik, Form, Field } from "formik";
+
+import { Formik, Form, Field, ErrorMessage } from "formik";
+
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
@@ -12,7 +14,9 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
 import UserContext from "../components/Context/UserContext";
-
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import * as Yup from "yup";
 import {
   Dialog,
   DialogContent,
@@ -58,6 +62,39 @@ interface totalFriend {
   avatar: string;
   toUserId: number;
 }
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -72,11 +109,40 @@ const Profile = () => {
 
   const [open, setOpen] = React.useState(false);
   const [totalFriend, settotalFriend] = useState<totalFriend[]>([]);
-
   const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
+  const [value, setValue] = React.useState(0);
+  const [selectedCountryId, setSelectedCountryId] = useState<number | null>(
+    userData.countryId // Set the initial value to the country ID from userData
+  );
+  const [filteredCities, setFilteredCities] = useState<City[]>();
+
+  useEffect(() => {
+    setSelectedCountryId(userData.countryId);
+  }, [userData]);
+
+  const handleCountryChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    const countryId = event.target.value as number;
+    setSelectedCountryId(countryId);
+
+    const citiesForCountry = cities.filter(
+      (city) => city.countryId === countryId
+    );
+    setFilteredCities(citiesForCountry);
+  };
+
+  const validationSchema = Yup.object({
+    firstName: Yup.string().required("Required"),
+    lastName: Yup.string().required("Required"),
+  });
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
 
   const handleFileChange = (files: FileList | null) => {
-    console.log(files);
     if (files && files.length > 0) {
       setSelectedAvatar(files[0]);
     }
@@ -85,24 +151,22 @@ const Profile = () => {
     try {
       const formData = new FormData();
       if (selectedAvatar) {
-        formData.append("userProfile", selectedAvatar);
+        formData.append("UserProfile", selectedAvatar);
       }
 
-      formData.append("userId", values.userId);
-      formData.append("firstName", values.firstName);
-      formData.append("lastName", values.lastName);
-      formData.append("email", values.email);
-      formData.append("phoneNumber", values.phoneNumber);
-      formData.append("address", values.address);
-      formData.append("profileText", values.profileText);
-      formData.append("cityId", values.cityId);
-      formData.append("countryId", values.countryId);
-      formData.append("birthDate", values.birthDate);
-
+      formData.append("UserId", values.userId);
+      formData.append("FirstName", values.firstName);
+      formData.append("LastName", values.lastName);
+      formData.append("Email", values.email);
+      formData.append("PhoneNumber", values.phoneNumber);
+      formData.append("Address", values.address);
+      formData.append("ProfileText", values.profileText);
+      formData.append("CityId", values.cityId);
+      formData.append("CountryId", selectedCountryId);
+      formData.append("BirthDate", values.birthDate);
+      console.log(values.birthDate);
       const response = await UserRegistration(formData);
-
-      console.log("API Response:", response);
-
+      console.log("api res", response);
       handleClose();
     } catch (error) {
       console.error("API Error:", error);
@@ -121,9 +185,6 @@ const Profile = () => {
     const fileInput = document.getElementById("fileInput");
     fileInput?.click();
   };
-
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [cities, setCities] = useState<City[]>([]);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -358,159 +419,203 @@ const Profile = () => {
                       </Toolbar>
                     </AppBar>
                     <DialogContent>
-                      <Formik initialValues={userData} onSubmit={handleSubmit}>
+                      <Formik
+                        initialValues={userData}
+                        onSubmit={handleSubmit}
+                        validationSchema={validationSchema}
+                      >
                         <Form>
-                          <List>
+                          <Box
+                            border="1px solid #ccc"
+                            borderRadius="5px"
+                            p={2}
+                            style={{ backgroundColor: "#fbfcff" }}
+                          >
+                            <List>
+                              <Grid
+                                container
+                                justifyContent="center"
+                                alignItems="center"
+                              >
+                                <Grid xs={12} sm={12} md={3} lg={3}>
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      alignItems: "center",
+                                      padding: "20px",
+                                      // backgroundColor: "#f0f2f5",
+                                    }}
+                                  >
+                                    <div
+                                      style={{
+                                        position: "relative",
+                                        marginBottom: "20px",
+                                      }}
+                                    >
+                                      <Avatar
+                                        src={
+                                          selectedAvatar
+                                            ? URL.createObjectURL(
+                                                selectedAvatar
+                                              )
+                                            : userimageUrl
+                                        }
+                                        sx={{
+                                          height: [100, 100, 200, 200],
+                                          width: [100, 100, 200, 200],
+                                          border: "2px solid white",
+                                          margin: [
+                                            "-2rem auto 0 auto",
+                                            "-2rem auto 0 auto",
+                                          ],
+                                        }}
+                                      />
+                                      <CameraAltIcon
+                                        style={{
+                                          position: "absolute",
+                                          bottom: "0.2rem",
+                                          right: "0.2rem",
+                                          fontSize: "1.5rem",
+                                          color: "white",
+                                          backgroundColor: "#4267B2",
+                                          borderRadius: "50%",
+                                          padding: "4px",
+                                        }}
+                                        onClick={handleCameraIconClick}
+                                      />
+                                    </div>
+
+                                    <input
+                                      type="file"
+                                      accept="image/*"
+                                      id="fileInput"
+                                      style={{ display: "none" }}
+                                      onChange={(e) =>
+                                        handleFileChange(e.target.files)
+                                      }
+                                    />
+                                  </div>
+                                </Grid>
+                              </Grid>
+                              <Grid container spacing={2}>
+                                <Grid item xs={12} md={6}>
+                                  <ListItemText primary="First Name" />
+                                  <Field
+                                    as={TextField}
+                                    name="firstName"
+                                    fullWidth
+                                  />
+                                  <div style={{ color: "red" }}>
+                                    <ErrorMessage
+                                      name="firstName"
+                                      component="div"
+                                    />
+                                  </div>
+                                </Grid>
+
+                                <Grid item xs={12} md={6}>
+                                  <ListItemText primary="Last Name" />
+                                  <Field
+                                    as={TextField}
+                                    name="lastName"
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                  <ListItemText primary="Email" />
+                                  <Field
+                                    as={TextField}
+                                    name="email"
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                  <ListItemText primary="Phone Number" />
+                                  <Field
+                                    as={TextField}
+                                    name="phoneNumber"
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                  <ListItemText primary="Address" />
+                                  <Field
+                                    as={TextField}
+                                    name="address"
+                                    fullWidth
+                                  />
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                  <ListItemText primary="Profile Text" />
+                                  <Field
+                                    as={TextField}
+                                    name="profileText"
+                                    fullWidth
+                                    defaultValue=""
+                                  />
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                  <ListItemText primary="Country" />
+                                  <Field
+                                    as={Select}
+                                    name="countryId"
+                                    fullWidth
+                                    value={selectedCountryId}
+                                    onChange={handleCountryChange}
+                                  >
+                                    {countries.map((country) => (
+                                      <MenuItem
+                                        key={country.countryId}
+                                        value={country.countryId}
+                                      >
+                                        {country.name}
+                                      </MenuItem>
+                                    ))}
+                                  </Field>
+                                </Grid>
+                                <Grid item xs={12} md={6}>
+                                  <ListItemText primary="City" />
+                                  <Field as={Select} name="cityId" fullWidth>
+                                    {filteredCities.map((city) => (
+                                      <MenuItem
+                                        key={city.cityId}
+                                        value={city.cityId}
+                                      >
+                                        {city.name}
+                                      </MenuItem>
+                                    ))}
+                                  </Field>
+                                </Grid>
+
+                                <Grid item xs={12} md={12}>
+                                  <TextField
+                                    fullWidth
+                                    // label="Birth Date"
+                                    variant="outlined"
+                                    name="birthDate"
+                                    type="date"
+                                  />
+                                </Grid>
+                              </Grid>
+                            </List>
+
                             <Grid
                               container
                               justifyContent="center"
-                              alignItems="center"
+                              sx={{ marginTop: "1rem" }}
                             >
-                              <Grid xs={12} sm={12} md={3} lg={3}>
-                                <div
-                                  style={{
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    alignItems: "center",
-                                    padding: "20px",
-                                    // backgroundColor: "#f0f2f5",
-                                  }}
+                              <Grid item>
+                                <Button
+                                  type="submit"
+                                  variant="contained"
+                                  color="primary"
                                 >
-                                  <div
-                                    style={{
-                                      position: "relative",
-                                      marginBottom: "20px",
-                                    }}
-                                  >
-                                    <Avatar
-                                      src={
-                                        selectedAvatar
-                                          ? URL.createObjectURL(selectedAvatar)
-                                          : userimageUrl
-                                      }
-                                      sx={{
-                                        height: [100, 100, 200, 200],
-                                        width: [100, 100, 200, 200],
-                                        border: "2px solid white",
-                                        margin: [
-                                          "-2rem auto 0 auto",
-                                          "-2rem auto 0 auto",
-                                        ],
-                                      }}
-                                    />
-                                    <CameraAltIcon
-                                      style={{
-                                        position: "absolute",
-                                        bottom: "0.2rem",
-                                        right: "0.2rem",
-                                        fontSize: "1.5rem",
-                                        color: "white",
-                                        backgroundColor: "#4267B2",
-                                        borderRadius: "50%",
-                                        padding: "4px",
-                                      }}
-                                      onClick={handleCameraIconClick}
-                                    />
-                                  </div>
-
-                                  <input
-                                    type="file"
-                                    accept="image/*"
-                                    id="fileInput"
-                                    style={{ display: "none" }}
-                                    onChange={(e) =>
-                                      handleFileChange(e.target.files)
-                                    }
-                                  />
-                                </div>
+                                  Save Changes
+                                </Button>
                               </Grid>
                             </Grid>
-                            <Grid container spacing={2}>
-                              <Grid item xs={12} md={6}>
-                                <ListItemText primary="First Name" />
-                                <Field
-                                  as={TextField}
-                                  name="firstName"
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item xs={12} md={6}>
-                                <ListItemText primary="Last Name" />
-                                <Field
-                                  as={TextField}
-                                  name="lastName"
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item xs={12} md={6}>
-                                <ListItemText primary="Email" />
-                                <Field as={TextField} name="email" fullWidth />
-                              </Grid>
-                              <Grid item xs={12} md={6}>
-                                <ListItemText primary="Phone Number" />
-                                <Field
-                                  as={TextField}
-                                  name="phoneNumber"
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item xs={12} md={6}>
-                                <ListItemText primary="Address" />
-                                <Field
-                                  as={TextField}
-                                  name="address"
-                                  fullWidth
-                                />
-                              </Grid>
-                              <Grid item xs={12} md={6}>
-                                <ListItemText primary="Profile Text" />
-                                <Field
-                                  as={TextField}
-                                  name="profileText"
-                                  fullWidth
-                                  defaultValue=""
-                                />
-                              </Grid>
-                              <Grid item xs={12} md={6}>
-                                <ListItemText primary="Country" />
-                                <Field as={Select} name="countryId" fullWidth>
-                                  {countries.map((country) => (
-                                    <MenuItem
-                                      key={country.countryId}
-                                      value={country.countryId}
-                                    >
-                                      {country.name}
-                                    </MenuItem>
-                                  ))}
-                                </Field>
-                              </Grid>
-                              <Grid item xs={12} md={6}>
-                                <ListItemText primary="City" />
-                                <Field as={Select} name="cityId" fullWidth>
-                                  {cities.map((city) => (
-                                    <MenuItem
-                                      key={city.cityId}
-                                      value={city.cityId}
-                                    >
-                                      {city.name}
-                                    </MenuItem>
-                                  ))}
-                                </Field>
-                              </Grid>
-
-                              <Grid item xs={12} md={12}>
-                                <ListItemText primary="Birth Date" />
-                                <Field
-                                  as={TextField}
-                                  name="birthDate"
-                                  fullWidth
-                                />
-                              </Grid>
-                            </Grid>
-                          </List>
-                          <Button type="submit" color="primary">
-                            Save
-                          </Button>
+                          </Box>
                         </Form>
                       </Formik>
                     </DialogContent>
@@ -518,6 +623,29 @@ const Profile = () => {
                 </Grid>
               </Grid>
             </Grid>
+
+            <Box sx={{ width: "100%" }}>
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="basic tabs example"
+                >
+                  <Tab label="Post" {...a11yProps(0)} />
+                  <Tab label="About" {...a11yProps(1)} />
+                  <Tab label="Friends" {...a11yProps(2)} />
+                </Tabs>
+              </Box>
+              <CustomTabPanel value={value} index={0}>
+                Post
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={1}>
+                About
+              </CustomTabPanel>
+              <CustomTabPanel value={value} index={2}>
+                Friend
+              </CustomTabPanel>
+            </Box>
           </Grid>
         </Grid>
       </Grid>
