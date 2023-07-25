@@ -67,7 +67,7 @@ const YourFriend = () => {
 
   const SentrequestCount = friends.length;
   const ReceiverequestCount = receivcefriends.length;
-  
+
   const [loading, setLoading] = useState<boolean>(true);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const pageSize = 10;

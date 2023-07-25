@@ -15,7 +15,7 @@ import UserFriend from "./components/Group/Groups";
 import Friend from "./components/Friend/Friends";
 import LoginPage from "./Pages/Login";
 import HomeApp from "./Pages/Home";
-import Profile from "./Pages/Profile";
+import Profile from "./Pages/Profile/Profile";
 import HomeLayout from "./Pages/Layout";
 import Notification from "./components/Notification/Notification";
 import RegisterPage from "./Pages/Register";

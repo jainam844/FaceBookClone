@@ -22,7 +22,7 @@ const HomeLayout = () => {
     };
 
     fetchUserData();
-  }, [userData]);
+  }, [userData.userId]);
 
   useEffect(() => {
     if (userData) {
@@ -39,7 +39,7 @@ const HomeLayout = () => {
 
       fetchProfileImage();
     }
-  }, [userData]);
+  }, [userData.avatar]);
 
   return (
     <React.Fragment>

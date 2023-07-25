@@ -31,10 +31,17 @@ export enum FilterStatus {
   REJECTED = 2,
   PENDING = 3,
 }
+
 export enum RequestType {
   Sent = 1,
   Received = 2,
 }
+
+export enum RequestType1 {
+  Sent = "Request Sent",
+  Received = "Request Received",
+}
+
 export enum RequestStatus {
   ACCEPTED = "You Accept The Request",
   REJECTED = "You Reject The Request",

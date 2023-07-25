@@ -2,7 +2,7 @@ export interface IUserData {
   // Include the 'avatar' property in the interface
   address?: string | null;
   avatar: string;
-  birthDate?: string | null;
+  birthDate?: number | null;
   cityId?: string | null;
   countryId?: string | null;
   email: string;
@@ -19,7 +19,7 @@ export class UserData implements IUserData {
   // Include the 'avatar' property in the class
   address?: string | null;
   avatar: string;
-  birthDate?: string | null;
+  birthDate?: number | null;
   cityId?: string | null;
   countryId?: string | null;
   email: string;
@@ -40,7 +40,7 @@ export class UserData implements IUserData {
     this.userId = init?.userId ?? 0;
     this.phoneNumber = init?.phoneNumber ?? 0;
     this.address = init?.address ?? null;
-    this.birthDate = init?.birthDate ?? null;
+    this.birthDate = init?.birthDate ?? 0;
     this.cityId = init?.cityId ?? null;
     this.countryId = init?.countryId ?? null;
     this.profileText = init?.profileText ?? null;

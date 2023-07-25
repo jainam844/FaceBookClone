@@ -1,4 +1,10 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+} from "react";
 
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
@@ -13,7 +19,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
-import UserContext from "../components/Context/UserContext";
+import UserContext from "../../components/Context/UserContext";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import * as Yup from "yup";
@@ -37,9 +43,18 @@ import {
   UserRegistration,
   getUserCityList,
   getUserCountryList,
-} from "../services/API/UserDataApi";
-import { getUserRequest } from "../services/API/UserREquestApi";
-
+} from "../../services/API/UserDataApi";
+import { getUserRequest } from "../../services/API/UserREquestApi";
+import ProfileHeader from "./ProfileHeader";
+import { getAvatarImage } from "../../services/API/AccountApi";
+import ProfileHeaderSection from "./ProfileImageSection";
+import { getPostByUserId } from "../../services/API/SocialActivityApi";
+import { Ipost, PostClass } from "../../Models/Post";
+import CircularProgress from "@mui/material/CircularProgress";
+import PostDisplay from "./PostDisplay";
+import SentReq from "../../components/Friend/sentreq";
+import TotalFriend from "./TotalFriend";
+import { RequestType, RequestType1 } from "../../components/Utils/Path";
 interface Country {
   code: number;
   countryId: number;
@@ -53,14 +68,23 @@ interface City {
   name: string;
 }
 interface totalFriend {
-  toUserName: string;
-  toAvatar: string;
+  fromUserName: string;
+  fromAvatar: string;
   requestId: number;
+  fromUserId: number;
+  isFriend: boolean;
+  isRejected: boolean;
+  requestType: string;
+  RequestType1: string;
+  status: string;
   avatarUrl: string;
+  toUserName: string;
+  createdAt: string;
+  toUserId: number;
+  toAvatar: string;
   firstName: string;
   lastName: string;
   avatar: string;
-  toUserId: number;
 }
 
 interface TabPanelProps {
@@ -105,7 +129,8 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const Profile = () => {
-  const { userData, userimageUrl } = useContext(UserContext);
+  const { userData, userimageUrl, updateUserData } = useContext(UserContext);
+  const [avatarRecords, setAvatarRecords] = useState<any[]>([]);
 
   const [open, setOpen] = React.useState(false);
   const [totalFriend, settotalFriend] = useState<totalFriend[]>([]);
@@ -113,9 +138,8 @@ const Profile = () => {
   const [countries, setCountries] = useState<Country[]>([]);
   const [cities, setCities] = useState<City[]>([]);
   const [value, setValue] = React.useState(0);
-  const [selectedCountryId, setSelectedCountryId] = useState<number | null>(
-    userData.countryId
-  );
+
+  const [selectedCountryId, setSelectedCountryId] = useState<number | null>();
   const [filteredCities, setFilteredCities] = useState<City[]>([]);
 
   useEffect(() => {
@@ -174,6 +198,7 @@ const Profile = () => {
       formData.append("BirthDate", values.birthDate);
       console.log(values.birthDate);
       const response = await UserRegistration(formData);
+      // updateUserData(response.userData);
       console.log("api res", response);
       handleClose();
     } catch (error) {
@@ -219,129 +244,120 @@ const Profile = () => {
 
     fetchCities();
   }, []);
+  const [friends, setFriends] = useState<totalFriend[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getUserRequest(1, 100, 1, 0);
 
+        const avatarPromises = response.records.map(async (friend) => {
+          const avatarUrl = await getAvatarImage(friend.fromAvatar);
+          return { ...friend, avatarUrl };
+        });
+
+        const friendDataWithAvatar = await Promise.all(avatarPromises);
+
         settotalFriend(response.totalCount);
+        setAvatarRecords(friendDataWithAvatar);
       } catch (error) {
         console.error("Error fetching friends:", error);
       }
     };
 
     fetchData();
-  });
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getUserRequest(1, 100, 1, 0);
+        console.log(response);
+        setFriends((prevRecords) => [...prevRecords, ...response.records]);
+      } catch (error) {
+        console.error("Error fetching friends:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const [loading, setLoading] = useState<boolean>(true);
+  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [hasMore, setHasMore] = useState<boolean>(false);
+  const pageSize = 10;
+  const [postData, setPostData] = useState<Ipost[]>([]);
+
+  const [newPost, setNewPost] = useState<Ipost>(new PostClass());
+  const onChangePost = (post: Ipost) => {
+    setNewPost(post);
+  };
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastPostRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchPosts = async () => {
+      try {
+        const response = await getPostByUserId(pageNumber, pageSize, true);
+
+        if (Array.isArray(response.records)) {
+          const data: Ipost[] = response.records;
+          const updatedData = await Promise.all(
+            data.map(async (post) => {
+              return { ...post };
+            })
+          );
+
+          setPostData((prevData) => [...prevData, ...updatedData]);
+
+          setHasMore(response.records.length > 0);
+          setLoading(false);
+        } else {
+          console.error("Invalid response format:", response);
+        }
+      } catch (err) {
+        console.error("Error fetching post data:", err);
+      }
+    };
+
+    fetchPosts();
+  }, [pageNumber]);
+
+  const removeDeletedPost = (postId: number) => {
+    setPostData((prevData) =>
+      prevData.filter((post) => post.postId !== postId)
+    );
+  };
+
+  useEffect(() => {
+    if (newPost.postId) {
+      setPostData((prevData) => [newPost, ...prevData]);
+    }
+  }, [newPost]);
+
   return (
     <React.Fragment>
       <Grid container sx={{ maxHeight: "100vh" }}>
         <Grid xs={12} sm={12} md={9} item sx={{ margin: "auto" }}>
-          <Box
-            sx={{
-              height: ["250px", "350px", "400px"],
-              backgroundColor: "white",
-              display: "flex",
-              borderRadius: "10px",
-              backgroundImage: `url('https://source.unsplash.com/gVBIohdCRUQ')`,
-              backgroundPosition: "center bottom",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-              objectFit: "contain",
-              flexDirection: "column",
-              justifyContent: "flex-end",
-              alignItems: "flex-end",
-            }}
-          >
-            <Button
-              sx={{
-                width: "200px",
-                backgroundColor: "#0006",
-                color: "white",
-                margin: "0 2rem 1rem 0",
-              }}
-            >
-              <FaceIcon />{" "}
-              <Typography sx={{ margin: "0 0.5rem", fontSize: "13px" }}>
-                Create With Avatar
-              </Typography>
-            </Button>{" "}
-            <Button
-              sx={{
-                width: "200px",
-                backgroundColor: "#0006",
-                color: "white",
-                margin: "0 2rem 1rem 0",
-              }}
-            >
-              <CameraAltIcon />{" "}
-              <Typography sx={{ margin: "0 0.5rem", fontSize: "13px" }}>
-                Add Cover Photo
-              </Typography>
-            </Button>
-          </Box>
+          <ProfileHeader />
           <Grid container alignItems="center">
-            <Grid xs={12} sm={12} md={3} lg={3}>
-              <Avatar
-                src={userimageUrl}
-                sx={{
-                  height: [100, 100, 200, 200],
-                  width: [100, 100, 200, 200],
-                  border: "2px solid white",
-                  margin: ["-2rem auto 0 auto", "-2rem auto 0 auto"],
-                }}
-              />
-            </Grid>
-            <Grid
-              xs={12}
-              sm={12}
-              md={7}
-              lg={6}
-              sx={{
-                margin: "1rem 0",
-                display: "flex",
-                alignItems: ["center", "center", "flex-start"],
-                flexDirection: ["column"],
-              }}
-            >
-              <Typography sx={{ fontSize: "1.5rem", fontWeight: "bold" }}>
-                {userData.firstName + " " + userData.lastName}
-              </Typography>
-              <Typography
-                sx={{ fontSize: "0.8rem", fontWeight: 550, color: "gray" }}
-              >
-                {` ${totalFriend} Friends`}
-              </Typography>
+            <ProfileHeaderSection
+              totalFriend={totalFriend}
+              avatarRecords={avatarRecords}
+            />
 
-              <Box sx={{ display: "flex", marginRight: 0.5 }}>
-                <Avatar
-                  sx={{
-                    width: 30,
-                    height: 30,
-                    marginLeft: "-5px",
-                    zIndex: 15,
-                    border: "1px solid white",
-                  }}
-                />{" "}
-                <Avatar
-                  sx={{
-                    width: 30,
-                    height: 30,
-                    marginLeft: "-5px",
-                    zIndex: 15,
-                    border: "1px solid white",
-                  }}
-                />{" "}
-                <Avatar
-                  sx={{
-                    width: 30,
-                    height: 30,
-                    marginLeft: "-5px",
-                    zIndex: 15,
-                    border: "1px solid white",
-                  }}
-                />
-              </Box>
-            </Grid>
             <Grid
               xs={12}
               sm={12}
@@ -414,7 +430,7 @@ const Profile = () => {
                           variant="h6"
                           component="div"
                         >
-                          Edit Profile
+                          Edit Your Profile
                         </Typography>
                         <IconButton
                           edge="start"
@@ -599,10 +615,10 @@ const Profile = () => {
                                 <Grid item xs={12} md={12}>
                                   <TextField
                                     fullWidth
-                                    // label="Birth Date"
                                     variant="outlined"
                                     name="birthDate"
                                     type="date"
+                                    defaultValue={userData.birthDate}
                                   />
                                 </Grid>
                               </Grid>
@@ -631,30 +647,67 @@ const Profile = () => {
                 </Grid>
               </Grid>
             </Grid>
-
-            <Box sx={{ width: "100%" }}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <Tabs
-                  value={value}
-                  onChange={handleChange}
-                  aria-label="basic tabs example"
-                >
-                  <Tab label="Post" {...a11yProps(0)} />
-                  <Tab label="About" {...a11yProps(1)} />
-                  <Tab label="Friends" {...a11yProps(2)} />
-                </Tabs>
-              </Box>
-              <CustomTabPanel value={value} index={0}>
-                Post
-              </CustomTabPanel>
-              <CustomTabPanel value={value} index={1}>
-                About
-              </CustomTabPanel>
-              <CustomTabPanel value={value} index={2}>
-                Friend
-              </CustomTabPanel>
-            </Box>
           </Grid>
+        </Grid>
+
+        <Grid xs={12} sm={12} md={9} item sx={{ margin: "auto" }}>
+          <Box sx={{ width: "100%" }}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+              >
+                <Tab label="Post" {...a11yProps(0)} />
+                <Tab label="About" {...a11yProps(1)} />
+                <Tab label="Friends" {...a11yProps(2)} />
+              </Tabs>
+            </Box>
+            <CustomTabPanel value={value} index={0}>
+              <Box sx={{ flex: "1", width: "100%" }}>
+                {postData.map((post, index) => {
+                  if (postData.length === index + 1) {
+                    return (
+                      <PostDisplay
+                        key={post.postId}
+                        post={post}
+                        reference={lastPostRef}
+                        onClearPost={removeDeletedPost}
+                      />
+                    );
+                  } else {
+                    return (
+                      <PostDisplay
+                        key={post.postId}
+                        post={post}
+                        onClearPost={removeDeletedPost}
+                      />
+                    );
+                  }
+                })}
+                {loading && (
+                  <CircularProgress sx={{ display: "block", margin: "auto" }} />
+                )}
+              </Box>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={1}>
+              About
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={2}>
+              {friends.map((friend, index) => (
+                <React.Fragment key={index}>
+                  <TotalFriend
+                    friend={friend}
+                    RequestType={friends.requestType}
+                    sx={{ width: "calc(33% - 1rem)" }}
+                  />
+                  {index !== friends.length - 1 && (
+                    <hr style={{ borderTop: "1px solid #b8b8b8" }} />
+                  )}
+                </React.Fragment>
+              ))}
+            </CustomTabPanel>
+          </Box>
         </Grid>
       </Grid>
     </React.Fragment>

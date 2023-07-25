@@ -6,35 +6,49 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { getAvatarImage } from "../../services/API/AccountApi";
 import { getUserMutual } from "../../services/API/UserDataApi";
-interface Friend {
-  toUserName: string;
-  toAvatar: string;
+import { RequestType, RequestType1 } from "../../components/Utils/Path";
+
+interface totalFriend {
+  fromUserName: string;
+  fromAvatar: string;
   requestId: number;
-  toUserId: number;
+  fromUserId: number;
+  isFriend: boolean;
+  isRejected: boolean;
+  requestType: string;
+  status: string;
   avatarUrl: string;
+  toUserName: string;
+  createdAt: string;
+  toUserId: number;
+  toAvatar: string;
   firstName: string;
   lastName: string;
   avatar: string;
 }
+
 type FriendListProps = {
-  friend: Friend;
+  friend: totalFriend;
   sx?: React.CSSProperties;
-  reference?: (node: HTMLDivElement) => void;
+  RequestType: RequestType;
 };
-const SentReq: React.FC<FriendListProps> = ({ friend, reference }) => {
-  const [friends, setFriends] = useState<Friend[]>([]);
+const TotalFriend: React.FC<FriendListProps> = ({ friend, RequestType }) => {
+  const [friends, setFriends] = useState<totalFriend[]>([]);
 
   const [avatar, setAvatar] = useState<string | null>(null);
 
   useEffect(() => {
     const getAvatar = async () => {
-      const avatarUrl = await getAvatarImage(friend.toAvatar);
-      if (avatarUrl) {
-        setAvatar(avatarUrl);
+      let avatarUrl = null;
+      if (friend.requestType === "Request Sent") {
+        avatarUrl = await getAvatarImage(friend.toAvatar);
+      } else {
+        avatarUrl = await getAvatarImage(friend.fromAvatar);
       }
+      setAvatar(avatarUrl);
     };
     getAvatar();
-  }, []);
+  }, [friend, RequestType]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,10 +59,14 @@ const SentReq: React.FC<FriendListProps> = ({ friend, reference }) => {
           const data = response.records;
 
           const updatedData = await Promise.all(
-            data.map(async (friend: Friend) => {
+            data.map(async (friend: totalFriend) => {
               let avatarUrl = null;
               if (friend.avatar) {
-                avatarUrl = await getAvatarImage(friend.avatar);
+                if (friend.requestType === "Request Sent") {
+                  avatarUrl = await getAvatarImage(friend.avatar);
+                } else {
+                  avatarUrl = await getAvatarImage(friend.avatar);
+                }
               }
               return { ...friend, avatarUrl };
             })
@@ -72,7 +90,6 @@ const SentReq: React.FC<FriendListProps> = ({ friend, reference }) => {
           container
           spacing={2}
           columns={16}
-          ref={reference}
           sx={{ margin: "20px 0", padding: ["10px", 0] }}
         >
           <Grid
@@ -109,7 +126,9 @@ const SentReq: React.FC<FriendListProps> = ({ friend, reference }) => {
               color="initial"
               sx={{ fontSize: [14, 18], fontWeight: 700, marginTop: 0.5 }}
             >
-              {friend.toUserName}
+              {friend.requestType === "Request Sent"
+                ? friend.toUserName
+                : friend.fromUserName}
               <Box sx={{ display: "flex", marginTop: "0.3rem" }}>
                 {friends.slice(0, 3).map((friend, index) => (
                   <Avatar
@@ -132,6 +151,7 @@ const SentReq: React.FC<FriendListProps> = ({ friend, reference }) => {
                       marginTop: "0.5rem",
                     }}
                   >
+                    
                     {`${friends[0].firstName} ${friends[0].lastName}`}
                     {friends.length > 1
                       ? ` and ${friends.length - 1} other mutual friend${
@@ -149,4 +169,4 @@ const SentReq: React.FC<FriendListProps> = ({ friend, reference }) => {
   );
 };
 
-export default SentReq;
+export default TotalFriend;

@@ -67,7 +67,7 @@ export const getUserCityList = async (pageNumber: number, pageSize: number) => {
       pageSize: pageSize,
     };
     const response = await axiosInstance.post(`/User/CityList`, requestData);
-    console.log(response.data);
+
     return response.data;
   } catch (err) {
     throw err;

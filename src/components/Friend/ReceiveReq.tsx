@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { getAvatarImage } from "../../services/API/AccountApi";
 import { getUserMutual } from "../../services/API/UserDataApi";
+
 interface Friend {
   fromUserName: string;
   fromAvatar: string;
@@ -170,7 +171,7 @@ const ReceiveReq: React.FC<FriendListProps> = ({
           </Grid>
         </Grid>
       </List>
-          {/* {loading && (
+      {/* {loading && (
         <CircularProgress sx={{ display: "block", margin: "auto" }} />
       )} */}
     </React.Fragment>
