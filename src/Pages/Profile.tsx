@@ -114,13 +114,21 @@ const Profile = () => {
   const [cities, setCities] = useState<City[]>([]);
   const [value, setValue] = React.useState(0);
   const [selectedCountryId, setSelectedCountryId] = useState<number | null>(
-    userData.countryId // Set the initial value to the country ID from userData
+    userData.countryId
   );
-  const [filteredCities, setFilteredCities] = useState<City[]>();
+  const [filteredCities, setFilteredCities] = useState<City[]>([]);
 
   useEffect(() => {
     setSelectedCountryId(userData.countryId);
   }, [userData]);
+  useEffect(() => {
+    if (selectedCountryId !== null) {
+      const citiesForCountry = cities.filter(
+        (city) => city.countryId === selectedCountryId
+      );
+      setFilteredCities(citiesForCountry);
+    }
+  }, [selectedCountryId, cities, userData]);
 
   const handleCountryChange = (
     event: React.ChangeEvent<{ value: unknown }>

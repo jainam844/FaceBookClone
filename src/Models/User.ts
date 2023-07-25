@@ -1,4 +1,5 @@
 export interface IUserData {
+  // Include the 'avatar' property in the interface
   address?: string | null;
   avatar: string;
   birthDate?: string | null;
@@ -13,7 +14,9 @@ export interface IUserData {
   userId: number;
   userProfile?: string | null;
 }
+
 export class UserData implements IUserData {
+  // Include the 'avatar' property in the class
   address?: string | null;
   avatar: string;
   birthDate?: string | null;

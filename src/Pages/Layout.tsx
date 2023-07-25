@@ -1,12 +1,11 @@
 import { Outlet } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { getUserData } from "../services/API/UserDataApi";
 import UserContext from "../components/Context/UserContext";
-import { IUserData, UserData } from "../Models/User";
+
 import { getAvatarImage } from "../services/API/AccountApi";
 const HomeLayout = () => {
-  const [userData, setUserData] = useState<IUserData>(new UserData());
-  const [userimageUrl, setImageUrl] = useState("");
+  const { userData, updateUserData, updateImageUrl } = useContext(UserContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -16,14 +15,14 @@ const HomeLayout = () => {
         const userId = userData.userId;
         const token = userData.token;
         const data = await getUserData(parseInt(userId), token);
-        setUserData(data);
+        updateUserData(data);
       } catch (error) {
         console.log("Error fetching user data:", error);
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [userData]);
 
   useEffect(() => {
     if (userData) {
@@ -31,7 +30,7 @@ const HomeLayout = () => {
         try {
           const imgUrl = await getAvatarImage(userData.avatar);
           if (imgUrl) {
-            setImageUrl(imgUrl);
+            updateImageUrl(imgUrl);
           }
         } catch (error) {
           console.error("Error fetching avatar image:", error);
@@ -44,9 +43,7 @@ const HomeLayout = () => {
 
   return (
     <React.Fragment>
-      <UserContext.Provider value={{ userData, userimageUrl }}>
-        <Outlet />
-      </UserContext.Provider>
+      <Outlet />
     </React.Fragment>
   );
 };
