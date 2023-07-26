@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { getUserData } from "../services/API/UserDataApi";
 import UserContext from "../components/Context/UserContext";
 
