@@ -1,45 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { TransitionProps } from "@mui/material/transitions";
+import React, { useContext, useState, useEffect } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import { Typography } from "@mui/material";
+import { Avatar } from "@mui/material";
 import Slide from "@mui/material/Slide";
+import Button from "@mui/material/Button";
+import { TransitionProps } from "@mui/material/transitions";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import EditIcon from "@mui/icons-material/Edit";
 import CloseIcon from "@mui/icons-material/Close";
+import UserContext from "../../components/Context/UserContext";
+import * as Yup from "yup";
 import {
+  Dialog,
+  DialogContent,
   AppBar,
   Toolbar,
   IconButton,
+  List,
+  ListItemText,
   TextField,
-  FormControl,
-  InputLabel,
   Select,
   MenuItem,
 } from "@mui/material";
-import { Dialog, DialogContent, Divider } from "@mui/material";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import Box from "@mui/material/Box";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import * as Yup from "yup";
 import {
   UserRegistration,
   getUserCityList,
   getUserCountryList,
 } from "../../services/API/UserDataApi";
-import { getUserRequest } from "../../services/API/UserREquestApi";
-import { getAvatarImage } from "../../services/API/AccountApi";
-// import { Country, City, totalFriend } from "./Profile"; // Assuming these interfaces are in the same file as before
-
-interface ProfileDialogProps {
-  open: boolean;
-  handleClose: () => void;
-  userData: any; // Modify the type accordingly based on your actual userData structure
-  userimageUrl: string;
-}
+import { UserData } from "../../Models/User";
 
 interface Country {
   code: number;
@@ -53,16 +42,6 @@ interface City {
   iso: string;
   name: string;
 }
-interface totalFriend {
-  fromUserName: string;
-  fromAvatar: string;
-  requestId: number;
-  fromUserId: number;
-  avatarUrl: string;
-  firstName: string;
-  lastName: string;
-  avatar: string;
-}
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -72,129 +51,111 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
-const ProfileDialog: React.FC<ProfileDialogProps> = ({
+const ProfileDialog = ({
   open,
   handleClose,
   userData,
-  userimageUrl,
+}: {
+  open: boolean;
+  handleClose: () => void;
+  userData: UserData;
 }) => {
-    const { userData, userimageUrl } = useContext(UserContext);
-    const [avatarRecords, setAvatarRecords] = useState<any[]>([]);
-  
-    const [open, setOpen] = React.useState(false);
-    const [totalFriend, settotalFriend] = useState<totalFriend[]>([]);
-    const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
-    const [countries, setCountries] = useState<Country[]>([]);
-    const [cities, setCities] = useState<City[]>([]);
-    const [value, setValue] = React.useState(0);
-    const [selectedCountryId, setSelectedCountryId] = useState<number | null>(
-      userData.countryId
-    );
-    const [filteredCities, setFilteredCities] = useState<City[]>([]);
-  
-    useEffect(() => {
-      setSelectedCountryId(userData.countryId);
-    }, [userData]);
-    useEffect(() => {
-      if (selectedCountryId !== null) {
-        const citiesForCountry = cities.filter(
-          (city) => city.countryId === selectedCountryId
-        );
-        setFilteredCities(citiesForCountry);
-      }
-    }, [selectedCountryId, cities, userData]);
-  
-    const handleCountryChange = (
-      event: React.ChangeEvent<{ value: unknown }>
-    ) => {
-      const countryId = event.target.value as number;
-      setSelectedCountryId(countryId);
-  
+  const [selectedCountryId, setSelectedCountryId] = useState<number | null>();
+  const [filteredCities, setFilteredCities] = useState<City[]>([]);
+  const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
+  const { userimageUrl, updateUserData } = useContext(UserContext);
+  const [birthdate, setBirthdate] = useState("");
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
+  useEffect(() => {
+    setSelectedCountryId(userData.countryId);
+  }, [userData]);
+
+  const handleCameraIconClick = () => {
+    const fileInput = document.getElementById("fileInput");
+    fileInput?.click();
+  };
+  const handleFileChange = (files: FileList | null) => {
+    if (files && files.length > 0) {
+      setSelectedAvatar(files[0]);
+    }
+  };
+  useEffect(() => {
+    if (selectedCountryId !== null) {
       const citiesForCountry = cities.filter(
-        (city) => city.countryId === countryId
+        (city) => city.countryId === selectedCountryId
       );
       setFilteredCities(citiesForCountry);
-    };
-  
-    const validationSchema = Yup.object({
-      firstName: Yup.string().required("Required"),
-      lastName: Yup.string().required("Required"),
-    });
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-      setValue(newValue);
-    };
-  
-    const handleFileChange = (files: FileList | null) => {
-      if (files && files.length > 0) {
-        setSelectedAvatar(files[0]);
-      }
-    };
-    const handleSubmit = async (values: any) => {
+    }
+  }, [selectedCountryId, cities, userData]);
+
+  const handleCountryChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    const countryId = event.target.value as number;
+    setSelectedCountryId(countryId);
+
+    const citiesForCountry = cities.filter(
+      (city) => city.countryId === countryId
+    );
+    setFilteredCities(citiesForCountry);
+  };
+  useEffect(() => {
+    const fetchCountries = async () => {
       try {
-        const formData = new FormData();
-        if (selectedAvatar) {
-          formData.append("UserProfile", selectedAvatar);
-        }
-  
-        formData.append("UserId", values.userId);
-        formData.append("FirstName", values.firstName);
-        formData.append("LastName", values.lastName);
-        formData.append("Email", values.email);
-        formData.append("PhoneNumber", values.phoneNumber);
-        formData.append("Address", values.address);
-        formData.append("ProfileText", values.profileText);
-        formData.append("CityId", values.cityId);
-        formData.append("CountryId", selectedCountryId);
-        formData.append("BirthDate", values.birthDate);
-        console.log(values.birthDate);
-        const response = await UserRegistration(formData);
-        console.log("api res", response);
-        handleClose();
+        const countryData = await getUserCountryList(1, 100);
+        setCountries(countryData.records);
       } catch (error) {
-        console.error("API Error:", error);
+        console.error("Error fetching countries:", error);
       }
     };
-  
-    const handleClickOpen = () => {
-      setOpen(true);
+
+    fetchCountries();
+  }, []);
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const cityData = await getUserCityList(1, 100);
+        setCities(cityData.records);
+      } catch (error) {
+        console.error("Error fetching cities:", error);
+      }
     };
-  
-    const handleClose = () => {
-      setOpen(false);
-    };
-  
-    const handleCameraIconClick = () => {
-      const fileInput = document.getElementById("fileInput");
-      fileInput?.click();
-    };
-  
-    useEffect(() => {
-      const fetchCountries = async () => {
-        try {
-          const countryData = await getUserCountryList(1, 100);
-          setCountries(countryData.records);
-        } catch (error) {
-          console.error("Error fetching countries:", error);
-        }
-      };
-  
-      fetchCountries();
-    }, []);
-  
-    useEffect(() => {
-      const fetchCities = async () => {
-        try {
-          const cityData = await getUserCityList(1, 100);
-          setCities(cityData.records);
-        } catch (error) {
-          console.error("Error fetching cities:", error);
-        }
-      };
-  
-      fetchCities();
-    }, []);
-  
+
+    fetchCities();
+  }, []);
+
+  const handleSubmit = async (values: any) => {
+    try {
+      const formData = new FormData();
+      if (selectedAvatar) {
+        formData.append("UserProfile", selectedAvatar);
+      }
+      formData.append("UserId", values.userId);
+      formData.append("FirstName", values.firstName);
+      formData.append("LastName", values.lastName);
+      formData.append("Email", values.email);
+      formData.append("PhoneNumber", values.phoneNumber);
+      formData.append("Address", values.address);
+      formData.append("ProfileText", values.profileText);
+      formData.append("CityId", values.cityId);
+      formData.append("CountryId", selectedCountryId);
+      formData.append("BirthDate", birthdate);
+      console.log(birthdate);
+      const response = await UserRegistration(formData);
+      console.log("api res", response);
+      handleClose();
+      updateUserData(response);
+    } catch (error) {
+      console.error("API Error:", error);
+    }
+  };
+  const validationSchema = Yup.object({
+    firstName: Yup.string().required("Required"),
+    lastName: Yup.string().required("Required"),
+  });
+
   return (
     <Dialog
       fullScreen
@@ -232,7 +193,7 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
             >
               <List>
                 <Grid container justifyContent="center" alignItems="center">
-                  <Grid xs={12} sm={12} md={3} lg={3}>
+                  <Grid item xs={12} sm={12} md={3} lg={3}>
                     <div
                       style={{
                         display: "flex",
@@ -243,7 +204,10 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                       }}
                     >
                       <div
-                        style={{ position: "relative", marginBottom: "20px" }}
+                        style={{
+                          position: "relative",
+                          marginBottom: "20px",
+                        }}
                       >
                         <Avatar
                           src={
@@ -353,6 +317,8 @@ const ProfileDialog: React.FC<ProfileDialogProps> = ({
                       variant="outlined"
                       name="birthDate"
                       type="date"
+                      value={birthdate}
+                      onChange={(e) => setBirthdate(e.target.value)}
                     />
                   </Grid>
                 </Grid>

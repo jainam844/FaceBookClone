@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { getAvatarImage } from "../../services/API/AccountApi";
 import { getUserMutual } from "../../services/API/UserDataApi";
-import { RequestType, RequestType1 } from "../../components/Utils/Path";
+import { RequestType } from "../../components/Utils/Path";
 
 interface totalFriend {
   fromUserName: string;
@@ -39,13 +39,13 @@ const TotalFriend: React.FC<FriendListProps> = ({ friend, RequestType }) => {
 
   useEffect(() => {
     const getAvatar = async () => {
-      let avatarUrl = null;
+      let avatarUrl: string | undefined = undefined;
       if (friend.requestType === "Request Sent") {
         avatarUrl = await getAvatarImage(friend.toAvatar);
       } else {
         avatarUrl = await getAvatarImage(friend.fromAvatar);
       }
-      setAvatar(avatarUrl);
+      setAvatar(avatarUrl || null);
     };
     getAvatar();
   }, [friend, RequestType]);
@@ -53,7 +53,13 @@ const TotalFriend: React.FC<FriendListProps> = ({ friend, RequestType }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await getUserMutual(1, 100, friend.toUserId);
+        const response = await getUserMutual(
+          1,
+          100,
+          friend.requestType === "Request Sent"
+            ? friend.toUserId
+            : friend.fromUserId
+        );
 
         if (Array.isArray(response.records)) {
           const data = response.records;
@@ -62,11 +68,7 @@ const TotalFriend: React.FC<FriendListProps> = ({ friend, RequestType }) => {
             data.map(async (friend: totalFriend) => {
               let avatarUrl = null;
               if (friend.avatar) {
-                if (friend.requestType === "Request Sent") {
-                  avatarUrl = await getAvatarImage(friend.avatar);
-                } else {
-                  avatarUrl = await getAvatarImage(friend.avatar);
-                }
+                avatarUrl = await getAvatarImage(friend.avatar);
               }
               return { ...friend, avatarUrl };
             })
@@ -143,7 +145,7 @@ const TotalFriend: React.FC<FriendListProps> = ({ friend, RequestType }) => {
                   />
                 ))}
 
-                {friends.length > 0 && (
+                {friends.length > 0 ? (
                   <Typography
                     sx={{
                       fontSize: ["12px", "15px"],
@@ -157,6 +159,16 @@ const TotalFriend: React.FC<FriendListProps> = ({ friend, RequestType }) => {
                           friends.length !== 2 ? "s" : ""
                         }`
                       : " is a mutual friend"}
+                  </Typography>
+                ) : (
+                  <Typography
+                    sx={{
+                      fontSize: ["12px", "15px"],
+                      color: "gray",
+                      marginTop: "0.5rem",
+                    }}
+                  >
+                    No mutual friends
                   </Typography>
                 )}
               </Box>
