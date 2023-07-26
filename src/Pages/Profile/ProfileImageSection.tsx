@@ -32,9 +32,10 @@ const ProfileHeaderSection: React.FC<Props> = ({
   avatarRecords,
 }) => {
   const { userData, userimageUrl } = useContext(UserContext);
+
   return (
     <React.Fragment>
-      <Grid   item xs={12} sm={12} md={3} lg={3}>
+      <Grid item xs={12} sm={12} md={3} lg={3}>
         <Avatar
           src={userimageUrl}
           sx={{
@@ -58,11 +59,9 @@ const ProfileHeaderSection: React.FC<Props> = ({
           flexDirection: ["column"],
         }}
       >
-        {/* {userData && ( */}
         <Typography sx={{ fontSize: "1.5rem", fontWeight: "bold" }}>
           {userData.firstName + " " + userData.lastName}
         </Typography>
-        {/* )} */}
 
         <Typography sx={{ fontSize: "0.8rem", fontWeight: 550, color: "gray" }}>
           {` ${totalFriend} Friends`}

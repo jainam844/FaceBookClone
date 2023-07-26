@@ -116,7 +116,9 @@ export const getPostImage = async (imageName: string) => {
 
 export const getAvatarImage = async (imageName: string) => {
   try {
-    if (imageName.length > 0) {
+    if (!imageName) {
+      return null; // or return some default avatar URL if you have one
+    }
       const blobData = await getBlobData(`/Account/Avatar/${imageName}`);
       const fileReader = new FileReader();
 
@@ -133,7 +135,7 @@ export const getAvatarImage = async (imageName: string) => {
       const imgUrl = `data:image/png;base64, ${profileImage}`;
       return imgUrl;
     }
-  } catch (err) {
+   catch (err) {
     throw err;
   }
 };

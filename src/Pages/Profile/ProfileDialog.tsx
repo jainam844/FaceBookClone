@@ -51,6 +51,7 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
 const ProfileDialog = ({
   open,
   handleClose,
@@ -68,7 +69,9 @@ const ProfileDialog = ({
   const [countries, setCountries] = useState<Country[]>([]);
   const [cities, setCities] = useState<City[]>([]);
   useEffect(() => {
-    setSelectedCountryId(userData.countryId);
+    setSelectedCountryId(
+      userData.countryId ? parseInt(userData.countryId) : null
+    );
   }, [userData]);
 
   const handleCameraIconClick = () => {
@@ -140,7 +143,10 @@ const ProfileDialog = ({
       formData.append("Address", values.address);
       formData.append("ProfileText", values.profileText);
       formData.append("CityId", values.cityId);
-      formData.append("CountryId", selectedCountryId);
+      if (selectedCountryId !== null && selectedCountryId !== undefined) {
+        formData.append("CountryId", selectedCountryId.toString());
+      }
+
       formData.append("BirthDate", birthdate);
       console.log(birthdate);
       const response = await UserRegistration(formData);

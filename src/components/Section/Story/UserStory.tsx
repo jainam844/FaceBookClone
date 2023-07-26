@@ -56,7 +56,7 @@ const UserStory: React.FC<StoryProps> = ({ story, onClearStory }) => {
     const fetchStoryImages = async () => {
       if (story.stories) {
         const storyImagePaths = story.stories
-          // .filter((storyItem) => storyItem.path !== null)
+        
           .map((storyItem) => storyItem.path);
 
         const postImagePromises = storyImagePaths.map(async (imageName) => {
@@ -65,7 +65,7 @@ const UserStory: React.FC<StoryProps> = ({ story, onClearStory }) => {
             return imageUrl;
           } catch (error) {
             console.error(`Error fetching image "${imageName}":`, error);
-            // Return the path of the static image if fetch fails
+           
             return "/path/to/static/image.jpg";
           }
         });
