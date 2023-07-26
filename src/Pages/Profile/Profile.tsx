@@ -51,7 +51,8 @@ import ProfileHeaderSection from "./ProfileImageSection";
 import { getPostByUserId } from "../../services/API/SocialActivityApi";
 import { Ipost, PostClass } from "../../Models/Post";
 import CircularProgress from "@mui/material/CircularProgress";
-import PostDisplay from "./PostDisplay";
+import DisplayPost from "../../components/Section/DisplayPost/DisplayPost";
+
 import SentReq from "../../components/Friend/sentreq";
 import TotalFriend from "./TotalFriend";
 import { RequestType, RequestType1 } from "../../components/Utils/Path";
@@ -185,7 +186,6 @@ const Profile = () => {
       if (selectedAvatar) {
         formData.append("UserProfile", selectedAvatar);
       }
-
       formData.append("UserId", values.userId);
       formData.append("FirstName", values.firstName);
       formData.append("LastName", values.lastName);
@@ -198,9 +198,9 @@ const Profile = () => {
       formData.append("BirthDate", values.birthDate);
       console.log(values.birthDate);
       const response = await UserRegistration(formData);
-      // updateUserData(response.userData);
       console.log("api res", response);
       handleClose();
+      updateUserData(response);
     } catch (error) {
       console.error("API Error:", error);
     }
@@ -668,7 +668,7 @@ const Profile = () => {
                 {postData.map((post, index) => {
                   if (postData.length === index + 1) {
                     return (
-                      <PostDisplay
+                      <DisplayPost
                         key={post.postId}
                         post={post}
                         reference={lastPostRef}
@@ -677,7 +677,7 @@ const Profile = () => {
                     );
                   } else {
                     return (
-                      <PostDisplay
+                      <DisplayPost
                         key={post.postId}
                         post={post}
                         onClearPost={removeDeletedPost}

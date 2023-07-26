@@ -7,7 +7,7 @@ import UserContext from "../../components/Context/UserContext";
 
 const ProfileHeaderSection = ({ totalFriend, avatarRecords }) => {
   const { userData, userimageUrl } = useContext(UserContext);
-  return (
+   return (
     <React.Fragment>
       <Grid xs={12} sm={12} md={3} lg={3}>
         <Avatar
@@ -32,9 +32,12 @@ const ProfileHeaderSection = ({ totalFriend, avatarRecords }) => {
           flexDirection: ["column"],
         }}
       >
+        {/* {userData && ( */}
         <Typography sx={{ fontSize: "1.5rem", fontWeight: "bold" }}>
           {userData.firstName + " " + userData.lastName}
         </Typography>
+        {/* )} */}
+
         <Typography sx={{ fontSize: "0.8rem", fontWeight: 550, color: "gray" }}>
           {` ${totalFriend} Friends`}
         </Typography>

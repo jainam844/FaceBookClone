@@ -3,7 +3,7 @@ import { UserData } from "../../Models/User"; // Remove the import for IUserData
 import { IUserContext } from "../../Models/UserContext";
 
 const UserContext = createContext<IUserContext>({
-  userData: new UserData(), 
+  userData: new UserData(),
   userimageUrl: "",
   updateUserData: () => {},
   updateImageUrl: () => {},
@@ -14,7 +14,7 @@ export function useUserContext() {
 }
 
 export const UserProvider: React.FC = ({ children }) => {
-  const [userData, setUserData] = useState<UserData>(new UserData()); 
+  const [userData, setUserData] = useState<UserData>(new UserData());
   const [userimageUrl, setImageUrl] = useState<string>("");
 
   const updateUserData = (data: UserData) => {

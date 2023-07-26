@@ -151,7 +151,6 @@ const TotalFriend: React.FC<FriendListProps> = ({ friend, RequestType }) => {
                       marginTop: "0.5rem",
                     }}
                   >
-                    
                     {`${friends[0].firstName} ${friends[0].lastName}`}
                     {friends.length > 1
                       ? ` and ${friends.length - 1} other mutual friend${
