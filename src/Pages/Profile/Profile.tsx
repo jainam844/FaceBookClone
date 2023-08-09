@@ -7,7 +7,9 @@ import { getAvatarImage } from "../../services/API/AccountApi";
 import ProfileHeaderSection from "./ProfileImageSection";
 import ProfileTabs from "./ProfileTabs";
 import EditProfile from "./EditProfile";
-
+import Header from "../../components/Header/Header";
+import Box from "@mui/material/Box";
+import HeaderIcons from "../../components/Header/HeaderIcons";
 interface totalFriend {
   fromUserName: string;
   fromAvatar: string;
@@ -30,7 +32,7 @@ interface totalFriend {
 
 const Profile = () => {
   const { userData } = useContext(UserContext);
-  const [avatarRecords, setAvatarRecords] = useState<any[]>([]); 
+  const [avatarRecords, setAvatarRecords] = useState<any[]>([]);
 
   const [totalFriend, settotalFriend] = useState<totalFriend[]>([]);
   const [value, setValue] = React.useState(0);
@@ -76,6 +78,33 @@ const Profile = () => {
 
   return (
     <React.Fragment>
+      <Box
+        sx={{
+          position: "sticky",
+          top: 0,
+          zIndex: 100,
+        }}
+      >
+        <div className="header">
+          <Header />
+
+          <Box
+            sx={{
+              display: ["flex", "flex", "none"],
+              boxShadow: ["0px 5px 7px -7px rgba(0, 0, 0, 0.75)"],
+              justifyContent: "center",
+              margin: "0.1rem 0rem",
+              backgroundColor: "white",
+              padding: " 0.3rem 0.5rem",
+              position: ["sticky", "sticky", "sticky"],
+              top: 0,
+              zIndex: 100,
+            }}
+          >
+            <HeaderIcons />
+          </Box>
+        </div>
+      </Box>
       <Grid container sx={{ maxHeight: "100vh" }}>
         <Grid item xs={12} sm={12} md={9} sx={{ margin: "auto" }}>
           <ProfileHeader />
